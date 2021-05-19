@@ -1,0 +1,42 @@
+<RCC>
+    <qresource prefix="/pic/gif">
+        <file alias="bird">RES/bird.gif</file>
+        <file alias="dino_dive">RES/dino_dive.gif</file>
+        <file alias="dino_run">RES/dino_run.gif</file>
+        <file alias="dino_start">RES/dino_start.gif</file>
+        <file alias="star">RES/star.gif</file>
+    </qresource>
+    <qresource prefix="/pic/png">
+        <file alias="dino_fail">RES/dino_fail.png</file>
+        <file alias="c_l_1">RES/cactus_l_1.png</file>
+        <file alias="c_l_2">RES/cactus_l_2.png</file>
+        <file alias="c_l_3">RES/cactus_l_3.png</file>
+        <file alias="c_s_1">RES/cactus_s_1.png</file>
+        <file alias="c_s_2">RES/cactus_s_2.png</file>
+        <file alias="c_s_3">RES/cactus_s_3.png</file>
+        <file alias="cloud">RES/cloud.png</file>
+        <file alias="GG">RES/Gameover.png</file>
+        <file alias="moon_1">RES/moon_1.png</file>
+        <file alias="moon_2">RES/moon_2.png</file>
+        <file alias="moon_3">RES/moon_3.png</file>
+        <file alias="moon_4">RES/moon_4.png</file>
+        <file alias="moon_5">RES/moon_5.png</file>
+        <file alias="moon_6">RES/moon_6.png</file>
+        <file alias="moon_7">RES/moon_7.png</file>
+        <file alias="0">RES/num_0.png</file>
+        <file alias="1">RES/num_1.png</file>
+        <file alias="2">RES/num_2.png</file>
+        <file alias="3">RES/num_3.png</file>
+        <file alias="4">RES/num_4.png</file>
+        <file alias="5">RES/num_5.png</file>
+        <file alias="6">RES/num_6.png</file>
+        <file alias="7">RES/num_7.png</file>
+        <file alias="8">RES/num_8.png</file>
+        <file alias="9">RES/num_9.png</file>
+        <file alias="H">RES/num_H.png</file>
+        <file alias="I">RES/num_I.png</file>
+        <file alias="pit_1">RES/pit_1.png</file>
+        <file alias="pit_2">RES/pit_2.png</file>
+        <file alias="restart">RES/restart.png</file>
+    </qresource>
+</RCC>
