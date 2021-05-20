@@ -17,6 +17,7 @@ class DinoOL : public QMainWindow
 
 public:
     DinoOL(QWidget *parent = Q_NULLPTR);
+    ~DinoOL();
     void StartGame(int step = 0);
     void CleanAM(int);
 
@@ -28,8 +29,10 @@ public slots:
     void StartStep2();
     void StartStep3();
     void StartStep4();
+    void StartStep5();
     void printpos();
     void roadloop();
+    void cloudloop();
 
 protected:
     virtual void resizeEvent(QResizeEvent* event) override;
@@ -39,11 +42,23 @@ private:
     int isStarted = 0;
     QTimer* ptimer = nullptr;
     QTimer* pdtime = nullptr;
+    QTimer* proad = nullptr;
+    QTimer* ptcloud = nullptr;
+    QTimer* pttree = nullptr;
+    QTimer* ptbird = nullptr;
     float G = 9.8;
     double maxH;
     QMovie* movie = nullptr;
     QPropertyAnimation* pScaleAnimation1 = nullptr;
     QPropertyAnimation* pScaleAnimation2 = nullptr;
-    QPropertyAnimation* pScaleAnimationRoad = nullptr;
+    QPropertyAnimation* pAnimationRoad = nullptr;
+    QPropertyAnimation* pAnimationCloud = nullptr;
     double v = 300;
+    bool isDive = false;
+    QLabel* labBird = nullptr;
+    QLabel* labTree = nullptr;
+    QLabel* labCloud = nullptr;
+    int cloudid = 0;
 };
+
+int randNum(int Max);

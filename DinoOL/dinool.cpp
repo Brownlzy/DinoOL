@@ -8,12 +8,22 @@ DinoOL::DinoOL(QWidget *parent)
     ui.label->setMovie(movie);
     connect(ui.label_2, SIGNAL(linkActivated(QString)),this,SLOT(NetworkChk(QString)));
     movie->start();
-    ui.frmKey->hide();
     maxH = 1670.0 / G;
     pdtime = new QTimer(this);
+    proad = new QTimer(this);
+    ptcloud = new QTimer(this);
     pdtime->setInterval(100);
+    connect(proad, SIGNAL(timeout()), this, SLOT(roadloop()));
+    connect(ptcloud, SIGNAL(timeout()), this, SLOT(cloudloop()));
     connect(pdtime, SIGNAL(timeout()), this, SLOT(printpos()));
     //pdtime->start();
+}
+DinoOL::~DinoOL()
+{
+    if (labCloud != nullptr)
+    {
+           delete[] labCloud;
+    }
 }
 void DinoOL::printpos()
 {
@@ -48,7 +58,7 @@ void DinoOL::resizeEvent(QResizeEvent* event)
         if (x < 8000)
         {
             ui.label->setGeometry(ui.label->x() > x - ui.label->width() ? x - ui.label->width() : ui.label->x(), 0.6 * y - ui.label->height(),88,98);
-            ui.labRoad->move(0, 0.6 * y - 0.2551 * ui.label->height());
+            ui.labRoad->move(ui.labRoad->x(), 0.6 * y - 0.2551 * ui.label->height());
         }
         else
         {
@@ -57,6 +67,7 @@ void DinoOL::resizeEvent(QResizeEvent* event)
         }
     }
     ui.label_2->move(ui.label->x(), ui.label->y() + 70);
+    ui.whitebg->setGeometry(0, 0, x, y);
     roadloop();
 }
 
@@ -93,28 +104,9 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
             StartGame();
             return;
         }
-        //QPropertyAnimation* pScaleAnimation1;
-        //QMovie* movie;
+            //int flag = 0;
         switch (e->key())
         {
-            /*
-        case (Qt::Key_W): //W
-            if ((ui.label->y() - (int)(0.6 * this->frameGeometry().height() - ui.label->height()) <= 1))
-            {
-                movie = new QMovie(":/pic/png/dino");
-                ui.label->setMovie(movie);
-                movie->start();
-                pScaleAnimation2 = new QPropertyAnimation(ui.label, "pos");
-                pScaleAnimation2->setEasingCurve(QEasingCurve::OutQuad);
-                pScaleAnimation2->setDuration(300);
-                pScaleAnimation2->setStartValue(QPoint(ui.label->x(), ui.label->y()));
-                pScaleAnimation2->setEndValue(QPoint(ui.label->x(), ui.label->y() - maxH));
-                pScaleAnimation2->start();
-                isStarted = 4;
-                QTimer::singleShot(300, this, SLOT(StartStep3()));
-            }
-            break;
-            */
         case (Qt::Key_A): //A
             if (ui.label->x() >= 0 && ui.label->y() == (int)(0.6 * this->frameGeometry().height() - ui.label->height()))
             {
@@ -126,13 +118,34 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
             }
             break;
         case (Qt::Key_S): //S
-
+            if (!isDive && ui.label->y() == (int)(0.6 * this->frameGeometry().height() - ui.label->height()))
+            {
+                isDive = true;
+                CleanAM(2);
+                movie = new QMovie(":/pic/gif/dino_dive");
+                ui.label->setMovie(movie);
+                ui.label->setGeometry(ui.label->x(), ui.label->y() + 34, 118, 60);
+                ui.label->setScaledContents(true);
+                movie->start();
+            }/*
+            else if (!isDive && flag == 0)
+            {
+                CleanAM(3);
+                pScaleAnimation2 = new QPropertyAnimation(ui.label, "pos");
+                pScaleAnimation2->setEasingCurve(QEasingCurve::InQuad);
+                pScaleAnimation2->setDuration(100);
+                pScaleAnimation2->setStartValue(QPoint(ui.label->x(), ui.label->y()));
+                pScaleAnimation2->setEndValue(QPoint(ui.label->x(), 0.6 * this->frameGeometry().height() - ui.label->height()));
+                pScaleAnimation2->start();
+                QTimer::singleShot(100, this, SLOT(StartStep5()));
+                flag = 1;
+            }*/
             break;
         case (Qt::Key_D): //D
-            if (ui.label->x() < this->frameGeometry().width() - ui.label->width() && ui.label->y() == (int)(0.6 * this->frameGeometry().height() - ui.label->height()))
+            if (!isDive && ui.label->x() < this->frameGeometry().width() - ui.label->width() && ui.label->y() == (int)(0.6 * this->frameGeometry().height() - ui.label->height()))
             {
                 pScaleAnimation1 = new QPropertyAnimation(ui.label, "pos");
-                pScaleAnimation1->setDuration((this->frameGeometry().width() - 1. * (ui.label->x() - ui.label->width())) / 0.5);
+                pScaleAnimation1->setDuration((this->frameGeometry().width() - 1. * ui.label->x() - ui.label->width()) / 0.5);
                 pScaleAnimation1->setStartValue(QPoint(ui.label->x(), ui.label->y()));
                 pScaleAnimation1->setEndValue(QPoint(this->frameGeometry().width() - ui.label->width(), ui.label->y()));
                 pScaleAnimation1->start();
@@ -165,6 +178,17 @@ void DinoOL::keyReleaseEvent(QKeyEvent* e)
             if (ui.label->y() == (int)(0.6 * this->frameGeometry().height() - ui.label->height()))
                 //pScaleAnimation1->stop();
                 CleanAM(2);
+            break;
+        case (Qt::Key_S): //S
+            if (isDive)
+            {
+                isDive = false;
+                movie = new QMovie(":/pic/gif/dino_run");
+                ui.label->setGeometry(ui.label->x(), ui.label->y() - 34, 88, 98);
+                ui.label->setMovie(movie);
+                ui.label->setScaledContents(true);
+                movie->start();
+            }
             break;
 
         default:
@@ -210,8 +234,6 @@ void DinoOL::StartGame(int step)
 {
     int x = this->frameGeometry().width();
     int y = this->frameGeometry().height();
-    //QMovie* movie;
-    //QPropertyAnimation* pScaleAnimation1, * pScaleAnimation2;
     switch (step)
     {
     case(0): 
@@ -257,9 +279,9 @@ void DinoOL::StartGame(int step)
         ui.labRoad->setScaledContents(true);
         isStarted = 3;
         QTimer::singleShot(700, this, SLOT(roadloop()));
+        QTimer::singleShot(700, this, SLOT(cloudloop()));
         break;
     case(3):
-        //pScaleAnimation1->stop();
         pScaleAnimation2 = new QPropertyAnimation(ui.label, "pos");
         pScaleAnimation2->setEasingCurve(QEasingCurve::InQuad);
         pScaleAnimation2->setDuration(300);
@@ -273,6 +295,15 @@ void DinoOL::StartGame(int step)
         ui.label->setMovie(movie);
         movie->start();
         break;
+    case(5):
+        isDive = true;
+        CleanAM(2);
+        movie = new QMovie(":/pic/gif/dino_dive");
+        ui.label->setMovie(movie);
+        ui.label->setGeometry(ui.label->x(), ui.label->y() + 34, 118, 60);
+        ui.label->setScaledContents(true);
+        movie->start();
+        break;
     }
 }
 
@@ -280,24 +311,90 @@ void DinoOL::StartStep1() { StartGame(1); }
 void DinoOL::StartStep2() { StartGame(2); }
 void DinoOL::StartStep3() { StartGame(3); }
 void DinoOL::StartStep4() { StartGame(4); }
+void DinoOL::StartStep5() { StartGame(5); }
 
 void DinoOL::roadloop()
 {
     int t;
     int y = this->frameGeometry().height();
-    pScaleAnimationRoad = new QPropertyAnimation(ui.labRoad, "pos");
+    pAnimationRoad = new QPropertyAnimation(ui.labRoad, "pos");
     if (isStarted >= 3)
     {
-        t = 1200 / v;
-        ui.labRoad->move(0, ui.label->y());
-        pScaleAnimationRoad->setDuration(t * 1000);
-        pScaleAnimationRoad->setStartValue(QPoint(ui.labRoad->x(), 0.6 * y - ui.label->height() + 73));
-        pScaleAnimationRoad->setEndValue(QPoint(0 - ui.labRoad->width() * 0.4, 0.6 * y - ui.label->height() + 73));
-        pScaleAnimationRoad->start();    
-        QTimer::singleShot(t * 1000, this, SLOT(roadloop()));
+        if (ui.labRoad->x() >= -1200)
+        {
+            t = (1200.0 + ui.labRoad->x()) / v;
+            pAnimationRoad->setDuration(t * 1000);
+            pAnimationRoad->setStartValue(QPoint(ui.labRoad->x(), ui.labRoad->y()));
+            pAnimationRoad->setEndValue(QPoint(0 - ui.labRoad->width() * 0.4, ui.labRoad->y()));
+            pAnimationRoad->start();
+            proad->setInterval(t * 1000);
+            proad->start();
+        }
+        else
+        {
+            t = 1200 / v;
+            ui.labRoad->move(0, ui.labRoad->y());
+            pAnimationRoad->setDuration(t * 1000);
+            pAnimationRoad->setStartValue(QPoint(ui.labRoad->x(), ui.labRoad->y()));
+            pAnimationRoad->setEndValue(QPoint(0 - ui.labRoad->width() * 0.4, ui.labRoad->y()));
+            pAnimationRoad->start();
+            proad->setInterval(t * 1000);
+            proad->start();
+        }
     }
     else
     {
-        pScaleAnimationRoad->stop();
+        pAnimationRoad->stop();
     }
+}
+
+void DinoOL::cloudloop()
+{
+    if (labCloud == nullptr)
+    {
+        labCloud = new QLabel[3];
+        for (int i = 0; i < 3; i++)
+        {
+            labCloud[i].setParent(this);
+        }
+    }
+    ui.label->raise();
+    int x = this->frameGeometry().width();
+    int y = this->frameGeometry().height();
+    QPropertyAnimation* pAnimationCloud = new QPropertyAnimation(&labCloud[cloudid], "pos",this);
+    int t1, t2;
+    float cy;
+    t1 = randNum(500) + 4000;
+    t2 = randNum(500) + 1500;
+    cy = 0.2 + randNum(3) / 10.0;
+    QMovie *movie = new QMovie(":/pic/png/cloud");
+    labCloud[cloudid].setGeometry(0, 0.2 * y, 46, 13);
+    labCloud[cloudid].setMovie(movie);
+    //labCloud[cloudid].adjustSize();
+    labCloud[cloudid].setScaledContents(true);
+    movie->start();
+    labCloud[cloudid].setGeometry(x, 0.2 * y, 2 * labCloud[cloudid].width(), 2 * labCloud[cloudid].height());
+    labCloud[cloudid].show();
+    pAnimationCloud->setDuration(t1);
+    pAnimationCloud->setStartValue(QPoint(x, cy * y));
+    pAnimationCloud->setEndValue(QPoint(0 - labCloud[cloudid].width(), cy * y));
+    pAnimationCloud->start();
+    if (cloudid == 2)
+    {
+        cloudid = 0;
+    }
+    else
+    {
+        cloudid++;
+    }
+    ptcloud->setInterval(t2);
+    ptcloud->start();
+}
+
+int randNum(int Max)
+{
+    QTime time = QTime::currentTime();
+    qsrand(time.msec() + time.second() * 1000);
+    int n = qrand() % Max;
+    return n;
 }
