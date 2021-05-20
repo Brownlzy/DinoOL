@@ -40,9 +40,136 @@
      <string notr="true">font: 9pt &quot;微软雅黑&quot;;</string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;未连接到互联网&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;请试试以下办法：&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#ffffff;&quot;&gt;---&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;• 检查网线、调制解调器和路由器&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#ffffff;&quot;&gt;---&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;• 重新连接到 Wi-Fi 网络&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#ffffff;&quot;&gt;---&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;• &lt;/span&gt;&lt;a href=&quot;C:\Windows\System32\msdt.exe -skip TRUE -path C:\Windows\diagnostics\system\networking -ep NetworkDiagnosticsPNI&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;运行 Windows 网络诊断&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:8pt; color:#6d6d6d;&quot;&gt;ERR_INTERNET_DISCONNECTED&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;未连接到互联网&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;请试试以下办法：&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#ffffff;&quot;&gt;---&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;• 检查网线、调制解调器和路由器&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#ffffff;&quot;&gt;---&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;• 重新连接到 Wi-Fi 网络&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#ffffff;&quot;&gt;---&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;• &lt;/span&gt;&lt;a href=&quot;C:\Windows\System32\msdt.exe -skip TRUE -path C:\Windows\diagnostics\system\networking -ep NetworkDiagnosticsPNI&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#3573ea;&quot;&gt;运行 Windows 网络诊断&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:8pt; color:#6d6d6d;&quot;&gt;ERR_INTERNET_DISCONNECTED&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
+   <widget class="QFrame" name="frmKey">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>121</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <widget class="QPushButton" name="BtnSpace">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>80</y>
+       <width>121</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="BtnA">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>40</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>A</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="BtnD">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>40</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>D</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="BtnW">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>0</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>W</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="BtnS">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>40</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>S</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="labRoad">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>94</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/pic/png/road&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lab">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>72</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>labRoad</zorder>
+   <zorder>label</zorder>
+   <zorder>label_2</zorder>
+   <zorder>frmKey</zorder>
+   <zorder>lab</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
