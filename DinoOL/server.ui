@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>641</width>
-    <height>461</height>
+    <height>567</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -161,7 +161,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>改变G值</string>
+    <string>改变g值</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
@@ -174,20 +174,79 @@
     </rect>
    </property>
    <property name="text">
-    <string>G值：</string>
+    <string>g值：</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnListen">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>20</y>
-     <width>201</width>
-     <height>28</height>
+     <x>240</x>
+     <y>19</y>
+     <width>141</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>启动服务</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txtPort">
+   <property name="geometry">
+    <rect>
+     <x>152</x>
+     <y>20</y>
+     <width>91</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>30628</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="txtToSend">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>460</y>
+     <width>311</width>
+     <height>81</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnSend">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>539</y>
+     <width>311</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Send</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnClear">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>539</y>
+     <width>331</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Clear</string>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="txtGet">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>460</y>
+     <width>331</width>
+     <height>81</height>
+    </rect>
    </property>
   </widget>
   <zorder>label_5</zorder>
@@ -200,6 +259,11 @@
   <zorder>label_4</zorder>
   <zorder>lineEdit</zorder>
   <zorder>btnListen</zorder>
+  <zorder>txtPort</zorder>
+  <zorder>txtToSend</zorder>
+  <zorder>btnSend</zorder>
+  <zorder>btnClear</zorder>
+  <zorder>txtGet</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

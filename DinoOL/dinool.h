@@ -2,10 +2,11 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_dinool.h"
-
 #include <QtGui/QMovie>
 #include <QtCore/QProcess>
+#include <QtGui/QGuiApplication>
 #include <QtCore/QSignalMapper>
+//#include <QtCore/QCoreApplication>
 #include <QtCore/QTimer>
 #include <QtGui/QKeyEvent>
 #include <QtCore/QPropertyAnimation>
@@ -20,6 +21,7 @@ public:
     ~DinoOL();
     void StartGame(int step = 0);
     void CleanAM(int);
+    void KeyRec(char key);
 
 public slots:
     void NetworkChk(QString);
@@ -27,12 +29,21 @@ public slots:
     void keyReleaseEvent(QKeyEvent* e);
     void StartStep1();
     void StartStep2();
-    void StartStep3();
-    void StartStep4();
-    void StartStep5();
     void printpos();
     void roadloop();
     void cloudloop();
+    void KeyW();
+    void Keyr();
+    void KeyS();
+    void KeyE();
+    void KeyQ();
+
+private slots:
+    void on_actionRun_as_a_server_triggered();
+    void on_actionExit_triggered();
+    void on_actionConnect_a_server_triggered();
+    void on_actionCreate_a_room_triggered();
+    void on_actionJoin_a_room_triggered();
 
 protected:
     virtual void resizeEvent(QResizeEvent* event) override;

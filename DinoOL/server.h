@@ -2,6 +2,9 @@
 
 #include <QDialog>
 #include "ui_server.h"
+#include <QtNetwork/QTcpServer>
+#include <QtNetwork/QTcpSocket>
+#include <QtWidgets/QMessageBox>
 
 class Server : public QDialog
 {
@@ -13,4 +16,14 @@ public:
 
 private:
 	Ui::Server ui;
+
+    QTcpServer* mp_TCPServer;
+    QTcpSocket* mp_TCPSocket;
+private slots:
+
+    void OnBtnInitSocket();
+    void OnBtnSendData();
+    void ServerReadData();
+    void ServerNewConnection();
+    void sServerDisConnection();
 };

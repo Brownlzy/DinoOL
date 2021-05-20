@@ -104,12 +104,141 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;按空格键开始游戏&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;请试试以下办法：&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#ffffff;&quot;&gt;---&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;• 检查网线、调制解调器和路由器&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#ffffff;&quot;&gt;---&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;• 重新连接到 Wi-Fi 网络&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#ffffff;&quot;&gt;---&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;• &lt;/span&gt;&lt;a href=&quot;C:\Windows\System32\msdt.exe -skip TRUE -path C:\Windows\diagnostics\system\networking -ep NetworkDiagnosticsPNI&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#3573ea;&quot;&gt;运行 Windows 网络诊断&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:8pt; color:#6d6d6d;&quot;&gt;ERR_INTERNET_DISCONNECTED&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>222</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLineEdit" name="txtServer">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>131</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>127.0.0.1:30628</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnCon">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>-1</y>
+       <width>93</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>连接</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>40</y>
+      <width>222</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLineEdit" name="txtNewRoom">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>131</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>1212</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnCreRoom">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>-1</y>
+       <width>93</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>创建</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame_3">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>80</y>
+      <width>222</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLineEdit" name="txtRoom">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>131</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>1212</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnJoin">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>-1</y>
+       <width>93</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>加入</string>
+     </property>
+    </widget>
+   </widget>
    <zorder>whitebg</zorder>
    <zorder>labRoad</zorder>
    <zorder>label</zorder>
    <zorder>label_2</zorder>
    <zorder>lab</zorder>
    <zorder>label_3</zorder>
+   <zorder>frame</zorder>
+   <zorder>frame_2</zorder>
+   <zorder>frame_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
