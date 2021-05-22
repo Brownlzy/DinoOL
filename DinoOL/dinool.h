@@ -14,6 +14,11 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QTableWidget>
 
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtCore/QTextCodec>
+#include <QtNetwork/QNetworkReply>
+#include <QtNetwork/QSslConfiguration>
+
 
 class DinoOL : public QMainWindow
 {
@@ -129,3 +134,5 @@ private:
 };
 
 int randNum(int Max);
+
+QString getWebSource(QUrl url);

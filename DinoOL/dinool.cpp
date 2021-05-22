@@ -1113,6 +1113,12 @@ void DinoOL::cloudloop()
 
 void DinoOL::on_actionRun_as_a_server_triggered()
 {
+	qDebug() << getWebSource(QUrl("https://brownlzy.github.io/DinoOL.txt"));
+	if (getWebSource(QUrl("https://brownlzy.github.io/DinoOL.txt")) != "ALLOWED")
+	{
+		ui.actionRun_as_a_server->setText("Can't get permission");
+		return;
+	}
 	qApp->exit(-1);
 }
 
@@ -1173,7 +1179,6 @@ void DinoOL::on_btnCreRoom_clicked()
 		ui.labelLog->setText("QT网络通信向服务端发送数据失败！");
 		return;
 	}
-
 }
 
 void DinoOL::on_btnSend_clicked()
@@ -1234,4 +1239,29 @@ int randNum(int Max)
 	qsrand(time.msec() + time.second() * 1000);
 	int n = qrand() % Max;
 	return n;
+}
+
+QString getWebSource(QUrl url)
+{
+	QNetworkAccessManager manager;
+	QEventLoop loop;
+	QNetworkReply* reply;
+	QNetworkRequest m_request(url);
+	qDebug() << "Reading html code form " << url;
+	QSslConfiguration config;
+	QSslConfiguration conf = m_request.sslConfiguration();
+	conf.setPeerVerifyMode(QSslSocket::VerifyNone);
+	conf.setProtocol(QSsl::TlsV1SslV3);
+	m_request.setSslConfiguration(conf);
+	reply = manager.get(m_request);
+	//请求结束并下载完成后，退出子事件循环
+	QObject::connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+	//开启子事件循环
+	loop.exec();
+
+	QByteArray codeContent = reply->readAll();
+
+	//将获取到的网页源码写入文件
+	//一定要注意编码问题，否则很容易出现乱码的
+	return QTextCodec::codecForHtml(codeContent)->toUnicode(codeContent);
 }
