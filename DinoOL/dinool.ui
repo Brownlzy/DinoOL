@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>900</width>
-    <height>500</height>
+    <height>529</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,9 +19,15 @@
      <rect>
       <x>150</x>
       <y>60</y>
-      <width>41</width>
+      <width>50</width>
       <height>51</height>
      </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/pic/gif/dino_start&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -56,19 +62,6 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/pic/png/road&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLabel" name="lab">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>361</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QTextBrowser" name="whitebg">
     <property name="enabled">
      <bool>true</bool>
@@ -78,7 +71,7 @@
       <x>0</x>
       <y>0</y>
       <width>901</width>
-      <height>451</height>
+      <height>481</height>
      </rect>
     </property>
     <property name="focusPolicy">
@@ -104,13 +97,13 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;按空格键开始游戏&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;请试试以下办法：&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#ffffff;&quot;&gt;---&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;• 检查网线、调制解调器和路由器&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#ffffff;&quot;&gt;---&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;• 重新连接到 Wi-Fi 网络&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#ffffff;&quot;&gt;---&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#6d6d6d;&quot;&gt;• &lt;/span&gt;&lt;a href=&quot;C:\Windows\System32\msdt.exe -skip TRUE -path C:\Windows\diagnostics\system\networking -ep NetworkDiagnosticsPNI&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#3573ea;&quot;&gt;运行 Windows 网络诊断&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:8pt; color:#6d6d6d;&quot;&gt;ERR_INTERNET_DISCONNECTED&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QFrame" name="frame_4">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>30</y>
-      <width>222</width>
-      <height>41</height>
+      <y>60</y>
+      <width>821</width>
+      <height>191</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -119,126 +112,319 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QLineEdit" name="txtServer">
+    <widget class="QTextBrowser" name="txtGet">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>131</width>
-       <height>31</height>
+       <x>10</x>
+       <y>40</y>
+       <width>201</width>
+       <height>81</height>
       </rect>
-     </property>
-     <property name="text">
-      <string>127.0.0.1:30628</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="btnCon">
+    <widget class="QPlainTextEdit" name="txtSend">
      <property name="geometry">
       <rect>
-       <x>130</x>
-       <y>-1</y>
-       <width>93</width>
-       <height>33</height>
+       <x>10</x>
+       <y>120</y>
+       <width>201</width>
+       <height>71</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnSend">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>160</y>
+       <width>91</width>
+       <height>28</height>
       </rect>
      </property>
      <property name="text">
-      <string>连接</string>
+      <string>Send</string>
      </property>
+    </widget>
+    <widget class="QFrame" name="frame_3">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>120</y>
+       <width>222</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QLineEdit" name="txtRoom">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>1212</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnJoin">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>-1</y>
+        <width>93</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>加入</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QFrame" name="frame_2">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>80</y>
+       <width>222</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QLineEdit" name="txtNewRoom">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>1212</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnCreRoom">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>-1</y>
+        <width>93</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>创建</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QFrame" name="frame">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>40</y>
+       <width>222</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QLineEdit" name="txtServer">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>127.0.0.1:30628</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnCon">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>-1</y>
+        <width>93</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>连接</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QPushButton" name="btnHD">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>160</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hide</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelLog">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>481</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="tableRoomer">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>40</y>
+       <width>369</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <property name="rowCount">
+      <number>3</number>
+     </property>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>87</number>
+     </attribute>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>40</number>
+     </attribute>
+     <row/>
+     <row/>
+     <row/>
+     <column>
+      <property name="text">
+       <string>房主</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>玩家PID</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>玩家角色</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>准备？</string>
+      </property>
+     </column>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_3">
+   <widget class="QLabel" name="labelR1">
     <property name="geometry">
      <rect>
-      <x>440</x>
-      <y>30</y>
-      <width>222</width>
-      <height>41</height>
+      <x>210</x>
+      <y>340</y>
+      <width>72</width>
+      <height>61</height>
      </rect>
     </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
+    <property name="text">
+     <string>labelR1</string>
     </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLineEdit" name="txtRoom">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>131</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>1212</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btnJoin">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>-1</y>
-       <width>93</width>
-       <height>33</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>加入</string>
-     </property>
-    </widget>
    </widget>
-   <widget class="QFrame" name="frame_2">
+   <widget class="QLabel" name="labelR2">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>30</y>
-      <width>222</width>
-      <height>41</height>
+      <x>320</x>
+      <y>330</y>
+      <width>72</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>labelR2</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lab">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>361</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
+     <enum>QFrame::Box</enum>
     </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
+    <property name="text">
+     <string/>
     </property>
-    <widget class="QLineEdit" name="txtNewRoom">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>131</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>1212</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btnCreRoom">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>-1</y>
-       <width>93</width>
-       <height>33</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>创建</string>
-     </property>
-    </widget>
+   </widget>
+   <widget class="QLabel" name="lab_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>20</y>
+      <width>361</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lab_3">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>40</y>
+      <width>361</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
    </widget>
    <zorder>whitebg</zorder>
    <zorder>labRoad</zorder>
    <zorder>label</zorder>
    <zorder>label_2</zorder>
-   <zorder>lab</zorder>
    <zorder>label_3</zorder>
-   <zorder>frame</zorder>
-   <zorder>frame_3</zorder>
-   <zorder>frame_2</zorder>
+   <zorder>frame_4</zorder>
+   <zorder>labelR1</zorder>
+   <zorder>labelR2</zorder>
+   <zorder>lab</zorder>
+   <zorder>lab_2</zorder>
+   <zorder>lab_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -271,9 +457,27 @@
      <string>Help</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuSPID">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>SPID</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuROOM">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>ROOM</string>
+    </property>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuGame"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuSPID"/>
+   <addaction name="menuROOM"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionExit">

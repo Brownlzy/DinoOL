@@ -1,12 +1,15 @@
 #include "server.h"
 
-Server::Server(QWidget *parent)
+Server::Server(QWidget* parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
 	ui.txtPort->setText("30628");
 	connect(ui.btnListen, SIGNAL(clicked()), this, SLOT(OnBtnInitSocket()));
-	//connect(ui.m_sendData, SIGNAL(clicked()), this, SLOT(OnBtnSendData()));
+	connect(ui.btnSend, SIGNAL(clicked()), this, SLOT(OnBtnSendData()));
+	//signalMapper = new QSignalMapper(this);
+	//connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(sServerDisConnection(int)));
+
 }
 
 Server::~Server()
@@ -14,35 +17,352 @@ Server::~Server()
 
 }
 
+void Server::refreshPlayer(int isAdd, int sockid, QString PID)
+{
+	QTableWidgetItem* item;
+	if (isAdd)
+	{
+		item = new QTableWidgetItem(QString::number(sockid));
+		ui.tablePlayer->setItem(sockid, 0, item);
+		item = new QTableWidgetItem(PID);
+		ui.tablePlayer->setItem(sockid, 1, item);
+		item = new QTableWidgetItem("Connected");
+		ui.tablePlayer->setItem(sockid, 2, item);
+		item = new QTableWidgetItem("Spare");
+		ui.tablePlayer->setItem(sockid, 3, item);
+	}
+	else
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			item = new QTableWidgetItem("");
+			ui.tablePlayer->item(sockid, i)->setText("");
+		}
+		for (int i = 0; i < ui.tableRoom->rowCount(); i++)
+		{
+			for (int j = 4; j <= 6; j++)
+			{
+				if (ui.tableRoom->item(i, j)->text() == QString::number(100 + sockid))
+				{
+					QString sendtmp = "ROOM$0$$";
+					if (j == 4)
+					{
+						for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); j++)
+						{
+							//SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
+						}
+						ui.tablePlayer->removeRow(i);
+					}
+					else
+					{
+						//SendTo(PID, sendtmp);
+						sendtmp = "ADDU$-1$" + QString::number(sockid + 100) + "$$$";
+						for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); k++)
+						{
+							if (k != j)
+								SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
+						}
+						ui.tableRoom->item(i, j)->setText("");
+						ui.tableRoom->item(i, 2)->setText(QString::number(ui.tableRoom->item(i, 2)->text().toInt() - 1));
+					}
+					return;
+
+				}
+			}
+		}
+	}
+}
+
+void Server::ProcessCMsg(QString msg)
+{
+	//PID$fun$argu1$argu2$$$$
+	int PID = msg.split('$')[0].toInt();
+	QString fun = msg.split('$')[1];
+	if (fun == "POS")
+	{
+		//PID$POS$RoomID$...$$$
+		QString tmp;
+		tmp = "POS$" + msg.split('$')[0] + "$" + msg.split('$')[3] + "$$$";
+		SendTo(msg.split('$')[2], tmp);
+	}
+	else if (fun == "READY")
+	{
+		QString room = msg.split('$')[2];
+		for (int i = 0; i < ui.tableRoom->rowCount(); i++)
+		{
+			if (ui.tableRoom->item(i, 0)->text() == room)
+			{
+				int ri[3];
+				QString newready = "";
+				for (int j = 0; j < 3; j++)
+				{
+					if (ui.tableRoom->item(i, 4 + j)->text().toInt() == PID)
+						ri[j] = 1;
+					else
+						ri[j] = (ui.tableRoom->item(i, 7)->text().split('-')[j] == "æ˜¯" ? 1 : 0);
+				}
+				newready += (ri[0] ? "æ˜¯" : "å¦");
+				newready += "-";
+				newready += (ri[1] ? "æ˜¯" : "å¦");
+				newready += "-";
+				newready += (ri[2] ? "æ˜¯" : "å¦");
+				ui.tableRoom->item(i, 7)->setText(newready);
+				SendTo(room, "READY$2$" + newready + "$$$");
+				if (ui.tableRoom->item(i, 7)->text().split('-')[0] == "æ˜¯"
+					&& (!(ui.tableRoom->item(i, 5)->text() != "") || ui.tableRoom->item(i, 7)->text().split('-')[1] == "æ˜¯")
+					&& (!(ui.tableRoom->item(i, 6)->text() != "") || ui.tableRoom->item(i, 7)->text().split('-')[2] == "æ˜¯"))
+				{
+					ui.tableRoom->item(i, 3)->setText("æ¸¸æˆä¸­...");
+				}
+				break;
+			}
+		}
+	}
+	else if (fun == "ROOM")
+	{
+		//PID$ROOM$1$ROOMID$$
+		int isAdd = msg.split('$')[2].toInt();
+		int row = ui.tableRoom->rowCount();
+		if (isAdd)
+		{
+			for (int i = 0; i < row; i++)
+			{
+				if (ui.tableRoom->item(i, 0)->text() == msg.split('$')[3] || ui.tableRoom->item(i, 1)->text() == QString::number(PID))
+				{
+					SendTo(PID, "ROOM$0$$æˆ¿é—´å·²å­˜åœ¨$$"); //æˆ¿é—´å·²å­˜åœ¨
+					return;
+				}
+			}
+			ui.tableRoom->insertRow(row);
+			ui.tableRoom->setItem(row, 0, new QTableWidgetItem(msg.split('$')[3]));
+			ui.tableRoom->setItem(row, 1, new QTableWidgetItem(QString::number(PID)));
+			ui.tableRoom->setItem(row, 2, new QTableWidgetItem("1"));
+			ui.tableRoom->setItem(row, 3, new QTableWidgetItem("ç­‰å¾…ç©å®¶åŠ å…¥..."));
+			ui.tableRoom->setItem(row, 4, new QTableWidgetItem(QString::number(PID)));
+			ui.tableRoom->setItem(row, 5, new QTableWidgetItem(""));
+			ui.tableRoom->setItem(row, 6, new QTableWidgetItem(""));
+			ui.tableRoom->setItem(row, 7, new QTableWidgetItem("å¦-å¦-å¦"));
+
+			ui.tablePlayer->item(PID % 100, 3)->setText("ROOM:" + msg.split('$')[3]);
+
+			RoomNum++;
+			ui.label_3->setText(QString::number(RoomNum));
+			SendTo(PID, "ROOM$1$" + msg.split('$')[3] + "$åˆ›å»ºæˆåŠŸ$$");//åˆ›å»ºæˆåŠŸ
+		}
+		else
+		{
+			for (int i = 0; i < row; i++)
+			{
+				if (ui.tableRoom->item(i, 0)->text() == msg.split('$')[3] && ui.tableRoom->item(i, 1)->text() == QString::number(PID))
+				{
+					SendTo(ui.tableRoom->item(i, 5)->text().toInt(), "ROOM$-1$$æˆ¿é—´å·²å…³é—­$$");
+					SendTo(ui.tableRoom->item(i, 6)->text().toInt(), "ROOM$-1$$æˆ¿é—´å·²å…³é—­$$");
+					ui.tableRoom->removeRow(i);
+					return;
+				}
+			}
+			SendTo(PID, "ROOM$-2$åˆ é™¤å¤±è´¥$$$");//åˆ é™¤å¤±è´¥
+		}
+	}
+	else if (fun == "JOIN")
+	{
+		//PID$JOIN$1$RoomID$$$
+		int isIn = msg.split('$')[2].toInt();
+		int row = ui.tableRoom->rowCount();
+		if (isIn)
+		{
+			for (int i = 0; i < row; i++)
+			{
+				if (ui.tableRoom->item(i, 0)->text() == msg.split('$')[3])
+				{
+					if (ui.tableRoom->item(i, 2)->text().toInt() < 3 && ui.tableRoom->item(i, 7)->text().startsWith("å¦"))
+					{
+						if (ui.tablePlayer->item(PID % 100, 3)->text() == "Spare")
+						{
+							QString sendtmp = "ADDU$1$" + QString::number(PID) + "$Grey$";
+							for (int j = 4; j < 4 + ui.tableRoom->item(i, 2)->text().toInt(); j++)
+							{
+								SendTo(ui.tableRoom->item(i, j)->text().toInt(), sendtmp);
+							}
+							ui.tableRoom->item(i, 4 + ui.tableRoom->item(i, 2)->text().toInt())->setText(QString::number(PID));
+							ui.tableRoom->item(i, 2)->setText(QString::number(ui.tableRoom->item(i, 2)->text().toInt() + 1));
+							ui.tablePlayer->item(PID % 100, 3)->setText("ROOM:" + msg.split('$')[3]);
+							QString RoomMem;
+							RoomMem = "JOIN$2$" + msg.split('$')[3] + "$æ˜¯#" + ui.tableRoom->item(i, 4)->text() + "#Grey#@";
+							for (int j = 5; j < 7; j++)
+							{
+								if (ui.tableRoom->item(i, j)->text() != "")
+									RoomMem += "#" + ui.tableRoom->item(i, j)->text() + "#Grey#@";
+							}
+							RoomMem += "###@###@$" + ui.tableRoom->item(i, 7)->text() + "$$$";
+							SendTo(PID, RoomMem);
+							SendTo(PID, "JOIN$1$åŠ å…¥æˆåŠŸ$$$"); //1è¡¨ç¤ºåŠ å…¥æˆåŠŸ
+						}
+						else
+							SendTo(PID, "JOIN$-2$å·²åœ¨æˆ¿é—´ä¸­$$$"); //-2è¡¨ç¤ºå·²åœ¨æˆ¿é—´ä¸­
+					}
+					else
+						SendTo(PID, "JOIN$0$æˆ¿é—´å·²æ»¡$$$"); //0è¡¨ç¤ºæˆ¿é—´å·²æ»¡
+					return;
+				}
+			}
+			SendTo(PID, "JOIN$-1$æ— æˆ¿é—´$$$"); //-1è¡¨ç¤ºæ— æˆ¿é—´
+		}
+		else
+		{
+			for (int i = 0; i < row; i++)
+			{
+				for (int j = 4; j <= 6; j++)
+				{
+					if (ui.tableRoom->item(i, j)->text() == msg.split('$')[0])
+					{
+						QString sendtmp = "ROOM$0$$";
+						if (j == 4)
+						{
+							for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); j++)
+							{
+								SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
+							}
+							ui.tablePlayer->removeRow(i);
+						}
+						else
+						{
+							SendTo(PID, sendtmp);
+							sendtmp = "ADDU$-1$" + QString::number(PID) + "$$$";
+							for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); j++)
+							{
+								if (k != j)
+									SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
+							}
+							ui.tableRoom->item(i, j)->setText("");
+							ui.tableRoom->item(i, 2)->setText(QString::number(ui.tableRoom->item(i, 2)->text().toInt() - 1));
+							ui.tablePlayer->item(PID % 100, 3)->setText("Spare");
+						}
+						return;
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+
+	}
+}
+
+void Server::SendTo(int PID, QString Msg)
+{
+	if (PID == 100)
+	{
+		ui.txtToSend->setPlainText(Msg);
+		OnBtnSendData();
+	}
+	else
+	{
+		char sendMsgChar[1024] = { 0 };
+		QString sendMsg = Msg;
+		if (sendMsg.isEmpty())
+		{
+			ui.txtLog->append("Cannot send empty data");
+			return;
+		}
+		strcpy_s(sendMsgChar, sendMsg.toStdString().c_str());
+		if (connection[PID % 100])
+		{
+			if (mp_TCPSocket[PID % 100]->isValid())
+			{
+				int sendRe = mp_TCPSocket[PID % 100]->write(sendMsgChar, strlen(sendMsgChar));
+				if (-1 == sendRe)
+				{
+					ui.txtLog->append(QString::number(PID % 100) + "Send data Error");
+					refreshPlayer(0, PID % 100);
+					connection[PID % 100] = 0;
+					PlayerNum--;
+				}
+			}
+			else
+			{
+				ui.txtLog->append(QString::number(PID % 100) + "invalid socket");
+			}
+		}
+	}
+}
+
+void Server::SendTo(QString RID, QString Msg)
+{
+	for (int i = 0; i < ui.tableRoom->rowCount(); i++)
+	{
+		if (ui.tableRoom->item(i, 0)->text() == RID)
+		{
+			for (int j = 4; j < 7; j++)
+			{
+				int PID = ui.tableRoom->item(i, j)->text().toInt();
+				SendTo(PID, Msg);
+			}
+			break;
+		}
+	}
+}
+
 void Server::ServerNewConnection()
 {
-	//»ñÈ¡¿Í»§¶ËÁ¬½Ó
-	mp_TCPSocket = mp_TCPServer->nextPendingConnection();
-	if (!mp_TCPSocket)
+	//è·å–å®¢æˆ·ç«¯è¿æ¥
+	int sockid = 0;
+	for (int i = 1; i < 100; i++)
 	{
-		QMessageBox::information(this, "QTÍøÂçÍ¨ĞÅ", "Î´ÕıÈ·»ñÈ¡¿Í»§¶ËÁ¬½Ó£¡");
+		if (connection[i] == 0)
+		{
+			sockid = i;
+			break;
+		}
+	}
+	mp_TCPSocket[sockid] = mp_TCPServer->nextPendingConnection();
+	if (!mp_TCPSocket[sockid])
+	{
+		ui.txtLog->append(QString::number(sockid) + "Unable to get connection.");
 		return;
 	}
 	else
 	{
-		QMessageBox::information(this, "QTÍøÂçÍ¨ĞÅ", "³É¹¦½ÓÊÜ¿Í»§¶ËµÄÁ¬½Ó");
-		connect(mp_TCPSocket, SIGNAL(readyRead()), this, SLOT(ServerReadData()));
-		connect(mp_TCPSocket, SIGNAL(disconnected()), this, SLOT(sServerDisConnection()));
+		ui.txtLog->append(QString::number(sockid) + "accept connection successful");
+		connect(mp_TCPSocket[sockid], SIGNAL(readyRead()), this, SLOT(ServerReadData()));
+		//connect(mp_TCPSocket[sockid], SIGNAL(clicked()), signalMapper, SLOT(map()));
+		//signalMapper->setMapping(mp_TCPSocket[sockid], sockid);
+		//connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(sServerDisConnection(int)));
+		connect(mp_TCPSocket[sockid], SIGNAL(disconnected()), this, SLOT(sServerDisConnection()));
+		if (sockid == 0)
+		{
+			connection[0] = 1;
+			SendTo(100, "PID=100$å·²è¾¾åˆ°æœ€å¤§è¿æ¥æ•°ï¼è¯·ç¨åå†è¯•ã€‚");
+		}
+		else
+		{
+			connection[sockid] = 1;
+			refreshPlayer(1, sockid, QString::number(sockid + 100));
+			SendTo(100 + sockid, "PID$" + QString::number(100 + sockid) + "$è¿æ¥æˆåŠŸã€‚");
+			PlayerNum++;
+			ui.label_4->setText(QString::number(PlayerNum));
+		}
 	}
 }
 
 void Server::ServerReadData()
 {
 	char buffer[1024] = { 0 };
-	mp_TCPSocket->read(buffer, 1024);
+	for (int i = 0; i < 99; i++)
+	{
+		if (connection[i])
+			mp_TCPSocket[i]->read(buffer, 1024);
+	}
 	if (strlen(buffer) > 0)
 	{
 		QString showNsg = buffer;
 		ui.txtGet->append(showNsg);
+		ProcessCMsg(showNsg);
 	}
 	else
 	{
-		QMessageBox::information(this, "QTÍøÂçÍ¨ĞÅ", "Î´ÕıÈ·½ÓÊÕÊı¾İ");
+		ui.txtLog->append("Error when receving");
 		return;
 	}
 }
@@ -50,45 +370,63 @@ void Server::ServerReadData()
 void Server::OnBtnInitSocket()
 {
 	mp_TCPServer = new QTcpServer();
-    int port = ui.txtPort->text().toInt();
-    if(!mp_TCPServer->listen(QHostAddress::Any, port))
-    {
-        QMessageBox::information(this, "QTÍøÂçÍ¨ĞÅ", "·şÎñÆ÷¶Ë¼àÌıÊ§°Ü£¡");
-        return;
-    }
-    else
-    {
-        QMessageBox::information(this, "QTÍøÂçÍ¨ĞÅ", "·şÎñÆ÷¼àÌı³É¹¦£¡");
-    }
-    connect(mp_TCPServer, SIGNAL(newConnection()), this, SLOT(ServerNewConnection()));
+	int port = ui.txtPort->text().toInt();
+	if (!mp_TCPServer->listen(QHostAddress::Any, port))
+	{
+		ui.txtLog->append("Server:Cannot listen on pork");
+		return;
+	}
+	else
+	{
+		ui.txtLog->append("Server:Listening");
+	}
+	connect(mp_TCPServer, SIGNAL(newConnection()), this, SLOT(ServerNewConnection()));
 }
 
 void Server::OnBtnSendData()
 {
-	char sendMsgChar[1024] = {0};
-    QString sendMsg = ui.txtToSend->toPlainText();
-    if(sendMsg.isEmpty())
-    {
-        QMessageBox::information(this, "QTÍøÂçÍ¨ĞÅ", "·¢ËÍÊı¾İÎª¿Õ£¬ÇëÊäÈëÊı¾İ");
-        return;
-    }
-    strcpy_s(sendMsgChar, sendMsg.toStdString().c_str());
-    if(mp_TCPSocket->isValid())
-    {
-        int sendRe = mp_TCPSocket->write(sendMsgChar, strlen(sendMsgChar));
-        if( -1 == sendRe)
-        {
-            QMessageBox::information(this, "QTÍøÂçÍ¨ĞÅ", "·şÎñ¶Ë·¢ËÍÊı¾İÊ§°Ü£¡");
-        }
-    }
-    else
-    {
-        QMessageBox::information(this, "QTÍøÂçÍ¨ĞÅ", "Ì×½Ó×ÖÎŞĞ§£¡");
-    }
+	char sendMsgChar[1024] = { 0 };
+	QString sendMsg = ui.txtToSend->toPlainText();
+	if (sendMsg.isEmpty())
+	{
+		ui.txtLog->append("Cannot send empty data");
+		return;
+	}
+	strcpy_s(sendMsgChar, sendMsg.toStdString().c_str());
+	for (int i = 0; i < 99; i++)
+	{
+		if (connection[i])
+		{
+			if (mp_TCPSocket[i]->isValid())
+			{
+				int sendRe = mp_TCPSocket[i]->write(sendMsgChar, strlen(sendMsgChar));
+				if (-1 == sendRe)
+				{
+					ui.txtLog->append(QString::number(i) + "Send data Error");
+					refreshPlayer(0, i);
+					connection[i] = 0;
+					PlayerNum--;
+					ui.label_4->setText(QString::number(PlayerNum));
+				}
+			}
+			else
+			{
+				ui.txtLog->append(QString::number(i) + "invalid socket");
+			}
+		}
+	}
+
 }
 
 void Server::sServerDisConnection()
 {
-	QMessageBox::information(this, "QTÍøÂçÍ¨ĞÅ", "Óë¿Í»§¶ËµÄÁ¬½Ó¶Ï¿ª");
-    return;
+	ui.txtLog->append("disconnect with client");
+	ui.txtToSend->setPlainText("CTEST$$$$$$");
+	OnBtnSendData();
+	return;
+}void Server::sServerDisConnection(int id)
+{
+	connection[id] = 0;
+	ui.txtLog->append("disconnect with client:" + QString::number(id));
+	return;
 }
