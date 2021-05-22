@@ -47,7 +47,7 @@ DinoOL::DinoOL(QWidget* parent)
 			ui.tableRoomer->setItem(i, j, new QTableWidgetItem(""));
 		}
 	}
-	pdtime->start();
+	//pdtime->start();
 }
 DinoOL::~DinoOL()
 {
@@ -91,7 +91,7 @@ void DinoOL::printpos()
 	tmp += ",Rvx[1]=" + QString::number(Rvx[1]) + ",Rvy[1]=" + QString::number(Rvy[1]) + ",onG=" + QString::number(isOnGround(1));
 	ui.lab_3->setText(tmp);
 	ui.lab_3->adjustSize();
-	pdtime->start();
+	//pdtime->start();
 }
 void DinoOL::resizeEvent(QResizeEvent* event)
 {
@@ -132,6 +132,7 @@ void DinoOL::resizeEvent(QResizeEvent* event)
 		}
 	}
 	ui.label_2->move(ui.label->x(), ui.label->y() + 70);
+	ui.label_3->move(ui.label->x(), ui.label->y() + 70);
 	ui.whitebg->setGeometry(0, 0, x, y);
 	ui.lab_2->move(x - 1 - ui.lab_2->width(), ui.lab_2->y());
 	ui.lab_3->move(x - 1 - ui.lab_3->width(), ui.lab_3->y());
@@ -393,6 +394,7 @@ void DinoOL::StartGame(int step)
 		break;
 	case(2):
 		ui.label_2->hide();
+		ui.label_3->hide();
 		CleanAM(movie_road);
 		movie_road = new QMovie(":/pic/png/road");
 		ui.labRoad->setMovie(movie_road);
@@ -579,6 +581,9 @@ void DinoOL::ProcessSMsg(QString msg)
 			SPID = pid;
 			QString tmp = "SPID=" + QString::number(SPID);
 			ui.menuSPID->setTitle(tmp);
+			ui.label_3->move(ui.label_2->x(), ui.label_2->y());
+			ui.label_2->setVisible(false);
+			ui.label_3->setVisible(true);
 		}
 	}
 	else if (fun == "ROOM")
@@ -1120,6 +1125,11 @@ void DinoOL::on_actionJoin_a_room_triggered()
 {
 	ui.frame_3->setVisible(true);
 
+}
+
+void DinoOL::on_actionDebug_a_room_triggered()
+{
+	pdtime->start();
 }
 
 void DinoOL::on_btnCon_clicked()

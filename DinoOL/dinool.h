@@ -54,6 +54,7 @@ private slots:
 	void on_actionConnect_a_server_triggered();
 	void on_actionCreate_a_room_triggered();
 	void on_actionJoin_a_room_triggered();
+	void on_actionDebug_a_room_triggered();
 	void on_btnCon_clicked();
 	void on_btnCreRoom_clicked();
 	void on_btnSend_clicked();

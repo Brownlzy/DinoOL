@@ -382,7 +382,10 @@
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Box</enum>
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
     </property>
     <property name="text">
      <string/>
@@ -401,7 +404,10 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Box</enum>
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
     </property>
     <property name="text">
      <string/>
@@ -423,7 +429,10 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Box</enum>
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
     </property>
     <property name="text">
      <string/>
@@ -546,7 +555,10 @@
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Box</enum>
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
     </property>
     <property name="text">
      <string/>
@@ -600,6 +612,7 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionDebug"/>
    </widget>
    <widget class="QMenu" name="menuSPID">
     <property name="enabled">
@@ -647,6 +660,11 @@
   <action name="actionConnect_a_server">
    <property name="text">
     <string>Connect a server</string>
+   </property>
+  </action>
+  <action name="actionDebug">
+   <property name="text">
+    <string>Debug</string>
    </property>
   </action>
  </widget>
