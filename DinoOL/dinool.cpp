@@ -541,6 +541,11 @@ void DinoOL::ProcessSMsg(QString msg)
 			ui.labelR2->move(strRKey.split('#')[0].toDouble(), horline - strRKey.split('#')[1].toDouble());
 			RKey(1, strRKey.split('#')[2].toInt(), strRKey.split('#')[3].toInt());
 		}
+		else if (msg.split('$')[1].toInt() == SPID)
+		{
+			QString title = "Delay:" + QString::number(t.elapsed()) + "ms";
+			ui.menuDelay->setTitle(title);
+		}
 	}
 	else if (fun == "READY")
 	{
@@ -567,6 +572,12 @@ void DinoOL::ProcessSMsg(QString msg)
 
 			WebGame = 1;
 		}
+	}
+	else if (fun == "ARGU")
+	{
+		G = msg.split('$')[1].toDouble();
+		vx0 = msg.split('$')[2].toDouble();
+		vy0 = msg.split('$')[3].toDouble();
 	}
 	else if (fun == "PID")
 	{
@@ -670,6 +681,7 @@ void DinoOL::SendPOS(int dx, int dy, int key, bool isPress)
 	char sendMsgChar[1024] = { 0 };
 	strcpy_s(sendMsgChar, sendMsg.toStdString().c_str());
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
+	t.start();
 	if (sendRe == -1)
 	{
 		ui.labelLog->setText("QT网络通信向服务端发送数据失败！");
@@ -1127,7 +1139,7 @@ void DinoOL::on_actionJoin_a_room_triggered()
 
 }
 
-void DinoOL::on_actionDebug_a_room_triggered()
+void DinoOL::on_actionDebug_triggered()
 {
 	pdtime->start();
 }

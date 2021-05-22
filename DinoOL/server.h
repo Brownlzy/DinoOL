@@ -7,6 +7,7 @@
 #include <QtWidgets/QMessageBox>
 #include <QtCore/QSignalMapper>
 #include <QtWidgets/QTableWidget>
+#include <QtCore/QTimer>
 
 class Server : public QDialog
 {
@@ -39,4 +40,5 @@ private slots:
 	void ServerNewConnection();
 	void sServerDisConnection();
 	void sServerDisConnection(int);
+	void on_btnChangA_clicked();
 };

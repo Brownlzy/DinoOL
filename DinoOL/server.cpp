@@ -342,6 +342,7 @@ void Server::ServerNewConnection()
 			SendTo(100 + sockid, "PID$" + QString::number(100 + sockid) + "$连接成功。");
 			PlayerNum++;
 			ui.label_4->setText(QString::number(PlayerNum));
+			QTimer::singleShot(1000, ui.btnChangA, SLOT(clicked));
 		}
 	}
 }
@@ -429,4 +430,12 @@ void Server::sServerDisConnection()
 	connection[id] = 0;
 	ui.txtLog->append("disconnect with client:" + QString::number(id));
 	return;
+}
+
+void Server::on_btnChangA_clicked()
+{
+	QString tmp;
+	tmp = "ARGU$" + ui.lineEdit->text() + "$" + ui.lineEdit_2->text() + "$" + ui.lineEdit_3->text() + "$$$";
+	ui.txtToSend->setPlainText(tmp);
+	OnBtnSendData();
 }

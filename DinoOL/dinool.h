@@ -7,6 +7,7 @@
 #include <QtGui/QGuiApplication>
 #include <QtCore/QSignalMapper>
 #include <QtCore/QTimer>
+#include <QtCore/QTime>
 #include <QtGui/QKeyEvent>
 #include <QtCore/QPropertyAnimation>
 #include <QtNetwork/QTcpSocket>
@@ -54,7 +55,7 @@ private slots:
 	void on_actionConnect_a_server_triggered();
 	void on_actionCreate_a_room_triggered();
 	void on_actionJoin_a_room_triggered();
-	void on_actionDebug_a_room_triggered();
+	void on_actionDebug_triggered();
 	void on_btnCon_clicked();
 	void on_btnCreRoom_clicked();
 	void on_btnSend_clicked();
@@ -72,6 +73,7 @@ private:
 	int isStarted = 0;
 	int SPID = 100;
 	int WebGame = 0;
+	QTime t;
 	QTimer* ptimer = NULL;
 	QTimer* pdtime = NULL;
 	QTimer* proad = NULL;

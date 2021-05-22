@@ -630,11 +630,17 @@
      <string>ROOM</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuDelay">
+    <property name="title">
+     <string>Delay:0ms</string>
+    </property>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuGame"/>
    <addaction name="menuHelp"/>
    <addaction name="menuSPID"/>
    <addaction name="menuROOM"/>
+   <addaction name="menuDelay"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionExit">
