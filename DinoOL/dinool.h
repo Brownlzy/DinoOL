@@ -112,6 +112,7 @@ private:
 	bool RisDive[2] = { 0 };
 	int RisMove[2] = { 0 };
 	bool RisJump[2] = { 0 };
+	int fchk[2] = { 0 };
 };
 
 int randNum(int Max);

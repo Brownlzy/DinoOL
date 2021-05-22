@@ -27,7 +27,7 @@
      <enum>QFrame::Box</enum>
     </property>
     <property name="lineWidth">
-     <number>1</number>
+     <number>0</number>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/pic/gif/dino_start&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -349,6 +349,9 @@
       <height>61</height>
      </rect>
     </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
     <property name="text">
      <string>labelR1</string>
     </property>
@@ -356,11 +359,14 @@
    <widget class="QLabel" name="labelR2">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>330</y>
+      <x>280</x>
+      <y>340</y>
       <width>72</width>
-      <height>71</height>
+      <height>61</height>
      </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
     </property>
     <property name="text">
      <string>labelR2</string>
