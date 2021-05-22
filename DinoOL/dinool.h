@@ -44,6 +44,7 @@ public slots:
 	void printpos();
 	void roadloop();
 	void cloudloop();
+	void printDinoL();
 	void printDino1();
 	void printDino2();
 
@@ -113,6 +114,15 @@ private:
 	int RisMove[2] = { 0 };
 	bool RisJump[2] = { 0 };
 	int fchk[2] = { 0 };
+
+	QTimer* Lptdino = NULL;
+	QMovie* Lmovie_dino = NULL;
+	int LisOn = 0;
+	double Lvy = 0;
+	double Lvx = 0;
+	bool LisDive = 0;
+	int LisMove = 0;
+	bool LisJump = 0;
 };
 
 int randNum(int Max);

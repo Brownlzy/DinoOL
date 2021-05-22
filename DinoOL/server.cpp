@@ -44,24 +44,24 @@ void Server::refreshPlayer(int isAdd, int sockid, QString PID)
 			{
 				if (ui.tableRoom->item(i, j)->text() == QString::number(100 + sockid))
 				{
-					QString sendtmp = "ROOM$0$$";
+					//QString sendtmp = "ROOM$0$$";
 					if (j == 4)
 					{
-						for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); j++)
-						{
+						//for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); j++)
+						//{
 							//SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
-						}
-						ui.tablePlayer->removeRow(i);
+						//}
+						ui.tableRoom->removeRow(i);
 					}
 					else
 					{
 						//SendTo(PID, sendtmp);
-						sendtmp = "ADDU$-1$" + QString::number(sockid + 100) + "$$$";
-						for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); k++)
-						{
-							if (k != j)
-								SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
-						}
+						//sendtmp = "ADDU$-1$" + QString::number(sockid + 100) + "$$$";
+						//for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); k++)
+						//{
+							//if (k != j)
+								//SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
+						//}
 						ui.tableRoom->item(i, j)->setText("");
 						ui.tableRoom->item(i, 2)->setText(QString::number(ui.tableRoom->item(i, 2)->text().toInt() - 1));
 					}

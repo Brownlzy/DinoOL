@@ -12,15 +12,24 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.frame_4->hide();
 	ui.labelR1->setVisible(false);
 	ui.labelR2->setVisible(false);
+	ui.labelL->setVisible(false);
+	ui.lab_2->move(x - 1 - ui.lab_2->width(), ui.lab_2->y());
+	ui.lab_3->move(x - 1 - ui.lab_3->width(), ui.lab_3->y());
+	ui.labelP->setVisible(false);
+	ui.labelP1->setVisible(false);
+	ui.labelP2->setVisible(false);
+	ui.labelPL->setVisible(false);
 	connect(ui.label_2, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
 	maxH = vy * vy / (2 * G);
 	pdtime = new QTimer(this);
 	proad = new QTimer(this);
 	ptcloud = new QTimer(this);
 	ptdino = new QTimer(this);
+	Lptdino = new QTimer(this);
 	Rptdino[0] = new QTimer(this);
 	Rptdino[1] = new QTimer(this);
 	ptdino->setInterval(tms);
+	Lptdino->setInterval(tms);
 	Rptdino[0]->setInterval(tms);
 	Rptdino[1]->setInterval(tms);
 	pdtime->setInterval(100);
@@ -28,6 +37,7 @@ DinoOL::DinoOL(QWidget* parent)
 	connect(ptcloud, SIGNAL(timeout()), this, SLOT(cloudloop()));
 	connect(pdtime, SIGNAL(timeout()), this, SLOT(printpos()));
 	connect(ptdino, SIGNAL(timeout()), this, SLOT(printDino()));
+	connect(Lptdino, SIGNAL(timeout()), this, SLOT(printDinoL()));
 	connect(Rptdino[0], SIGNAL(timeout()), this, SLOT(printDino1()));
 	connect(Rptdino[1], SIGNAL(timeout()), this, SLOT(printDino2()));
 	for (int i = 0; i < 3; i++)
@@ -65,14 +75,20 @@ void DinoOL::printpos()
 	ui.lab->adjustSize();
 
 	tmp = "(" + QString::number(ui.labelR1->x()) + "," + QString::number(ui.labelR1->y()) + ")";
-	tmp = tmp + ",isDive:" + QString::number(RisDive[0]) + ",isJump:" + QString::number(RisJump[0]) + ",isMove:" + QString::number(RisMove[0]);
-	tmp += ",vx=" + QString::number(Rvx[0]) + ",vy=" + QString::number(Rvy[0]) + ",onG=" + QString::number(isOnGround(0));
+	tmp = tmp + ",RisDive[0]:" + QString::number(RisDive[0]) + ",RisJump[0]:" + QString::number(RisJump[0]) + ",RisMove[0]:" + QString::number(RisMove[0]);
+	tmp += ",Rvx[0]=" + QString::number(Rvx[0]) + ",Rvy[0]=" + QString::number(Rvy[0]) + ",onG=" + QString::number(isOnGround(0));
 	ui.lab_2->setText(tmp);
 	ui.lab_2->adjustSize();
 
+	tmp = "(" + QString::number(ui.labelL->x()) + "," + QString::number(ui.labelL->y()) + ")";
+	tmp = tmp + ",LisDive:" + QString::number(LisDive) + ",LisJump:" + QString::number(LisJump) + ",LisMove:" + QString::number(LisMove);
+	tmp += ",Lvx=" + QString::number(Lvx) + ",Lvy=" + QString::number(Lvy) + ",onG=" + QString::number(isOnGround(-1));
+	ui.lab_4->setText(tmp);
+	ui.lab_4->adjustSize();
+
 	tmp = "(" + QString::number(ui.labelR2->x()) + "," + QString::number(ui.labelR2->y()) + ")";
-	tmp = tmp + ",isDive:" + QString::number(RisDive[1]) + ",isJump:" + QString::number(RisJump[1]) + ",isMove:" + QString::number(RisMove[1]);
-	tmp += ",vx=" + QString::number(Rvx[1]) + ",vy=" + QString::number(Rvy[1]) + ",onG=" + QString::number(isOnGround(1));
+	tmp = tmp + ",RisDive[1]:" + QString::number(RisDive[1]) + ",RisJump[1]:" + QString::number(RisJump[1]) + ",RisMove[1]:" + QString::number(RisMove[1]);
+	tmp += ",Rvx[1]=" + QString::number(Rvx[1]) + ",Rvy[1]=" + QString::number(Rvy[1]) + ",onG=" + QString::number(isOnGround(1));
 	ui.lab_3->setText(tmp);
 	ui.lab_3->adjustSize();
 	pdtime->start();
@@ -103,7 +119,8 @@ void DinoOL::resizeEvent(QResizeEvent* event)
 	{
 		if (x < 8000)
 		{
-			ui.label->setGeometry(ui.label->x() > x - ui.label->width() ? x - ui.label->width() : ui.label->x(), horline - 98, ui.label->width(), 98);
+			ui.label->setGeometry(ui.label->x() > x - ui.label->width() ? x - ui.label->width() : ui.label->x(), horline - ui.label->height(), ui.label->width(), ui.label->height());
+			ui.labelL->setGeometry(ui.labelL->x() > x - ui.labelL->width() ? x - ui.labelL->width() : ui.labelL->x(), horline - ui.labelL->height(), ui.labelL->width(), ui.labelL->height());
 			ui.labelR1->setGeometry(ui.labelR1->x(), horline - ui.label->height(), ui.label->width(), ui.label->height());
 			ui.labelR2->setGeometry(ui.labelR2->x(), horline - ui.label->height(), ui.label->width(), ui.label->height());
 			ui.labRoad->move(ui.labRoad->x(), horline - 0.2551 * ui.label->height());
@@ -116,6 +133,13 @@ void DinoOL::resizeEvent(QResizeEvent* event)
 	}
 	ui.label_2->move(ui.label->x(), ui.label->y() + 70);
 	ui.whitebg->setGeometry(0, 0, x, y);
+	ui.lab_2->move(x - 1 - ui.lab_2->width(), ui.lab_2->y());
+	ui.lab_3->move(x - 1 - ui.lab_3->width(), ui.lab_3->y());
+	ui.labelP2->move(ui.labelR2->x() + 0.5 * ui.labelR2->width() - 10, ui.labelR2->y() - 30);
+	ui.labelP1->move(ui.labelR1->x() + 0.5 * ui.labelR1->width() - 10, ui.labelR1->y() - 30);
+	ui.labelPL->move(ui.labelL->x() + 0.5 * ui.labelL->width() - 10, ui.labelL->y() - 30);
+	ui.labelP->move(ui.label->x() + 0.5 * ui.label->width() - 10, ui.label->y() - 30);
+
 	roadloop();
 }
 
@@ -138,6 +162,23 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 	}
 	if (isStarted < 4) return;
 	bool onG = isOnGround();
+	if (e->key() == Qt::Key_Up && !WebGame)
+	{
+		if (!LisOn)
+		{
+			ui.labelL->setGeometry(0, -98, 88, 98);
+			ui.labelL->setScaledContents(true);
+			ui.labelL->setVisible(true);
+			LisOn = 1;
+			Lptdino->start();
+		}
+		else if (isOnGround(-1))
+		{
+			Lptdino->start();
+			Lvy += vy0;
+			LisJump = 1;
+		}
+	}
 	if (e->key() == Qt::Key_W && onG)
 	{
 		ptdino->start();
@@ -189,6 +230,47 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 
 			break;
 		}
+		if (!LisOn) return;
+		onG = isOnGround(-1);
+		switch (e->key())
+		{
+		case (Qt::Key_Left): //<-
+			Lptdino->start();
+			if (onG)
+			{
+				LisMove = -1;
+				vx = 0 - vx0;
+			}
+			else
+			{
+				LisMove = -2;
+			}
+			break;
+		case (Qt::Key_Down): //S
+			if (!LisDive)// && !isJump)
+			{
+				setDinoState(":/pic/gif/dino_dive", -1);
+				LisDive = true;
+				ui.labelL->setGeometry(ui.labelL->x(), ui.labelL->y() + 34, 118, 60);
+				ui.labelL->setScaledContents(true);
+			}
+			break;
+		case (Qt::Key_Right): //D
+			Lptdino->start();
+			if (onG)
+			{
+				LisMove = 1;
+				Lvx = vx0;
+			}
+			else
+			{
+				LisMove = 2;
+			}
+			break;
+
+		default:
+			break;
+		}
 	}
 }
 
@@ -230,6 +312,40 @@ void DinoOL::keyReleaseEvent(QKeyEvent* e)
 		default:
 			break;
 		}
+		if (!LisOn) return;
+		onG = isOnGround(-1);
+		switch (e->key())
+		{
+		case (Qt::Key_Left): //A
+			if (onG)
+			{
+				Lvx = 0;
+				Lptdino->stop();
+			}
+			LisMove = 0;
+			break;
+		case (Qt::Key_Right): //D
+			if (onG)
+			{
+				Lvx = 0;
+				Lptdino->stop();
+			}
+			LisMove = 0;
+			break;
+		case (Qt::Key_Down): //S
+			if (LisDive)
+			{
+				setDinoState(":/pic/gif/dino_run", -1);
+				ui.labelL->setGeometry(ui.labelL->x(), ui.labelL->y() - 34, 88, 98);
+				LisDive = false;
+				ui.labelL->setScaledContents(true);
+			}
+			break;
+
+		default:
+			break;
+		}
+
 	}
 
 }
@@ -332,27 +448,41 @@ bool DinoOL::isOnGround()
 
 bool DinoOL::isOnGround(int id)
 {
-	if (id == 0)
+	double ly;
+	double lh;
+	double tmp;
+	switch (id)
 	{
-		double ly = ui.labelR1->y();
-		double lh = ui.labelR1->height();
-		double tmp = ly + lh - horline;
+	case -1:
+		ly = ui.labelL->y();
+		lh = ui.labelL->height();
+		tmp = ly + lh - horline;
 		if (tmp <= vy0 * tms / 1000.0 && tmp >= 0 - vy0 * tms / 1000.0)
 		{
 			return true;
 		}
 		return false;
-	}
-	else if (id == 1)
-	{
-		double ly = ui.labelR2->y();
-		double lh = ui.labelR2->height();
-		double tmp = ly + lh - horline;
+		break;
+	case 0:
+		ly = ui.labelR1->y();
+		lh = ui.labelR1->height();
+		tmp = ly + lh - horline;
 		if (tmp <= vy0 * tms / 1000.0 && tmp >= 0 - vy0 * tms / 1000.0)
 		{
 			return true;
 		}
 		return false;
+		break;
+	case 1:
+		ly = ui.labelR2->y();
+		lh = ui.labelR2->height();
+		tmp = ly + lh - horline;
+		if (tmp <= vy0 * tms / 1000.0 && tmp >= 0 - vy0 * tms / 1000.0)
+		{
+			return true;
+		}
+		return false;
+		break;
 	}
 }
 
@@ -367,14 +497,30 @@ void DinoOL::setDinoState(QString pic)
 
 void DinoOL::setDinoState(QString pic, int id)
 {
-	if (Rmovie_dino[id] == NULL) Rmovie_dino[id] = new QMovie(this);
-	Rmovie_dino[id]->stop();
-	Rmovie_dino[id]->setFileName(pic);
-	if (id)
-		ui.labelR2->setMovie(Rmovie_dino[id]);
+	if (id >= 0)
+	{
+		if (Rmovie_dino[id] == NULL) Rmovie_dino[id] = new QMovie(this);
+		Rmovie_dino[id]->stop();
+		Rmovie_dino[id]->setFileName(pic);
+		switch (id)
+		{
+		case 1:
+			ui.labelR2->setMovie(Rmovie_dino[id]);
+			break;
+		case 0:
+			ui.labelR1->setMovie(Rmovie_dino[id]);
+			break;
+		}
+		Rmovie_dino[id]->start();
+	}
 	else
-		ui.labelR1->setMovie(Rmovie_dino[id]);
-	Rmovie_dino[id]->start();
+	{
+		if (Lmovie_dino == NULL) Lmovie_dino = new QMovie(this);
+		Lmovie_dino->stop();
+		Lmovie_dino->setFileName(pic);
+		ui.labelL->setMovie(Lmovie_dino);
+		Lmovie_dino->start();
+	}
 }
 
 void DinoOL::ProcessSMsg(QString msg)
@@ -690,6 +836,52 @@ void DinoOL::printDino()
 		//else
 			//setDinoState(":/pic/gif/dino_dive");
 	}
+	ui.labelP->setVisible(true);
+	ui.labelP->move(ui.label->x() + 0.5 * ui.label->width() - 10, ui.label->y() - 30);
+}
+
+void DinoOL::printDinoL()
+{
+	if (Lvy > 0 - vy0 * tms / 2000 || Lvy < vy0 * tms / 2000 && !isOnGround(-1))
+		Lvy -= G * tms / 1000;
+	else if (isOnGround(-1))
+	{
+		Lvy = 0;
+		if (!LisMove)
+		{
+			vx = 0;
+			Lptdino->stop();
+		}
+		ui.labelL->move(ui.labelL->x(), horline - ui.labelL->height());
+	}
+	if ((LisMove >= -1 && LisMove <= 1 && !isOnGround(-1)) || isOnGround(-1))
+	{
+		if (isOnGround(-1) && LisMove) Lvx = LisMove / fabs(LisMove) * vx0;
+		ui.labelL->move(ui.labelL->x() + Lvx / 1000 * tms, ui.labelL->y() - Lvy / 1000 * tms);
+	}
+	else
+		ui.labelL->move(ui.labelL->x() + Lvx / 1000 * tms, ui.labelL->y() - Lvy / 1000 * tms);
+	if (isOnGround(-1) && LisJump == 1)
+	{
+		LisJump = 0;
+		if (!LisDive)
+			setDinoState(":/pic/gif/dino_run", -1);
+	}
+	if (!isOnGround(-1) && LisJump == 0)
+		LisJump = 1;
+
+	if (isOnGround(-1) && LisJump == 0)
+	{
+	}
+	else if (!isOnGround(-1) && LisJump == 1)
+	{
+		if (!LisDive)
+			setDinoState(":/pic/png/dino", -1);
+		//else
+			//setDinoState(":/pic/gif/dino_dive");
+	}
+	ui.labelPL->setVisible(true);
+	ui.labelPL->move(ui.labelL->x() + 0.5 * ui.labelL->width() - 10, ui.labelL->y() - 30);
 }
 
 void DinoOL::printDino1()
@@ -734,6 +926,8 @@ void DinoOL::printDino1()
 		//else
 			//setDinoState(":/pic/gif/dino_dive");
 	}
+	ui.labelP1->setVisible(true);
+	ui.labelP1->move(ui.labelR1->x() + 0.5 * ui.labelR1->width() - 10, ui.labelR1->y() - 30);
 }
 void DinoOL::printDino2()
 {
@@ -777,6 +971,8 @@ void DinoOL::printDino2()
 		//else
 			//setDinoState(":/pic/gif/dino_dive");
 	}
+	ui.labelP2->setVisible(true);
+	ui.labelP2->move(ui.labelR2->x() + 0.5 * ui.labelR2->width() - 10, ui.labelR2->y() - 30);
 }
 
 void DinoOL::StartStep1() { StartGame(1); }
@@ -817,7 +1013,12 @@ void DinoOL::roadloop()
 	{
 		pAnimationRoad->stop();
 	}
-	if (isStarted == 3) isStarted++;
+	if (isStarted == 3)
+	{
+		ui.labelP->setVisible(true);
+		ui.labelP->move(ui.label->x() + 0.5 * ui.label->width() - 10, ui.label->y() - 30);
+		isStarted++;
+	}
 
 	if (f[0] && !fchk[0])
 	{
