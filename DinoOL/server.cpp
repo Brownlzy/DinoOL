@@ -370,6 +370,7 @@ void Server::ServerReadData()
 
 void Server::OnBtnInitSocket()
 {
+	if (ui.txtLog->toPlainText() != "") return;
 	mp_TCPServer = new QTcpServer();
 	int port = ui.txtPort->text().toInt();
 	if (!mp_TCPServer->listen(QHostAddress::Any, port))
@@ -403,7 +404,7 @@ void Server::OnBtnSendData()
 				int sendRe = mp_TCPSocket[i]->write(sendMsgChar, strlen(sendMsgChar));
 				if (-1 == sendRe)
 				{
-					ui.txtLog->append(QString::number(i) + "Send data Error");
+					ui.txtLog->append("Sock[" + QString::number(i) + "]:Send data Error");
 					refreshPlayer(0, i);
 					connection[i] = 0;
 					PlayerNum--;
@@ -425,6 +426,7 @@ void Server::sServerDisConnection()
 	ui.txtToSend->setPlainText("CTEST$$$$$$");
 	OnBtnSendData();
 	return;
+
 }void Server::sServerDisConnection(int id)
 {
 	connection[id] = 0;
