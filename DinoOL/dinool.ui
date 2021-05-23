@@ -14,9 +14,6 @@
    <string>DinoOL</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
-   </property>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
@@ -27,10 +24,10 @@
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
+     <enum>QFrame::Box</enum>
     </property>
     <property name="lineWidth">
-     <number>1</number>
+     <number>0</number>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/pic/gif/dino_start&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -78,7 +75,7 @@
      </rect>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::ClickFocus</enum>
+     <enum>Qt::NoFocus</enum>
     </property>
     <property name="frameShape">
      <enum>QFrame::NoFrame</enum>
@@ -105,53 +102,44 @@
      <rect>
       <x>0</x>
       <y>40</y>
-      <width>831</width>
-      <height>191</height>
+      <width>821</width>
+      <height>171</height>
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Box</enum>
+     <enum>QFrame::StyledPanel</enum>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
+     <enum>QFrame::Raised</enum>
     </property>
     <widget class="QTextBrowser" name="txtGet">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>30</y>
+       <x>0</x>
+       <y>20</y>
        <width>201</width>
        <height>81</height>
       </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
      </property>
     </widget>
     <widget class="QPlainTextEdit" name="txtSend">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>110</y>
+       <x>0</x>
+       <y>100</y>
        <width>201</width>
        <height>71</height>
       </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
      </property>
     </widget>
     <widget class="QPushButton" name="btnSend">
      <property name="geometry">
       <rect>
-       <x>220</x>
-       <y>150</y>
+       <x>210</x>
+       <y>140</y>
        <width>91</width>
        <height>28</height>
       </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
       <string>Send</string>
@@ -160,8 +148,8 @@
     <widget class="QFrame" name="frame_3">
      <property name="geometry">
       <rect>
-       <x>220</x>
-       <y>110</y>
+       <x>210</x>
+       <y>100</y>
        <width>222</width>
        <height>41</height>
       </rect>
@@ -181,9 +169,6 @@
         <height>31</height>
        </rect>
       </property>
-      <property name="focusPolicy">
-       <enum>Qt::ClickFocus</enum>
-      </property>
       <property name="text">
        <string>1212</string>
       </property>
@@ -197,9 +182,6 @@
         <height>33</height>
        </rect>
       </property>
-      <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
-      </property>
       <property name="text">
        <string>加入</string>
       </property>
@@ -208,8 +190,8 @@
     <widget class="QFrame" name="frame_2">
      <property name="geometry">
       <rect>
-       <x>220</x>
-       <y>70</y>
+       <x>210</x>
+       <y>60</y>
        <width>222</width>
        <height>41</height>
       </rect>
@@ -229,9 +211,6 @@
         <height>31</height>
        </rect>
       </property>
-      <property name="focusPolicy">
-       <enum>Qt::ClickFocus</enum>
-      </property>
       <property name="text">
        <string>1212</string>
       </property>
@@ -245,9 +224,6 @@
         <height>33</height>
        </rect>
       </property>
-      <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
-      </property>
       <property name="text">
        <string>创建</string>
       </property>
@@ -256,8 +232,8 @@
     <widget class="QFrame" name="frame">
      <property name="geometry">
       <rect>
-       <x>220</x>
-       <y>30</y>
+       <x>210</x>
+       <y>20</y>
        <width>222</width>
        <height>41</height>
       </rect>
@@ -277,9 +253,6 @@
         <height>31</height>
        </rect>
       </property>
-      <property name="focusPolicy">
-       <enum>Qt::ClickFocus</enum>
-      </property>
       <property name="text">
        <string>127.0.0.1:30628</string>
       </property>
@@ -293,9 +266,6 @@
         <height>33</height>
        </rect>
       </property>
-      <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
-      </property>
       <property name="text">
        <string>连接</string>
       </property>
@@ -304,14 +274,11 @@
     <widget class="QPushButton" name="btnHD">
      <property name="geometry">
       <rect>
-       <x>350</x>
-       <y>150</y>
+       <x>340</x>
+       <y>140</y>
        <width>93</width>
        <height>28</height>
       </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
       <string>Hide</string>
@@ -320,8 +287,8 @@
     <widget class="QLabel" name="labelLog">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>10</y>
+       <x>0</x>
+       <y>0</y>
        <width>481</width>
        <height>16</height>
       </rect>
@@ -333,17 +300,11 @@
     <widget class="QTableWidget" name="tableRoomer">
      <property name="geometry">
       <rect>
-       <x>450</x>
-       <y>30</y>
+       <x>440</x>
+       <y>20</y>
        <width>369</width>
        <height>151</height>
       </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
-     </property>
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
      </property>
      <property name="rowCount">
       <number>3</number>
