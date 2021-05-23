@@ -104,7 +104,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>40</y>
+      <y>60</y>
       <width>831</width>
       <height>191</height>
      </rect>
@@ -603,6 +603,19 @@
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="lab_5">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>40</y>
+      <width>831</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>whitebg</zorder>
    <zorder>labRoad</zorder>
    <zorder>label</zorder>
@@ -620,6 +633,7 @@
    <zorder>labelPL</zorder>
    <zorder>lab_4</zorder>
    <zorder>frame_4</zorder>
+   <zorder>lab_5</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

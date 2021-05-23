@@ -43,14 +43,23 @@
     <ClCompile Include="server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="chklcs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="server.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="chklcs.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="server.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="chklcs.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

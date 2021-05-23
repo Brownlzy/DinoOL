@@ -9,12 +9,6 @@
     </qresource>
     <qresource prefix="/pic/png">
         <file alias="dino_fail">RES/dino_fail.png</file>
-        <file alias="c_l_1">RES/cactus_l_1.png</file>
-        <file alias="c_l_2">RES/cactus_l_2.png</file>
-        <file alias="c_l_3">RES/cactus_l_3.png</file>
-        <file alias="c_s_1">RES/cactus_s_1.png</file>
-        <file alias="c_s_2">RES/cactus_s_2.png</file>
-        <file alias="c_s_3">RES/cactus_s_3.png</file>
         <file alias="cloud">RES/cloud.png</file>
         <file alias="GG">RES/Gameover.png</file>
         <file alias="moon_1">RES/moon_1.png</file>
@@ -45,5 +39,13 @@
     <qresource prefix="/pic/icon">
         <file alias="DinoOL">RES/DinoOL.ico</file>
         <file alias="Server">RES/Server.ico</file>
+    </qresource>
+    <qresource prefix="/pic/obs">
+        <file alias="13">RES/cactus_l_1.png</file>
+        <file alias="14">RES/cactus_l_2.png</file>
+        <file alias="15">RES/cactus_l_3.png</file>
+        <file alias="10">RES/cactus_s_1.png</file>
+        <file alias="11">RES/cactus_s_2.png</file>
+        <file alias="12">RES/cactus_s_3.png</file>
     </qresource>
 </RCC>

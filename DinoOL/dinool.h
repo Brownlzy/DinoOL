@@ -35,8 +35,10 @@ public:
 	bool isOnGround(int id);
 	void setDinoState(QString);
 	void setDinoState(QString pic, int id);
+	void setOBSPic(QString pic, int id);
 	void ProcessSMsg(QString);
 	void SendPOS(int dx, int dy, int key, bool isPress);
+	void SendObstacle(int kind, int dy = 0);
 	void SendReady();
 	void RKey(int, int, int);
 
@@ -53,6 +55,8 @@ public slots:
 	void printDinoL();
 	void printDino1();
 	void printDino2();
+	void ProduceOBS(int kind, int dy);
+	void printOBS();
 
 private slots:
 	void on_actionRun_as_a_server_triggered();
@@ -68,6 +72,7 @@ private slots:
 	void on_btnHD_clicked();
 	void ClientRecvData();
 	void sDisConnection();
+	void ProduceOBS();
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event) override;
@@ -131,6 +136,13 @@ private:
 	bool LisDive = 0;
 	int LisMove = 0;
 	bool LisJump = 0;
+
+	QTimer* ptOBS = NULL;
+	QTime tobs;
+	QLabel* OBS[7] = { NULL };
+	QMovie* mOBS[7] = { NULL };
+	double vOBS[7] = { 0 };
+	int dy[7] = { 0 };
 };
 
 int randNum(int Max);

@@ -21,23 +21,26 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.labelP2->setVisible(false);
 	ui.labelPL->setVisible(false);
 	connect(ui.label_2, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
-	maxH = vy * vy / (2 * G);
+	maxH = vy0 * vy0 / (2 * G);
 	pdtime = new QTimer(this);
-	proad = new QTimer(this);
+	//proad = new QTimer(this);
 	ptcloud = new QTimer(this);
 	ptdino = new QTimer(this);
+	ptOBS = new QTimer(this);
 	Lptdino = new QTimer(this);
 	Rptdino[0] = new QTimer(this);
 	Rptdino[1] = new QTimer(this);
 	ptdino->setInterval(tms);
+	ptOBS->setInterval(tms);
 	Lptdino->setInterval(tms);
 	Rptdino[0]->setInterval(tms);
 	Rptdino[1]->setInterval(tms);
 	pdtime->setInterval(100);
-	connect(proad, SIGNAL(timeout()), this, SLOT(roadloop()));
+	//connect(proad, SIGNAL(timeout()), this, SLOT(roadloop()));
 	connect(ptcloud, SIGNAL(timeout()), this, SLOT(cloudloop()));
 	connect(pdtime, SIGNAL(timeout()), this, SLOT(printpos()));
 	connect(ptdino, SIGNAL(timeout()), this, SLOT(printDino()));
+	connect(ptOBS, SIGNAL(timeout()), this, SLOT(printOBS()));
 	connect(Lptdino, SIGNAL(timeout()), this, SLOT(printDinoL()));
 	connect(Rptdino[0], SIGNAL(timeout()), this, SLOT(printDino1()));
 	connect(Rptdino[1], SIGNAL(timeout()), this, SLOT(printDino2()));
@@ -92,6 +95,17 @@ void DinoOL::printpos()
 	tmp += ",Rvx[1]=" + QString::number(Rvx[1]) + ",Rvy[1]=" + QString::number(Rvy[1]) + ",onG=" + QString::number(isOnGround(1));
 	ui.lab_3->setText(tmp);
 	ui.lab_3->adjustSize();
+
+	tmp = "isWEBGAME" + QString::number(WebGame);
+	for (int i = 0; i < 7; i++)
+	{
+		tmp += QString::number(maxH) + " OBS[" + QString::number(i) + "]" + QString::number(vOBS[i]) + " " + QString::number(dy[i]) + " ";
+		if (OBS[i] != NULL) tmp += "(" + QString::number(OBS[i]->x()) + "," + QString::number(OBS[i]->y()) + ") ";
+	}
+	ui.lab_5->setText(tmp);
+	ui.lab_5->adjustSize();
+
+
 	//pdtime->start();
 }
 void DinoOL::resizeEvent(QResizeEvent* event)
@@ -410,7 +424,8 @@ void DinoOL::StartGame(int step)
 		pAnimation2 = new QPropertyAnimation(ui.labRoad, "geometry");
 		pAnimation2->setDuration(700);
 		pAnimation2->setStartValue(QRect(ui.labRoad->x(), ui.labRoad->y(), ui.labRoad->width(), ui.labRoad->height()));
-		pAnimation2->setEndValue(QRect(0, 0.6 * y - 2.0 * ui.label->height() + 73, 250 * ui.labRoad->height(), 1.0 * ui.labRoad->height()));
+		//pAnimation2->setEndValue(QRect(0, 0.6 * y - 2.0 * ui.label->height() + 73, 250 * ui.labRoad->height(), 1.0 * ui.labRoad->height()));
+		pAnimation2->setEndValue(QRect(0, 0.6 * y - 2.0 * ui.label->height() + 73, 6000, 24));
 		pAnimation1->start();
 		pAnimation2->start();
 		ui.labRoad->setScaledContents(true);
@@ -433,7 +448,9 @@ void DinoOL::StartGame(int step)
 		*/
 		isStarted = 3;
 		QTimer::singleShot(700, this, SLOT(roadloop()));
+		//connect(pAnimationRoad, SIGNAL(finished()), this, SLOT(roadloop()));
 		QTimer::singleShot(700, this, SLOT(cloudloop()));
+		QTimer::singleShot(4000, this, SLOT(ProduceOBS()));
 		break;
 	}
 }
@@ -527,6 +544,15 @@ void DinoOL::setDinoState(QString pic, int id)
 	}
 }
 
+void DinoOL::setOBSPic(QString pic, int id)
+{
+	if (mOBS[id] == NULL) mOBS[id] = new QMovie(this);
+	mOBS[id]->stop();
+	mOBS[id]->setFileName(pic);
+	OBS[id]->setMovie(mOBS[id]);
+	mOBS[id]->start();
+}
+
 void DinoOL::ProcessSMsg(QString msg)
 {
 	QString fun = msg.split('$')[0];
@@ -546,6 +572,17 @@ void DinoOL::ProcessSMsg(QString msg)
 		else if (msg.split('$')[1].toInt() == SPID)
 		{
 			QString title = "Delay:" + QString::number(t.elapsed()) + "ms";
+			ui.menuDelay->setTitle(title);
+		}
+	}
+	else if (fun == "OBS")
+	{
+		if (isStarted < 4) return;
+		QString obsData = msg.split('$')[2];
+		ProduceOBS(obsData.split('#')[0].toInt(), obsData.split('#')[1].toInt());
+		if (msg.split('$')[1].toInt() == SPID)
+		{
+			QString title = "Delay:" + QString::number(tobs.elapsed()) + "ms";
 			ui.menuDelay->setTitle(title);
 		}
 	}
@@ -580,6 +617,7 @@ void DinoOL::ProcessSMsg(QString msg)
 		G = msg.split('$')[1].toDouble();
 		vx0 = msg.split('$')[2].toDouble();
 		vy0 = msg.split('$')[3].toDouble();
+		maxH = vy0 * vy0 / (2 * G);
 	}
 	else if (fun == "PID")
 	{
@@ -684,6 +722,22 @@ void DinoOL::SendPOS(int dx, int dy, int key, bool isPress)
 	strcpy_s(sendMsgChar, sendMsg.toStdString().c_str());
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	t.start();
+	if (sendRe == -1)
+	{
+		ui.labelLog->setText("QT网络通信向服务端发送数据失败！");
+		return;
+	}
+
+}
+
+void DinoOL::SendObstacle(int kind, int dy)
+{
+	QString sendMsg = QString::number(SPID) + "$OBS$" + ui.menuROOM->title().split('=')[1] + "$"
+		+ QString::number(kind) + "#" + QString::number(dy) + "#$$$";
+	char sendMsgChar[1024] = { 0 };
+	strcpy_s(sendMsgChar, sendMsg.toStdString().c_str());
+	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
+	tobs.start();
 	if (sendRe == -1)
 	{
 		ui.labelLog->setText("QT网络通信向服务端发送数据失败！");
@@ -811,6 +865,20 @@ void DinoOL::RKey(int id, int key, int isPress)
 			break;
 		}
 	}
+}
+
+void DinoOL::printOBS()
+{
+	//if (ui.labRoad->x() < -1200) ui.labRoad->move(ui.labRoad->x() + 1200, ui.labRoad->y());
+	//ui.labRoad->move(ui.labRoad->x() - vx0 * tobs.elapsed() / 1000, ui.labRoad->y());
+	for (int i = 0; i < 7; i++)
+	{
+		if (vOBS[i] == 0) continue;
+		if (OBS[i]->x() < 0 - OBS[i]->width()) vOBS[i] = 0;
+		OBS[i]->move(OBS[i]->x() + tobs.elapsed() * vOBS[i] / 1000, horline - dy[i] * maxH / 10 - OBS[i]->height() + 26);
+	}
+	tobs.start();
+	ptOBS->start();
 }
 
 void DinoOL::printDino()
@@ -999,6 +1067,64 @@ void DinoOL::printDino2()
 		ui.labelP2->move(ui.labelR2->x() + 0.5 * ui.labelR2->width() - 25, ui.labelR2->y() - 68);
 }
 
+void DinoOL::ProduceOBS()
+{
+	if (WebGame && ui.tableRoomer->item(0, 1)->text().toInt() != SPID)
+	{
+		return;
+	}
+	int kind;
+	int dy = 0;
+	kind = randNum(3);
+	if (!kind)			//kind = 0时，生成鸟
+	{
+		dy = randNum(11);
+	}
+	else
+	{
+		kind = randNum(6) + 10;
+	}
+	if (ui.tableRoomer->item(0, 1)->text().toInt() == SPID)
+		SendObstacle(kind, dy);
+	else
+		ProduceOBS(kind, dy);
+	kind = randNum(1000) + 1000;		//计算下一次创建障碍物时间ms
+	if (!(!WebGame && ui.tableRoomer->item(0, 1)->text().toInt() != SPID))
+		QTimer::singleShot(kind, this, SLOT(ProduceOBS()));
+}
+
+void DinoOL::ProduceOBS(int kind, int dy)
+{
+	/*kind:
+	* 0-bird
+	* 10-cactus_s_1 * 13-.......l_1
+	* 11-.......s_2 * 14-.......l_2
+	* 12-.......s_3 * 15-.......l_3
+	*/
+	int i;
+	QString path;
+	if (kind == 0) path = ":/pic/gif/bird";
+	else
+		path = ":/pic/obs/" + QString::number(kind);
+	for (i = 0; i < 7; i++)
+	{
+		if (vOBS[i] == 0)
+		{
+			if (OBS[i] == NULL) OBS[i] = new QLabel(this);
+			OBS[i]->show();
+			setOBSPic(path, i);
+			OBS[i]->adjustSize();
+			OBS[i]->setGeometry(1920, horline - dy * maxH * 0.1 - 2. * OBS[i]->height() + 26, 2 * OBS[i]->width(), 2 * OBS[i]->height());
+			OBS[i]->setScaledContents(true);
+			OBS[i]->raise();
+			vOBS[i] = 0. - vx0;
+			DinoOL::dy[i] = dy;
+			ptOBS->start();
+			break;
+		}
+	}
+}
+
 void DinoOL::StartStep1() { StartGame(1); }
 void DinoOL::StartStep2() { StartGame(2); }
 
@@ -1011,27 +1137,31 @@ void DinoOL::roadloop()
 		pAnimationRoad = new QPropertyAnimation(ui.labRoad, "pos");
 	if (isStarted >= 3)
 	{
-		if (ui.labRoad->x() >= -1200)
-		{
-			t = (1200.0 + ui.labRoad->x()) / vx0;
-			pAnimationRoad->setDuration(t * 1000);
-			pAnimationRoad->setStartValue(QPoint(ui.labRoad->x(), ui.labRoad->y()));
-			pAnimationRoad->setEndValue(QPoint(0 - ui.labRoad->width() * 0.4, ui.labRoad->y()));
-			pAnimationRoad->start();
-			proad->setInterval(t * 1000);
-			proad->start();
-		}
-		else
-		{
-			t = 1200 / vx0;
-			ui.labRoad->move(0, ui.labRoad->y());
-			pAnimationRoad->setDuration(t * 1000);
-			pAnimationRoad->setStartValue(QPoint(ui.labRoad->x(), ui.labRoad->y()));
-			pAnimationRoad->setEndValue(QPoint(0 - ui.labRoad->width() * 0.4, ui.labRoad->y()));
-			pAnimationRoad->start();
-			proad->setInterval(t * 1000);
-			proad->start();
-		}
+		if (ui.labRoad->x() == -2400) ui.labRoad->move(0, ui.labRoad->y());
+		//if (ui.labRoad->x() >= -2300)
+		//{
+		//t = (2400.0) / vx0;
+		t = (ui.labRoad->x() + 0.4 * ui.labRoad->width()) / vx0;
+		pAnimationRoad->setDuration(t * 1000);
+		pAnimationRoad->setStartValue(QPoint(ui.labRoad->x(), ui.labRoad->y()));
+		pAnimationRoad->setEndValue(QPoint(0 - ui.labRoad->width() * 0.4, ui.labRoad->y()));
+		pAnimationRoad->setLoopCount(-1);
+		pAnimationRoad->start();
+		//proad->setInterval(t * 1000);
+		//proad->start();
+	//}
+	//else
+	//{
+		//t = 1200 / vx0;
+		//t = (0.4 * ui.labRoad->width()) / vx0;
+		//ui.labRoad->move(0, ui.labRoad->y());
+		//pAnimationRoad->setDuration(t * 1000);
+		//pAnimationRoad->setStartValue(QPoint(0, ui.labRoad->y()));
+		//pAnimationRoad->setEndValue(QPoint(0 - ui.labRoad->width() * 0.4, ui.labRoad->y()));
+		//pAnimationRoad->start();
+		//proad->setInterval(t * 1000);
+		//proad->start();
+	//}
 	}
 	else
 	{
@@ -1138,6 +1268,7 @@ void DinoOL::on_actionExit_triggered()
 
 void DinoOL::on_actionConnect_a_server_triggered()
 {
+	if (isStarted) return;
 	ui.frame_4->move((this->frameGeometry().width() - ui.frame_4->width()) / 2, ui.frame_4->y());
 	ui.frame_4->setVisible(true);
 	if (ui.btnCon->text() == "已连接") QTimer::singleShot(3000, ui.frame, SLOT(hide()));
@@ -1161,6 +1292,10 @@ void DinoOL::on_actionDebug_triggered()
 	ui.labelR1->setFrameShape(QFrame::Box);
 	ui.labelR2->setFrameShape(QFrame::Box);
 	ui.labelL->setFrameShape(QFrame::Box);
+	for (int i = 0; i < 7; i++)
+	{
+		if (OBS[i] != NULL)OBS[i]->setFrameShape(QFrame::Box);
+	}
 	pdtime->start();
 }
 

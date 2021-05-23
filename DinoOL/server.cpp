@@ -86,6 +86,13 @@ void Server::ProcessCMsg(QString msg)
 		tmp = "POS$" + msg.split('$')[0] + "$" + msg.split('$')[3] + "$$$";
 		SendTo(msg.split('$')[2], tmp);
 	}
+	else if (fun == "OBS")
+	{
+		//PID$OBS$RoomID$...$$$
+		QString tmp;
+		tmp = "OBS$" + msg.split('$')[0] + "$" + msg.split('$')[3] + "$$$";
+		SendTo(msg.split('$')[2], tmp);
+	}
 	else if (fun == "READY")
 	{
 		QString room = msg.split('$')[2];
