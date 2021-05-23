@@ -42,4 +42,8 @@
         <file alias="road">RES/road.png</file>
         <file alias="dino">RES/dino_1.png</file>
     </qresource>
+    <qresource prefix="/pic/icon">
+        <file alias="DinoOL">RES/DinoOL.ico</file>
+        <file alias="Server">RES/Server.ico</file>
+    </qresource>
 </RCC>

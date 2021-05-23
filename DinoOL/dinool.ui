@@ -608,7 +608,6 @@
    <zorder>label</zorder>
    <zorder>label_2</zorder>
    <zorder>label_3</zorder>
-   <zorder>frame_4</zorder>
    <zorder>labelR1</zorder>
    <zorder>labelR2</zorder>
    <zorder>lab</zorder>
@@ -620,6 +619,7 @@
    <zorder>labelP2</zorder>
    <zorder>labelPL</zorder>
    <zorder>lab_4</zorder>
+   <zorder>frame_4</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

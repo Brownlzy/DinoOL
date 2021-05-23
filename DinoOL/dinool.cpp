@@ -4,6 +4,7 @@ DinoOL::DinoOL(QWidget* parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+	this->setWindowIcon(QIcon(":/pic/icon/DinoOL"));
 	setDinoState(":/pic/gif/dino_start");
 	ui.label_3->hide();
 	//ui.frame->hide();

@@ -4,6 +4,7 @@ Server::Server(QWidget* parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
+	this->setWindowIcon(QIcon(":/pic/icon/Server"));
 	ui.txtPort->setText("30628");
 	connect(ui.btnListen, SIGNAL(clicked()), this, SLOT(OnBtnInitSocket()));
 	connect(ui.btnSend, SIGNAL(clicked()), this, SLOT(OnBtnSendData()));

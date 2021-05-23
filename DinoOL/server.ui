@@ -188,9 +188,9 @@
   <widget class="QPushButton" name="btnListen">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>19</y>
-     <width>141</width>
+     <x>298</x>
+     <y>20</y>
+     <width>91</width>
      <height>31</height>
     </rect>
    </property>
@@ -201,9 +201,9 @@
   <widget class="QLineEdit" name="txtPort">
    <property name="geometry">
     <rect>
-     <x>152</x>
-     <y>20</y>
-     <width>91</width>
+     <x>225</x>
+     <y>21</y>
+     <width>74</width>
      <height>29</height>
     </rect>
    </property>
@@ -226,25 +226,12 @@
     <rect>
      <x>0</x>
      <y>539</y>
-     <width>371</width>
+     <width>750</width>
      <height>28</height>
     </rect>
    </property>
    <property name="text">
     <string>Send</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnClear">
-   <property name="geometry">
-    <rect>
-     <x>370</x>
-     <y>539</y>
-     <width>381</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Clear</string>
    </property>
   </widget>
   <widget class="QTextBrowser" name="txtGet">
@@ -455,6 +442,20 @@
     <string>305.6</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>185</x>
+     <y>25</y>
+     <width>50</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>端口：</string>
+   </property>
+  </widget>
+  <zorder>label_6</zorder>
   <zorder>label_5</zorder>
   <zorder>btnChangA</zorder>
   <zorder>txtLog</zorder>
@@ -470,7 +471,6 @@
   <zorder>btnSend</zorder>
   <zorder>txtGet</zorder>
   <zorder>tablePlayer</zorder>
-  <zorder>btnClear</zorder>
   <zorder>lineEdit_2</zorder>
   <zorder>lineEdit_3</zorder>
  </widget>
