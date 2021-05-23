@@ -32,6 +32,9 @@
      <height>181</height>
     </rect>
    </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
    <property name="rowCount">
     <number>0</number>
    </property>
@@ -42,7 +45,7 @@
     <number>29</number>
    </attribute>
    <attribute name="horizontalHeaderDefaultSectionSize">
-    <number>93</number>
+    <number>89</number>
    </attribute>
    <attribute name="verticalHeaderMinimumSectionSize">
     <number>20</number>
@@ -262,6 +265,9 @@
      <width>481</width>
      <height>211</height>
     </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
    </property>
    <property name="rowCount">
     <number>100</number>
