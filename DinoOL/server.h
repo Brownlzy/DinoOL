@@ -39,6 +39,5 @@ private slots:
 	void ServerReadData();
 	void ServerNewConnection();
 	void sServerDisConnection();
-	void sServerDisConnection(int);
 	void on_btnChangA_clicked();
 };

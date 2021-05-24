@@ -1,6 +1,6 @@
 <UI version="4.0" >
  <class>ChkLcs</class>
- <widget class="QMainwindow" name="ChkLcs" >
+ <widget class="QMainWindow" name="ChkLcs" >
   <property name="objectName" >
    <string notr="true">ChkLcs</string>
   </property>

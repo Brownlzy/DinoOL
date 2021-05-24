@@ -97,6 +97,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="chklcs.cpp" />
+    <ClCompile Include="dino.cpp" />
     <ClCompile Include="server.cpp" />
     <QtRcc Include="dinool.qrc" />
     <QtUic Include="chklcs.ui" />
@@ -111,6 +112,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="chklcs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="dino.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

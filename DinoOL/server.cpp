@@ -334,9 +334,6 @@ void Server::ServerNewConnection()
 	{
 		ui.txtLog->append(QString::number(sockid) + "accept connection successful");
 		connect(mp_TCPSocket[sockid], SIGNAL(readyRead()), this, SLOT(ServerReadData()));
-		//connect(mp_TCPSocket[sockid], SIGNAL(clicked()), signalMapper, SLOT(map()));
-		//signalMapper->setMapping(mp_TCPSocket[sockid], sockid);
-		//connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(sServerDisConnection(int)));
 		connect(mp_TCPSocket[sockid], SIGNAL(disconnected()), this, SLOT(sServerDisConnection()));
 		if (sockid == 0)
 		{
@@ -434,14 +431,7 @@ void Server::sServerDisConnection()
 	ui.txtToSend->setPlainText("CTEST$$$$$$");
 	OnBtnSendData();
 	return;
-
-}void Server::sServerDisConnection(int id)
-{
-	connection[id] = 0;
-	ui.txtLog->append("disconnect with client:" + QString::number(id));
-	return;
 }
-
 void Server::on_btnChangA_clicked()
 {
 	QString tmp;

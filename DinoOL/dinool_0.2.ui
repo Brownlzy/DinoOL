@@ -17,6 +17,25 @@
    <property name="focusPolicy">
     <enum>Qt::NoFocus</enum>
    </property>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>60</y>
+      <width>50</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/pic/gif/dino_start&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
@@ -38,8 +57,8 @@
      <rect>
       <x>150</x>
       <y>94</y>
-      <width>44</width>
-      <height>12</height>
+      <width>41</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
@@ -360,6 +379,38 @@
      </column>
     </widget>
    </widget>
+   <widget class="QLabel" name="labelR1">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>340</y>
+      <width>72</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="text">
+     <string>labelR1</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelR2">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>340</y>
+      <width>72</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="text">
+     <string>labelR2</string>
+    </property>
+   </widget>
    <widget class="QLabel" name="lab">
     <property name="geometry">
      <rect>
@@ -370,7 +421,7 @@
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Box</enum>
+     <enum>QFrame::NoFrame</enum>
     </property>
     <property name="lineWidth">
      <number>1</number>
@@ -392,7 +443,7 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Box</enum>
+     <enum>QFrame::NoFrame</enum>
     </property>
     <property name="lineWidth">
      <number>1</number>
@@ -417,7 +468,7 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Box</enum>
+     <enum>QFrame::NoFrame</enum>
     </property>
     <property name="lineWidth">
      <number>1</number>
@@ -427,6 +478,110 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelL">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>340</y>
+      <width>72</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="text">
+     <string>labelL</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelP">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>430</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 14pt &quot;黑体&quot;;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="text">
+     <string>P1</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelP1">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>430</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 14pt &quot;黑体&quot;;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="text">
+     <string>R1</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelP2">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>430</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 14pt &quot;黑体&quot;;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="text">
+     <string>R2</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelPL">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>430</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 14pt &quot;黑体&quot;;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="text">
+     <string>P2</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="lab_4">
@@ -439,7 +594,7 @@
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Box</enum>
+     <enum>QFrame::NoFrame</enum>
     </property>
     <property name="lineWidth">
      <number>1</number>
@@ -453,12 +608,9 @@
      <rect>
       <x>0</x>
       <y>40</y>
-      <width>361</width>
+      <width>831</width>
       <height>16</height>
      </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
     </property>
     <property name="text">
      <string/>
@@ -468,7 +620,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>60</y>
+      <y>0</y>
       <width>391</width>
       <height>16</height>
      </rect>
@@ -477,37 +629,25 @@
      <string>检查许可中，确保网络连接正常，请稍后...</string>
     </property>
    </widget>
-   <widget class="QLabel" name="lab_6">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>40</y>
-      <width>361</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
    <zorder>whitebg</zorder>
    <zorder>labRoad</zorder>
+   <zorder>label</zorder>
    <zorder>label_2</zorder>
    <zorder>label_3</zorder>
+   <zorder>labelR1</zorder>
+   <zorder>labelR2</zorder>
    <zorder>lab</zorder>
    <zorder>lab_2</zorder>
    <zorder>lab_3</zorder>
+   <zorder>labelL</zorder>
+   <zorder>labelP</zorder>
+   <zorder>labelP1</zorder>
+   <zorder>labelP2</zorder>
+   <zorder>labelPL</zorder>
    <zorder>lab_4</zorder>
+   <zorder>frame_4</zorder>
    <zorder>lab_5</zorder>
    <zorder>labelchklcs</zorder>
-   <zorder>frame_4</zorder>
-   <zorder>lab_6</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

@@ -1,11 +1,9 @@
 ﻿#include "dinool.h"
 #include "server.h"
 #include <QtWidgets/QApplication>
-
 int main(int argc, char* argv[])
 {
 	QApplication a(argc, argv);
-
 	DinoOL w;
 	w.show();
 	int tmp = a.exec();
