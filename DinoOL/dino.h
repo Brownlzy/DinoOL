@@ -43,6 +43,7 @@ public:
 	void setfxy(int x, int y);
 	void start();
 	void stop();
+	void Pause();
 	void adjustSize();
 	void setScaledContents(bool);
 	void changeP(QString);

@@ -9,7 +9,7 @@ DinoOL::DinoOL(QWidget* parent)
 	int x = this->frameGeometry().width();
 	int y = this->frameGeometry().height();
 	qDebug() << ui.centralWidget->pos();
-
+	ui.labelFail->hide();
 	P1 = new Dino(x, y, this, this->centralWidget());
 	P2 = new Dino(x, y, this, this->centralWidget());
 	R = new Dino * [2];
@@ -19,7 +19,7 @@ DinoOL::DinoOL(QWidget* parent)
 	P1->move(0.2 * x, 0.2 * y);
 	P1->adjustSize();
 	P1->show(true);
-
+	ui.frmScore->hide();
 	ui.label_2->hide();
 	ui.label_3->adjustSize();
 	ui.labelchklcs->hide();
@@ -45,7 +45,7 @@ DinoOL::DinoOL(QWidget* parent)
 			ui.tableRoomer->setItem(i, j, new QTableWidgetItem(""));
 		}
 	}
-	pdtime->start();
+	//pdtime->start();
 }
 DinoOL::~DinoOL()
 {
@@ -165,7 +165,10 @@ void DinoOL::resizeEvent(QResizeEvent* event)
 	ui.lab_2->move(x - 1 - ui.lab_2->width(), ui.lab_2->y());
 	ui.lab_3->move(x - 1 - ui.lab_3->width(), ui.lab_3->y());
 	ui.lab_6->move(x - 1 - ui.lab_6->width(), ui.lab_6->y());
-
+	ui.labelFail->move((x - ui.labelFail->width()) / 2, (horline - ui.labelFail->height()) / 2);
+	ui.frmScore->move(x - ui.frmScore->width() - 1, 0);
+	//ui.frmScore->show();
+	qDebug() << ui.frmScore->pos() << ui.frmScore->height();
 	roadloop();
 }
 
@@ -185,7 +188,7 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 	{
 		isStarted = -1;
 		ui.labelchklcs->show();
-		if (getWebSource(QUrl("https://brownlzy.github.io/DinoOLtest.txt")) != "ALLOWED")
+		if (getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt")) != DINOVER)
 		{
 			ui.labelchklcs->hide();
 			QMessageBox::critical(this, "无许可！", "请向开发者征求许可！");
@@ -553,14 +556,82 @@ void DinoOL::RKey(int id, int key, int isPress)
 
 void DinoOL::printOBS()
 {
+	//int isPause = 0;
+	//OBS[0]->setFrameShape(QFrame::Box);
 	for (int i = 0; i < 7; i++)
 	{
 		if (vOBS[i] == 0) continue;
 		if (OBS[i]->x() < 0 - OBS[i]->width()) vOBS[i] = 0;
-		OBS[i]->move(OBS[i]->x() + tobs.elapsed() * vOBS[i] / 1000, horline - dy[i] * maxH / 10 - OBS[i]->height() + 26);
+		if (!isPause)
+		{
+			OBS[i]->move(OBS[i]->x() + tobs.elapsed() * vOBS[i] / 1000, horline - dy[i] * maxH / 10 - OBS[i]->height());
+		}
+		else
+		{
+			OBS[i]->move(OBS[i]->x(), horline - dy[i] * maxH / 10 - OBS[i]->height());
+		}
+		if (!WebGame && isTouched(OBS[i], &P1->labDino) && !P2->isOn)
+		{
+			GamePause();
+			mOBS[i]->stop();
+			isPause = 1;
+			//ui.lab_7->setText("碰到障碍" + QString::number(i));
+		}
 	}
+	refreshScore(Score.elapsed() / 100);
 	tobs.start();
-	ptOBS->start();
+	if (!isPause)ptOBS->start();
+}
+
+int DinoOL::isTouched(QLabel* lab1, QLabel* lab2)
+{
+	int x1 = lab1->x() + lab1->width() / 2;
+	int y1 = lab1->y() + 4 + lab1->height() / 2;
+	int x2 = lab2->x() + lab2->width() / 2;
+	int y2 = lab2->y() + lab2->height() / 2;
+	int dx = x1 - x2;
+	int dy = y1 - y2;
+	int r1 = qMin(lab1->width(), lab1->height()) / 2;
+	int r2 = qMin(lab2->width(), lab2->height()) / 2;
+
+	double ds = sqrt(dx * dx + dy * dy);
+	//lab1->setFrameShape(QFrame::Box);
+	//lab1->setText(QString::number(ds - r1 - r2));
+	if (ds - r1 - r2 < 0)
+		return 1;
+	return 0;
+}
+
+void DinoOL::GamePause()
+{
+	ptOBS->stop();
+	if (!P2->isOn)
+		P1->Pause();
+	//P2->Pause();
+	//R[0]->Pause();
+	//R[0]->Pause();
+	ui.labelFail->show();
+	ui.labelFail->raise();
+	pAnimationRoad->stop();
+}
+
+void DinoOL::refreshScore(int t)
+{
+	ui.score7->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
+	t /= 10;
+	ui.score6->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
+	t /= 10;
+	ui.score5->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
+	t /= 10;
+	ui.score4->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
+	t /= 10;
+	ui.score3->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
+	t /= 10;
+	ui.score2->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
+	t /= 10;
+	ui.score1->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t / 100 % 1000) + """ widyh=""27"" height=""33""/></p></body></html>");
+	t /= 10;
+	ui.score0->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t / 100 % 1000) + """ widyh=""27"" height=""33""/></p></body></html>");
 }
 
 
@@ -586,8 +657,17 @@ void DinoOL::ProduceOBS()
 	else
 		ProduceOBS(kind, dy);
 	kind = randNum(1000) + 1000;		//计算下一次创建障碍物时间ms
-	if (!WebGame || ui.tableRoomer->item(0, 1)->text().toInt() == SPID)
+	if ((!WebGame || ui.tableRoomer->item(0, 1)->text().toInt() == SPID) && !isPause)
+	{
+		if (Score.elapsed() == 0)
+		{
+			Score.start();
+			ui.frmScore->show();
+		}
+		//refreshScore(Score.elapsed() / 100);
 		QTimer::singleShot(kind, this, SLOT(ProduceOBS()));
+
+	}
 }
 
 void DinoOL::ProduceOBS(int kind, int dy)
@@ -607,11 +687,11 @@ void DinoOL::ProduceOBS(int kind, int dy)
 	{
 		if (vOBS[i] == 0)
 		{
-			if (OBS[i] == NULL) OBS[i] = new QLabel(this);
+			if (OBS[i] == NULL) OBS[i] = new QLabel(this->centralWidget());
 			OBS[i]->show();
 			setOBSPic(path, i);
 			OBS[i]->adjustSize();
-			OBS[i]->setGeometry(1920, horline - dy * maxH * 0.1 - 2. * OBS[i]->height() + 26, 2 * OBS[i]->width(), 2 * OBS[i]->height());
+			OBS[i]->setGeometry(1920, horline - dy * maxH * 0.1 - 2. * OBS[i]->height(), 2 * OBS[i]->width(), 2 * OBS[i]->height());
 			OBS[i]->setScaledContents(true);
 			OBS[i]->raise();
 			vOBS[i] = 0. - vx0;
@@ -709,8 +789,8 @@ void DinoOL::cloudloop()
 
 void DinoOL::on_actionRun_as_a_server_triggered()
 {
-	qDebug() << getWebSource(QUrl("https://brownlzy.github.io/DinoOLtest.txt"));
-	if (getWebSource(QUrl("https://brownlzy.github.io/DinoOLtest.txt")) != "ALLOWED")
+	//qDebug() << getWebSource(QUrl("https://brownlzy.github.io/DinoOLtest.txt"));
+	if (getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt")) != DINOVER)
 	{
 		ui.actionRun_as_a_server->setText("Can't get permission");
 		return;

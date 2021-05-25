@@ -21,6 +21,7 @@
 
 #include "dino.h"
 
+#define DINOVER "0.4.alpha"
 
 class DinoOL : public QMainWindow
 {
@@ -54,11 +55,11 @@ public slots:
 	void printpos();
 	void roadloop();
 	void cloudloop();
-	//void printDinoL();
-	//void printDino1();
-	//void printDino2();
 	void ProduceOBS(int kind, int dy);
 	void printOBS();
+	int isTouched(QLabel*, QLabel*);
+	void GamePause();
+	void refreshScore(int);
 
 private slots:
 	void on_actionRun_as_a_server_triggered();
@@ -84,6 +85,7 @@ private:
 	QTcpSocket* mp_clientSocket;
 	QString buildTime;
 	int isStarted = 0;
+	int isPause = 0;
 	int SPID = 100;
 	int WebGame = 0;
 	QTime t;
@@ -116,6 +118,8 @@ private:
 	Dino* P1 = { NULL };
 	Dino* P2 = { NULL };
 	Dino** R = { NULL };
+
+	QTime Score;
 };
 
 int randNum(int Max);

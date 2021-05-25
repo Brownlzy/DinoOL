@@ -72,6 +72,18 @@ void Dino::stop()
 	ptdino.stop();
 }
 
+void Dino::Pause()
+{
+	ptdino.stop();
+	setDinoState(":/pic/png/dino_fail");
+	if (isDive)
+	{
+		isDive = false;
+		setGeometry(labDino.x(), labDino.y() - 38, 88, 98);
+		setScaledContents(true);
+	}
+}
+
 void Dino::changeP(QString Ptxt)
 {
 	labP.setText(Ptxt);
