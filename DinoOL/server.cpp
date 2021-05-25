@@ -10,7 +10,6 @@ Server::Server(QWidget* parent)
 	connect(ui.btnSend, SIGNAL(clicked()), this, SLOT(OnBtnSendData()));
 	//signalMapper = new QSignalMapper(this);
 	//connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(sServerDisConnection(int)));
-
 }
 
 Server::~Server()

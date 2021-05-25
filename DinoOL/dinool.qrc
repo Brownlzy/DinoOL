@@ -6,6 +6,8 @@
         <file alias="dino_start">RES/dino_start.gif</file>
         <file alias="star">RES/star.gif</file>
         <file alias="dino_jump">RES/dino_1stjump.gif</file>
+        <file alias="dino_dive_shine">RES/dino_dive_shine.gif</file>
+        <file alias="dino_run_shine">RES/dino_run_shine.gif</file>
     </qresource>
     <qresource prefix="/pic/png">
         <file alias="dino_fail">RES/dino_fail.png</file>

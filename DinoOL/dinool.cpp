@@ -10,6 +10,7 @@ DinoOL::DinoOL(QWidget* parent)
 	int y = this->frameGeometry().height();
 	qDebug() << ui.centralWidget->pos();
 	ui.labelFail->hide();
+	ui.frmLlife->hide();
 	P1 = new Dino(x, y, this, this->centralWidget());
 	P2 = new Dino(x, y, this, this->centralWidget());
 	R = new Dino * [2];
@@ -23,12 +24,13 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.label_2->hide();
 	ui.label_3->adjustSize();
 	ui.labelchklcs->hide();
-	ui.whitebg->hide();
+	//ui.whitebg->hide();
 	ui.frame_4->hide();
 	ui.lab_2->move(x - 1 - ui.lab_2->width(), ui.lab_2->y());
 	ui.lab_3->move(x - 1 - ui.lab_3->width(), ui.lab_3->y());
 	ui.lab_6->move(x - 1 - ui.lab_6->width(), ui.lab_6->y());
 	connect(ui.label_2, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
+	connect(ui.label_3, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
 	connect(ui.labelFail, SIGNAL(linkActivated(QString)), this, SLOT(reStart(QString)));
 	maxH = vy0 * vy0 / (2 * G);
 	pdtime = new QTimer(this);
@@ -95,7 +97,7 @@ void DinoOL::printpos()
 	ui.lab_4->setText(tmp);
 	ui.lab_4->adjustSize();
 
-	tmp = "0.3.Alpha BT:" + buildTime;
+	tmp = "0.4.Alpha BT:" + buildTime;
 	ui.lab_5->setText(tmp);
 	ui.lab_5->adjustSize();
 
@@ -571,23 +573,57 @@ void DinoOL::printOBS()
 		{
 			OBS[i]->move(OBS[i]->x(), horline - dy[i] * maxH / 10 - OBS[i]->height());
 		}
-		if (!WebGame && isTouched(OBS[i], &P1->labDino) && !P2->isOn)
+		if (P2->isOn && !P2->isShining && isTouched(OBS[i], &P2->labDino))
 		{
-			GamePause();
-			mOBS[i]->stop();
-			isPause = 1;
-			//ui.lab_7->setText("碰到障碍" + QString::number(i));
+			if (ui.labP1P2Life->text().split(':')[0].toInt() == 1)
+			{
+				GamePause();
+				mOBS[i]->stop();
+				isPause = 1;
+			}
+			P2->shining();
+			ui.lifeP2->setText("<html><head/><body><p><img src = "":/pic/png/" + QString::number(ui.labP1P2Life->text().split(':')[0].toInt() - 1) + """ width = ""36"" height = ""44"" / >< / p>< / body>< / html>");
+			ui.labP1P2Life->setText(QString::number(ui.labP1P2Life->text().split(':')[0].toInt() - 1) + ":" + ui.labP1P2Life->text().split(':')[1]);
+		}
+		if (isTouched(OBS[i], &P1->labDino))
+		{
+			if (!WebGame)
+			{
+				if (!P2->isOn)
+				{
+					GamePause();
+					mOBS[i]->stop();
+					isPause = 1;
+					//ui.lab_7->setText("碰到障碍" + QString::number(i));
+				}
+				else if (!P1->isShining)
+				{
+					if (ui.labP1P2Life->text().split(':')[1].toInt() == 1)
+					{
+						GamePause();
+						mOBS[i]->stop();
+						isPause = 1;
+					}
+					P1->shining();
+					ui.lifeP1->setText("<html><head/><body><p><img src = "":/pic/png/" + QString::number(ui.labP1P2Life->text().split(':')[1].toInt() - 1) + """ width = ""36"" height = ""44"" / >< / p>< / body>< / html>");
+					ui.labP1P2Life->setText(ui.labP1P2Life->text().split(':')[0] + ":" + QString::number(ui.labP1P2Life->text().split(':')[1].toInt() - 1));
+				}
+			}
+			else
+			{
+
+			}
 		}
 	}
 	refreshScore(Score.elapsed() / 100);
-	tobs.start();
-	if (!isPause)ptOBS->start();
+
+	if (!isPause) { tobs.start(); ptOBS->start(); }
 }
 
 int DinoOL::isTouched(QLabel* lab1, QLabel* lab2)
 {
 	int x1 = lab1->x() + lab1->width() / 2;
-	int y1 = lab1->y() + 4 + lab1->height() / 2;
+	int y1 = lab1->y() + 6 + lab1->height() / 2;
 	int x2 = lab2->x() + lab2->width() / 2;
 	int y2 = lab2->y() + lab2->height() / 2;
 	int dx = x1 - x2;
@@ -606,8 +642,8 @@ int DinoOL::isTouched(QLabel* lab1, QLabel* lab2)
 void DinoOL::GamePause()
 {
 	ptOBS->stop();
-	if (!P2->isOn)
-		P1->Pause();
+	if (P2->isOn) P2->Pause();
+	P1->Pause();
 	//P2->Pause();
 	//R[0]->Pause();
 	//R[0]->Pause();
@@ -618,6 +654,7 @@ void DinoOL::GamePause()
 
 void DinoOL::refreshScore(int t)
 {
+	if (isPause) return;
 	ui.score7->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
 	t /= 10;
 	ui.score6->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
@@ -630,9 +667,9 @@ void DinoOL::refreshScore(int t)
 	t /= 10;
 	ui.score2->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
 	t /= 10;
-	ui.score1->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t / 100 % 1000) + """ widyh=""27"" height=""33""/></p></body></html>");
+	ui.score1->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
 	t /= 10;
-	ui.score0->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t / 100 % 1000) + """ widyh=""27"" height=""33""/></p></body></html>");
+	ui.score0->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
 }
 
 
@@ -664,6 +701,7 @@ void DinoOL::ProduceOBS()
 		{
 			Score.start();
 			ui.frmScore->show();
+			if (P2->isOn) ui.frmLlife->show();
 		}
 		//refreshScore(Score.elapsed() / 100);
 		QTimer::singleShot(kind, this, SLOT(ProduceOBS()));
@@ -814,19 +852,18 @@ void DinoOL::on_actionConnect_a_server_triggered()
 	if (isStarted) return;
 	ui.frame_4->move((this->frameGeometry().width() - ui.frame_4->width()) / 2, ui.frame_4->y());
 	ui.frame_4->setVisible(true);
+	ui.frame_4->raise();
 	if (ui.btnCon->text() == "已连接") QTimer::singleShot(3000, ui.frame, SLOT(hide()));
 }
 
 void DinoOL::on_actionCreate_a_room_triggered()
 {
 	ui.frame_2->setVisible(true);
-
 }
 
 void DinoOL::on_actionJoin_a_room_triggered()
 {
 	ui.frame_3->setVisible(true);
-
 }
 
 void DinoOL::on_actionDebug_triggered()

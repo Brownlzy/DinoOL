@@ -156,7 +156,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>9.8</string>
+    <string>980</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnChangA">
@@ -426,7 +426,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>542.2</string>
+    <string>305.6</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit_3">
@@ -439,7 +439,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>305.6</string>
+    <string>542.2</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_6">

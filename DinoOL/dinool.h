@@ -34,10 +34,6 @@ public:
 	void CleanAM(QMovie* pitem);
 	void CleanAM(QObject* pitem);
 	void CleanAM(QPropertyAnimation* pitem);
-	//bool isOnGround();
-	//bool isOnGround(int id);
-	//void setDinoState(QString);
-	//void setDinoState(QString pic, int id);
 	void setOBSPic(QString pic, int id);
 	void ProcessSMsg(QString);
 	void SendPOS(int dx, int dy, int key, bool isPress);
@@ -46,7 +42,6 @@ public:
 	void RKey(int, int, int);
 
 public slots:
-	//void printDino();
 	void NetworkChk(QString);
 	void keyPressEvent(QKeyEvent* e);
 	void keyReleaseEvent(QKeyEvent* e);

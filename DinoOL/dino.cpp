@@ -25,6 +25,13 @@ bool Dino::isOnGround(double horline)
 
 void Dino::setDinoState(QString pic)
 {
+	if (isShining)
+	{
+		if (pic.startsWith(":/pic/gif/"))
+			pic += "_shine";
+		else
+			pic = ":/pic/gif/dino_run_shine";
+	}
 	movie.stop();
 	movie.setFileName(pic);
 	labDino.setMovie(&movie);
@@ -82,6 +89,31 @@ void Dino::Pause()
 		setGeometry(labDino.x(), labDino.y() - 38, 88, 98);
 		setScaledContents(true);
 	}
+}
+
+void Dino::shining(int state)
+{
+	isShining = 1;
+	if (!state)
+	{
+		if (isDive)
+		{
+			setDinoState(":/pic/gif/dino_dive");
+		}
+		else
+		{
+			setDinoState(":/pic/gif/dino_run");
+		}
+	}
+	else if (state == 1)
+	{
+		setDinoState(":/pic/gif/dino_run");
+	}
+	else if (state == -1)
+	{
+		setDinoState(":/pic/gif/dino_dive");
+	}
+	QTimer::singleShot(3000, this, SLOT(CancleShine()));
 }
 
 void Dino::changeP(QString Ptxt)
@@ -245,6 +277,19 @@ void Dino::keyPR(int key, int isPress)
 	}
 }
 
+void Dino::CancleShine()
+{
+	isShining = 0;
+	if (isDive)
+	{
+		setDinoState(":/pic/gif/dino_dive");
+	}
+	else
+	{
+		setDinoState(":/pic/gif/dino_run");
+	}
+}
+
 void Dino::showP()
 {
 	show(1, 1);
@@ -289,7 +334,7 @@ void Dino::printDino()
 	}
 	else if (!isOnGround() && isJump == 1)
 	{
-		if (!isDive)
+		if (!isDive && !isShining)
 			setDinoState(":/pic/png/dino");
 	}
 	labP.setVisible(true);

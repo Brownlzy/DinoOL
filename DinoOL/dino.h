@@ -30,6 +30,7 @@ public:
 	bool isDive = 0;
 	int isMove = 0;
 	bool isJump = 0;
+	int isShining = 0;
 
 	Dino(int x, int y, QObject* parent, QWidget* dinop);
 	~Dino();
@@ -42,6 +43,7 @@ public:
 	void setGeometry(int x, int y, int width, int height);
 	void setfxy(int x, int y);
 	void start();
+	void shining(int state = 0);
 	void stop();
 	void Pause();
 	void adjustSize();
@@ -59,5 +61,6 @@ public:
 public slots:
 	void printDino();
 	void showP();
+	void CancleShine();
 
 };
