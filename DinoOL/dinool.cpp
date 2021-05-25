@@ -29,6 +29,7 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.lab_3->move(x - 1 - ui.lab_3->width(), ui.lab_3->y());
 	ui.lab_6->move(x - 1 - ui.lab_6->width(), ui.lab_6->y());
 	connect(ui.label_2, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
+	connect(ui.labelFail, SIGNAL(linkActivated(QString)), this, SLOT(reStart(QString)));
 	maxH = vy0 * vy0 / (2 * G);
 	pdtime = new QTimer(this);
 	ptcloud = new QTimer(this);
@@ -670,6 +671,11 @@ void DinoOL::ProduceOBS()
 	}
 }
 
+void DinoOL::reStart(QString)
+{
+	qApp->exit(-2);
+}
+
 void DinoOL::ProduceOBS(int kind, int dy)
 {
 	/*kind:
@@ -789,7 +795,7 @@ void DinoOL::cloudloop()
 
 void DinoOL::on_actionRun_as_a_server_triggered()
 {
-	//qDebug() << getWebSource(QUrl("https://brownlzy.github.io/DinoOLtest.txt"));
+	//qDebug() << getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt"));
 	if (getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt")) != DINOVER)
 	{
 		ui.actionRun_as_a_server->setText("Can't get permission");

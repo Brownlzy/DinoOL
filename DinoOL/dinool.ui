@@ -639,7 +639,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;:/pic/png/GG&quot; width=&quot;764&quot; height=&quot;44&quot;/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;:/pic/png/restart&quot; width=&quot;72&quot; height=&quot;64&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;:/pic/png/GG&quot; width=&quot;764&quot; height=&quot;44&quot;/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;restart&quot;&gt;&lt;img src=&quot;:/pic/png/restart&quot; width=&quot;72&quot; height=&quot;64&quot;/&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <zorder>lab_7</zorder>

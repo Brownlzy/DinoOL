@@ -76,6 +76,7 @@ private slots:
 	void ClientRecvData();
 	void sDisConnection();
 	void ProduceOBS();
+	void reStart(QString);
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event) override;
