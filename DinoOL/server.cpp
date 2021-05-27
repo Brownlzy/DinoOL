@@ -251,9 +251,11 @@ void Server::ProcessCMsg(QString msg)
 			}
 		}
 	}
-	else
-	{
-
+	else if (fun == "CGLIFE")
+	{//PID$CGLIFE$ROOMID$lifenum
+		QString tmp;
+		tmp = "CGLIFE$" + msg.split('$')[0] + "$" + msg.split('$')[3] + "$$$";
+		SendTo(msg.split('$')[2], tmp);
 	}
 }
 

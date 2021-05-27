@@ -6,9 +6,7 @@ Dino::Dino(int x, int y, QObject* parent, QWidget* dinop)
 	connect(&ptdino, SIGNAL(timeout()), this, SLOT(printDino()));
 }
 
-Dino::~Dino()
-{
-}
+Dino::~Dino() {}
 
 bool Dino::isOnGround(double horline)
 {
@@ -82,7 +80,7 @@ void Dino::stop()
 void Dino::Pause()
 {
 	ptdino.stop();
-	setDinoState(":/pic/png/dino_fail");
+	//setDinoState(":/pic/png/dino_fail");
 	if (isDive)
 	{
 		isDive = false;
@@ -339,6 +337,4 @@ void Dino::printDino()
 	}
 	labP.setVisible(true);
 	moveP();
-
-
 }

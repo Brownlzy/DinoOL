@@ -11,6 +11,7 @@ DinoOL::DinoOL(QWidget* parent)
 	qDebug() << ui.centralWidget->pos();
 	ui.labelFail->hide();
 	ui.frmLlife->hide();
+	ui.frmRlife->hide();
 	P1 = new Dino(x, y, this, this->centralWidget());
 	P2 = new Dino(x, y, this, this->centralWidget());
 	R = new Dino * [2];
@@ -187,6 +188,7 @@ void DinoOL::NetworkChk(QString str)
 
 void DinoOL::keyPressEvent(QKeyEvent* e)
 {
+	if (isPause) return;
 	if (isStarted == 0 && (e->key() == Qt::Key_Space || e->key() == Qt::Key_W))
 	{
 		isStarted = -1;
@@ -209,7 +211,7 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 	if (isStarted < 4) return;
 	if (e->key() == Qt::Key_Up && !WebGame)
 	{
-		if (!P2->isOn)
+		if (!P2->isOn && OBS[0] == NULL)
 		{
 			P2->setGeometry(0, -98, 88, 98);
 			P2->setScaledContents(true);
@@ -243,6 +245,7 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 
 void DinoOL::keyReleaseEvent(QKeyEvent* e)
 {
+	if (isPause) return;
 	if (isStarted < 4) return;
 	if (!e->isAutoRepeat())
 	{
@@ -382,10 +385,11 @@ void DinoOL::ProcessSMsg(QString msg)
 		{
 			for (int i = 0, j = 0; i < 3; i++)
 			{
-				if (ui.tableRoomer->item(i, 1)->text() != ui.menuSPID->title().split('=')[1])
+				if (ui.tableRoomer->item(i, 1)->text() != ui.menuSPID->title().split('=')[1] && ui.tableRoomer->item(i, 3)->text() != "")
 				{
 					R[j]->changeP(ui.tableRoomer->item(i, 1)->text());
 					R[j]->labP.setVisible(false);
+					R[j]->isOn = 1;
 					R[j]->setDinoState(":/pic/gif/dino_run");
 					j++;
 					continue;
@@ -395,6 +399,8 @@ void DinoOL::ProcessSMsg(QString msg)
 			P1->WebGame = 1;
 			R[0]->WebGame = 1;
 			R[1]->WebGame = 1;
+			//if (ui.tableRoomer->item(0, 1)->text().toInt() == SPID)
+				//QTimer::singleShot(3000, this, SLOT(ProduceOBS()));
 		}
 	}
 	else if (fun == "ARGU")
@@ -426,6 +432,7 @@ void DinoOL::ProcessSMsg(QString msg)
 			ui.label_3->move(ui.label_2->x(), ui.label_2->y());
 			ui.label_2->setVisible(false);
 			ui.label_3->setVisible(true);
+			WebGame = 1;
 		}
 	}
 	else if (fun == "ROOM")
@@ -502,7 +509,41 @@ void DinoOL::ProcessSMsg(QString msg)
 			}
 		}
 	}
-
+	else if (fun == "CGLIFE")
+	{
+		//CGLIFE$ROOMID$PID$LifeNum$$
+		if (msg.split('$')[2].toInt() == SPID) return;
+		for (int i = 0; i < 2; i++)
+		{
+			if (R[i]->getP() == msg.split('$')[1].toInt())
+			{
+				if (i == 0)
+				{
+					ui.lifeR1R->setText("<html><head/><body><p><img src = "":/pic/png/" + msg.split('$')[2] + """ width = ""36"" height = ""44""/></p></body></html>");
+					if (msg.split('$')[2] == "0")
+					{
+						GamePause();
+						isPause = 1;
+						R[i]->stop();
+						R[i]->setDinoState(":/pic/png/dino_fail");
+					}
+					else { R[i]->shining(); }
+				}
+				else if (i == 1)
+				{
+					ui.lifeR2R->setText("<html><head/><body><p><img src = "":/pic/png/" + msg.split('$')[2] + """ width = ""36"" height = ""44""/></p></body></html>");
+					if (msg.split('$')[2] == "0")
+					{
+						GamePause();
+						isPause = 1;
+						R[i]->stop();
+						R[i]->setDinoState(":/pic/png/dino_fail");
+					}
+					else { R[i]->shining(); }
+				}
+			}
+		}
+	}
 }
 
 void DinoOL::SendPOS(int dx, int dy, int key, bool isPress)
@@ -552,6 +593,33 @@ void DinoOL::SendReady()
 
 }
 
+void DinoOL::SendCL(int lifeNum)
+{
+	if (ui.menuSPID->title() == "SPID" || ui.menuROOM->title() == "ROOM") return;
+	QString sendMsg = QString::number(SPID) + "$CGLIFE$" + ui.menuROOM->title().split('=')[1] + "$" + QString::number(lifeNum) + "$$$";
+	char sendMsgChar[1024] = { 0 };
+	strcpy_s(sendMsgChar, sendMsg.toStdString().c_str());
+	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
+	if (sendRe == -1)
+	{
+		ui.labelLog->setText("QT网络通信向服务端发送数据失败！");
+		return;
+	}
+
+}
+
+int DinoOL::isAllReady()
+{
+	if (WebGame)
+	{
+		if (ui.tableRoomer->item(0, 3)->text() != "否" && ui.tableRoomer->item(1, 3)->text() != "否" && ui.tableRoomer->item(2, 3)->text() != "否")
+			return 1;
+		else
+			return 0;
+	}
+	return 1;
+}
+
 void DinoOL::RKey(int id, int key, int isPress)
 {
 	R[id]->keyPR(key, isPress);
@@ -573,45 +641,44 @@ void DinoOL::printOBS()
 		{
 			OBS[i]->move(OBS[i]->x(), horline - dy[i] * maxH / 10 - OBS[i]->height());
 		}
-		if (P2->isOn && !P2->isShining && isTouched(OBS[i], &P2->labDino))
+		if (!isPause && P2->isOn && !P2->isShining && isTouched(OBS[i], &P2->labDino))
 		{
-			if (ui.labP1P2Life->text().split(':')[0].toInt() == 1)
+			if (ui.labP1P2Life->text().split(':')[1].toInt() <= 1)
 			{
 				GamePause();
 				mOBS[i]->stop();
 				isPause = 1;
+				P2->setDinoState(":/pic/png/dino_fail");
 			}
-			P2->shining();
-			ui.lifeP2->setText("<html><head/><body><p><img src = "":/pic/png/" + QString::number(ui.labP1P2Life->text().split(':')[0].toInt() - 1) + """ width = ""36"" height = ""44"" / >< / p>< / body>< / html>");
-			ui.labP1P2Life->setText(QString::number(ui.labP1P2Life->text().split(':')[0].toInt() - 1) + ":" + ui.labP1P2Life->text().split(':')[1]);
+			else { P2->shining(); }
+			ui.lifeP2->setText("<html><head/><body><p><img src = "":/pic/png/" + QString::number(ui.labP1P2Life->text().split(':')[1].toInt() - 1) + """ width = ""36"" height = ""44"" / >< / p>< / body>< / html>");
+			ui.labP1P2Life->setText(ui.labP1P2Life->text().split(':')[0] + ":" + QString::number(ui.labP1P2Life->text().split(':')[1].toInt() - 1));
 		}
-		if (isTouched(OBS[i], &P1->labDino))
+		if (!isPause && isTouched(OBS[i], &P1->labDino))
 		{
-			if (!WebGame)
+			if (!P2->isOn && !WebGame)
 			{
-				if (!P2->isOn)
+				GamePause();
+				mOBS[i]->stop();
+				isPause = 1;
+				P1->setDinoState(":/pic/png/dino_fail");
+				//ui.lab_7->setText("碰到障碍" + QString::number(i));
+			}
+			else if (!P1->isShining)
+			{
+				if (ui.labP1P2Life->text().split(':')[0].toInt() <= 1)
 				{
 					GamePause();
 					mOBS[i]->stop();
 					isPause = 1;
-					//ui.lab_7->setText("碰到障碍" + QString::number(i));
+					P1->setDinoState(":/pic/png/dino_fail");
 				}
-				else if (!P1->isShining)
-				{
-					if (ui.labP1P2Life->text().split(':')[1].toInt() == 1)
-					{
-						GamePause();
-						mOBS[i]->stop();
-						isPause = 1;
-					}
-					P1->shining();
-					ui.lifeP1->setText("<html><head/><body><p><img src = "":/pic/png/" + QString::number(ui.labP1P2Life->text().split(':')[1].toInt() - 1) + """ width = ""36"" height = ""44"" / >< / p>< / body>< / html>");
-					ui.labP1P2Life->setText(ui.labP1P2Life->text().split(':')[0] + ":" + QString::number(ui.labP1P2Life->text().split(':')[1].toInt() - 1));
-				}
-			}
-			else
-			{
-
+				else { P1->shining(); }
+				ui.lifeP1->setText("<html><head/><body><p><img src = "":/pic/png/" + QString::number(ui.labP1P2Life->text().split(':')[0].toInt() - 1) + """ width = ""36"" height = ""44""/></p></body></html>");
+				ui.lifeP1R->setText("<html><head/><body><p><img src = "":/pic/png/" + QString::number(ui.labP1P2Life->text().split(':')[0].toInt() - 1) + """ width = ""36"" height = ""44""/></p></body></html>");
+				ui.labP1P2Life->setText(QString::number(ui.labP1P2Life->text().split(':')[0].toInt() - 1) + ":" + ui.labP1P2Life->text().split(':')[1]);
+				if (WebGame)
+					SendCL(ui.labP1P2Life->text().split(':')[0].toInt());
 			}
 		}
 	}
@@ -675,7 +742,7 @@ void DinoOL::refreshScore(int t)
 
 void DinoOL::ProduceOBS()
 {
-	if (!(!WebGame || ui.tableRoomer->item(0, 1)->text().toInt() == SPID))
+	if (!((WebGame && ui.tableRoomer->item(0, 1)->text().toInt() == SPID && isAllReady()) || !WebGame))
 	{
 		return;
 	}
@@ -684,7 +751,7 @@ void DinoOL::ProduceOBS()
 	kind = randNum(3);
 	if (!kind)			//kind = 0时，生成鸟
 	{
-		dy = randNum(11);
+		dy = randNum(10) + 1;
 	}
 	else
 	{
@@ -692,21 +759,44 @@ void DinoOL::ProduceOBS()
 	}
 	if (ui.tableRoomer->item(0, 1)->text().toInt() == SPID)
 		SendObstacle(kind, dy);
-	else
+	else if (!WebGame)
 		ProduceOBS(kind, dy);
 	kind = randNum(1000) + 1000;		//计算下一次创建障碍物时间ms
-	if ((!WebGame || ui.tableRoomer->item(0, 1)->text().toInt() == SPID) && !isPause)
-	{
+
+	/*
 		if (Score.elapsed() == 0)
 		{
 			Score.start();
 			ui.frmScore->show();
 			if (P2->isOn) ui.frmLlife->show();
+			else if (WebGame)
+			{
+				if (!R[1]->isOn && !R[0]->isOn)
+				{
+					ui.frmRlife->setGeometry(0, 0, 71, 61);
+					ui.frmRlife->show();
+				}
+				else if (!R[1]->isOn)
+				{
+					ui.frmRlife->setGeometry(0, 0, 161, 61);
+					ui.frmRlife->show();
+				}
+				else
+				{
+					ui.frmRlife->show();
+				}
+			}
 		}
-		//refreshScore(Score.elapsed() / 100);
-		QTimer::singleShot(kind, this, SLOT(ProduceOBS()));
-
+	*/
+	//refreshScore(Score.elapsed() / 100);
+	//if (WebGame && ui.tableRoomer->item(0, 3)->text() != "是") return;
+	if (!isPause)
+	{
+		if (ui.tableRoomer->item(0, 1)->text().toInt() == SPID || !WebGame)
+			QTimer::singleShot(kind, this, SLOT(ProduceOBS()));
 	}
+
+
 }
 
 void DinoOL::reStart(QString)
@@ -744,6 +834,30 @@ void DinoOL::ProduceOBS(int kind, int dy)
 			break;
 		}
 	}
+	if (Score.elapsed() == 0)
+	{
+		Score.start();
+		ui.frmScore->show();
+	}
+	if (P2->isOn) ui.frmLlife->show();
+	else if (WebGame && isAllReady())
+	{
+		if (!R[1]->isOn && !R[0]->isOn)
+		{
+			ui.frmRlife->setGeometry(0, 0, 71, 61);
+			ui.frmRlife->show();
+		}
+		else if (!R[1]->isOn)
+		{
+			ui.frmRlife->setGeometry(0, 0, 161, 61);
+			ui.frmRlife->show();
+		}
+		else
+		{
+			ui.frmRlife->show();
+		}
+	}
+
 }
 
 void DinoOL::StartStep1() { StartGame(1); }
@@ -877,6 +991,11 @@ void DinoOL::on_actionDebug_triggered()
 		if (OBS[i] != NULL)OBS[i]->setFrameShape(QFrame::Box);
 	}
 	pdtime->start();
+}
+
+void DinoOL::on_actionRestart_triggered()
+{
+	reStart("");
 }
 
 void DinoOL::on_btnCon_clicked()

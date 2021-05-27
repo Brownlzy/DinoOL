@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include <QtWidgets/QMainWindow>
-#include "ui_dinool.h"
 #include <QtGui/QMovie>
 #include <QtCore/QProcess>
 #include <QtGui/QGuiApplication>
@@ -13,12 +12,12 @@
 #include <QtNetwork/QTcpSocket>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QTableWidget>
-
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtCore/QTextCodec>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QSslConfiguration>
 
+#include "ui_dinool.h"
 #include "dino.h"
 
 #define DINOVER "0.4.alpha"
@@ -39,6 +38,8 @@ public:
 	void SendPOS(int dx, int dy, int key, bool isPress);
 	void SendObstacle(int kind, int dy = 0);
 	void SendReady();
+	void SendCL(int);
+	int isAllReady();
 	void RKey(int, int, int);
 
 public slots:
@@ -52,9 +53,9 @@ public slots:
 	void cloudloop();
 	void ProduceOBS(int kind, int dy);
 	void printOBS();
-	int isTouched(QLabel*, QLabel*);
 	void GamePause();
 	void refreshScore(int);
+	int isTouched(QLabel*, QLabel*);
 
 private slots:
 	void on_actionRun_as_a_server_triggered();
@@ -63,6 +64,7 @@ private slots:
 	void on_actionCreate_a_room_triggered();
 	void on_actionJoin_a_room_triggered();
 	void on_actionDebug_triggered();
+	void on_actionRestart_triggered();
 	void on_btnCon_clicked();
 	void on_btnCreRoom_clicked();
 	void on_btnSend_clicked();
@@ -119,5 +121,4 @@ private:
 };
 
 int randNum(int Max);
-
 QString getWebSource(QUrl url);
