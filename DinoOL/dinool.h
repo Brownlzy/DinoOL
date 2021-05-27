@@ -20,7 +20,7 @@
 #include "ui_dinool.h"
 #include "dino.h"
 
-#define DINOVER "0.4.alpha"
+#define DINOVER "1.0.beta"
 
 class DinoOL : public QMainWindow
 {

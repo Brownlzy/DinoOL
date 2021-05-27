@@ -194,10 +194,14 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 	{
 		isStarted = -1;
 		ui.labelchklcs->show();
-		if (getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt")) != DINOVER)
+		QString  tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt"));
+		if (tmp != DINOVER)
 		{
 			ui.labelchklcs->hide();
-			QMessageBox::critical(this, "无许可！", "请向开发者征求许可！");
+			if (tmp.length() < 20)
+				QMessageBox::critical(this, "版本已过期！", "请向开发者索要最新版！\n当前版本:" + QString::fromUtf8(DINOVER) + "\n当前最新版:" + tmp);
+			else
+				QMessageBox::critical(this, "版本已过期！", "请向开发者索要最新版！\n当前版本:" + QString::fromUtf8(DINOVER));
 			isStarted = 0;
 			P1->setDinoState(":/pic/gif/dino_jump");
 			P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
