@@ -13,6 +13,7 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.frmLlife->hide();
 	ui.frmRlife->hide();
 	P1 = new Dino(x, y, this, this->centralWidget());
+	P1->isOn = 1;
 	P2 = new Dino(x, y, this, this->centralWidget());
 	R = new Dino * [2];
 	R[0] = new Dino(x, y, this, this->centralWidget());
@@ -282,7 +283,6 @@ void DinoOL::StartGame(int step)
 		P1->setScaledContents(true);
 		QTimer::singleShot(900, this, SLOT(StartStep1()));
 		isStarted = 1;
-		SendReady();
 		break;
 	case(1):
 		P1->setDinoState(":/pic/gif/dino_run");
@@ -318,6 +318,7 @@ void DinoOL::StartGame(int step)
 		R[0]->setScaledContents(true);
 		R[1]->setScaledContents(true);
 		isStarted = 3;
+		QTimer::singleShot(700, this, SLOT(SendReady()));
 		QTimer::singleShot(700, this, SLOT(roadloop()));
 		QTimer::singleShot(700, this, SLOT(cloudloop()));
 		QTimer::singleShot(700, P1, SLOT(showP()));
@@ -522,10 +523,18 @@ void DinoOL::ProcessSMsg(QString msg)
 					ui.lifeR1R->setText("<html><head/><body><p><img src = "":/pic/png/" + msg.split('$')[2] + """ width = ""36"" height = ""44""/></p></body></html>");
 					if (msg.split('$')[2] == "0")
 					{
-						GamePause();
-						isPause = 1;
-						R[i]->stop();
-						R[i]->setDinoState(":/pic/png/dino_fail");
+						if (R[1]->isOn == 1 && (R[1 - i]->isFail == 1 || P1->isFail == 1) || R[1]->isOn == 0)
+						{
+							GamePause();
+							isPause = 1;
+							R[i]->stop();
+							R[i]->setDinoState(":/pic/png/dino_fail");
+						}
+						else
+						{
+							R[i]->isFail = 1;
+							R[i]->setDinoState("");
+						}
 					}
 					else { R[i]->shining(); }
 				}
@@ -534,10 +543,18 @@ void DinoOL::ProcessSMsg(QString msg)
 					ui.lifeR2R->setText("<html><head/><body><p><img src = "":/pic/png/" + msg.split('$')[2] + """ width = ""36"" height = ""44""/></p></body></html>");
 					if (msg.split('$')[2] == "0")
 					{
-						GamePause();
-						isPause = 1;
-						R[i]->stop();
-						R[i]->setDinoState(":/pic/png/dino_fail");
+						if (R[1]->isOn == 1 && (R[1 - i]->isFail == 1 || P1->isFail == 1) || R[1]->isOn == 0)
+						{
+							GamePause();
+							isPause = 1;
+							R[i]->stop();
+							R[i]->setDinoState(":/pic/png/dino_fail");
+						}
+						else
+						{
+							R[i]->isFail = 1;
+							R[i]->setDinoState("");
+						}
 					}
 					else { R[i]->shining(); }
 				}
@@ -658,11 +675,19 @@ void DinoOL::printOBS()
 		{
 			if (!P2->isOn && !WebGame)
 			{
-				GamePause();
-				mOBS[i]->stop();
-				isPause = 1;
-				P1->setDinoState(":/pic/png/dino_fail");
-				//ui.lab_7->setText("碰到障碍" + QString::number(i));
+				if (R[1]->isOn == 1 && (R[0]->isFail == 1 || R[1]->isFail == 1) || R[1]->isOn == 0)
+				{
+					GamePause();
+					mOBS[i]->stop();
+					isPause = 1;
+					P1->setDinoState(":/pic/png/dino_fail");
+					//ui.lab_7->setText("碰到障碍" + QString::number(i));
+				}
+				else
+				{
+					P1->isFail = 1;
+					P1->setDinoState("");
+				}
 			}
 			else if (!P1->isShining)
 			{
@@ -711,9 +736,9 @@ void DinoOL::GamePause()
 	ptOBS->stop();
 	if (P2->isOn) P2->Pause();
 	P1->Pause();
-	//P2->Pause();
-	//R[0]->Pause();
-	//R[0]->Pause();
+	P2->Pause();
+	R[0]->Pause();
+	R[0]->Pause();
 	ui.labelFail->show();
 	ui.labelFail->raise();
 	pAnimationRoad->stop();
@@ -742,11 +767,17 @@ void DinoOL::refreshScore(int t)
 
 void DinoOL::ProduceOBS()
 {
+	int kind;
+	kind = randNum(1000) + 1000;		//计算下一次创建障碍物时间ms
+	if (!isPause)
+	{
+		if (ui.tableRoomer->item(0, 1)->text().toInt() == SPID || !WebGame)
+			QTimer::singleShot(kind, this, SLOT(ProduceOBS()));
+	}
 	if (!((WebGame && ui.tableRoomer->item(0, 1)->text().toInt() == SPID && isAllReady()) || !WebGame))
 	{
 		return;
 	}
-	int kind;
 	int dy = 0;
 	kind = randNum(3);
 	if (!kind)			//kind = 0时，生成鸟
@@ -761,7 +792,6 @@ void DinoOL::ProduceOBS()
 		SendObstacle(kind, dy);
 	else if (!WebGame)
 		ProduceOBS(kind, dy);
-	kind = randNum(1000) + 1000;		//计算下一次创建障碍物时间ms
 
 	/*
 		if (Score.elapsed() == 0)
@@ -790,11 +820,6 @@ void DinoOL::ProduceOBS()
 	*/
 	//refreshScore(Score.elapsed() / 100);
 	//if (WebGame && ui.tableRoomer->item(0, 3)->text() != "是") return;
-	if (!isPause)
-	{
-		if (ui.tableRoomer->item(0, 1)->text().toInt() == SPID || !WebGame)
-			QTimer::singleShot(kind, this, SLOT(ProduceOBS()));
-	}
 
 
 }

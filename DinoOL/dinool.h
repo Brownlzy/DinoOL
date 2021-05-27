@@ -37,7 +37,6 @@ public:
 	void ProcessSMsg(QString);
 	void SendPOS(int dx, int dy, int key, bool isPress);
 	void SendObstacle(int kind, int dy = 0);
-	void SendReady();
 	void SendCL(int);
 	int isAllReady();
 	void RKey(int, int, int);
@@ -56,6 +55,7 @@ public slots:
 	void GamePause();
 	void refreshScore(int);
 	int isTouched(QLabel*, QLabel*);
+	void SendReady();
 
 private slots:
 	void on_actionRun_as_a_server_triggered();

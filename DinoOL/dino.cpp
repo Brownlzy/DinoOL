@@ -23,6 +23,12 @@ bool Dino::isOnGround(double horline)
 
 void Dino::setDinoState(QString pic)
 {
+	if (isFail == 1)
+	{
+		movie.stop();
+		labDino.setText("");
+		return;
+	}
 	if (isShining)
 	{
 		if (pic.startsWith(":/pic/gif/"))

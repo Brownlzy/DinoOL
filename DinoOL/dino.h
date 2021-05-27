@@ -30,6 +30,7 @@ public:
 	bool isDive = 0;
 	int isMove = 0;
 	bool isJump = 0;
+	int isFail = 0;
 	int isShining = 0;
 
 	Dino(int x, int y, QObject* parent, QWidget* dinop);

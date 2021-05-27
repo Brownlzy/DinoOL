@@ -742,6 +742,19 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/pic/png/3&quot; width=&quot;36&quot; height=&quot;44&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
+    <widget class="QLabel" name="labP1P2Life">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>80</y>
+       <width>41</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>3:3</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="frmRlife">
     <property name="geometry">
@@ -899,19 +912,6 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="labP1P2Life">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>20</y>
-      <width>41</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>3:3</string>
-    </property>
-   </widget>
    <zorder>lab_7</zorder>
    <zorder>labRoad</zorder>
    <zorder>label_2</zorder>
@@ -928,7 +928,6 @@
    <zorder>labelFail</zorder>
    <zorder>frmLlife</zorder>
    <zorder>frmRlife</zorder>
-   <zorder>labP1P2Life</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
