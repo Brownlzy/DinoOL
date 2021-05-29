@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <QDialog>
+#include <QtWidgets/QMainWindow>
 #include "ui_server.h"
 #include <QtNetwork/QTcpServer>
 #include <QtNetwork/QTcpSocket>
@@ -9,7 +9,7 @@
 #include <QtWidgets/QTableWidget>
 #include <QtCore/QTimer>
 
-class Server : public QDialog
+class Server : public QMainWindow
 {
 	Q_OBJECT
 

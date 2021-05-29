@@ -1,7 +1,7 @@
 #include "server.h"
 
 Server::Server(QWidget* parent)
-	: QDialog(parent)
+	: QMainWindow(parent)
 {
 	ui.setupUi(this);
 	this->setWindowIcon(QIcon(":/pic/icon/Server"));

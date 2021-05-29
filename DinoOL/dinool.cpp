@@ -99,7 +99,7 @@ void DinoOL::printpos()
 	ui.lab_4->setText(tmp);
 	ui.lab_4->adjustSize();
 
-	tmp = "0.4.Alpha BT:" + buildTime;
+	tmp = DINOVER + QString::fromUtf8(" BT:") + buildTime;
 	ui.lab_5->setText(tmp);
 	ui.lab_5->adjustSize();
 
@@ -193,15 +193,16 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 	if (isStarted == 0 && (e->key() == Qt::Key_Space || e->key() == Qt::Key_W))
 	{
 		isStarted = -1;
+#ifndef DEBUG
 		ui.labelchklcs->show();
 		QString  tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt"));
 		if (tmp != DINOVER)
 		{
 			ui.labelchklcs->hide();
-			if (tmp.length() < 20)
+			if (tmp.length() < 20 && tmp.length() > 0)
 				QMessageBox::critical(this, "版本已过期！", "请向开发者索要最新版！\n当前版本:" + QString::fromUtf8(DINOVER) + "\n当前最新版:" + tmp);
 			else
-				QMessageBox::critical(this, "版本已过期！", "请向开发者索要最新版！\n当前版本:" + QString::fromUtf8(DINOVER));
+				QMessageBox::critical(this, "无效许可！", "请确定已联网且安装了DinoOLServer组件,\n或向开发者索要最新版！\n当前版本:" + QString::fromUtf8(DINOVER));
 			isStarted = 0;
 			P1->setDinoState(":/pic/gif/dino_jump");
 			P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
@@ -210,6 +211,7 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 			return;
 		}
 		ui.labelchklcs->hide();
+#endif // DEBUG
 		StartGame();
 		return;
 	}
@@ -976,12 +978,25 @@ void DinoOL::cloudloop()
 
 void DinoOL::on_actionRun_as_a_server_triggered()
 {
-	//qDebug() << getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt"));
-	if (getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt")) != DINOVER)
+#ifndef DEBUG
+	ui.labelchklcs->show();
+	QString  tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt"));
+	if (tmp != DINOVER)
 	{
-		ui.actionRun_as_a_server->setText("Can't get permission");
+		ui.labelchklcs->hide();
+		if (tmp.length() < 20 && tmp.length() > 0)
+			QMessageBox::critical(this, "版本已过期！", "请向开发者索要最新版！\n当前版本:" + QString::fromUtf8(DINOVER) + "\n当前最新版:" + tmp);
+		else
+			QMessageBox::critical(this, "无效许可！", "请确定已联网且安装了DinoOLServer组件,\n或向开发者索要最新版！\n当前版本:" + QString::fromUtf8(DINOVER));
+		isStarted = 0;
+		P1->setDinoState(":/pic/gif/dino_jump");
+		P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
+		P1->setScaledContents(true);
+		//qApp->exit(0);
 		return;
 	}
+	ui.labelchklcs->hide();
+#endif // DEBUG
 	qApp->exit(-1);
 }
 

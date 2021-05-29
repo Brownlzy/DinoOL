@@ -1,6 +1,7 @@
 ﻿#include "dinool.h"
 #include "server.h"
 #include <QtWidgets/QApplication>
+
 int main(int argc, char* argv[])
 {
 	int tmp;
@@ -13,8 +14,9 @@ int main(int argc, char* argv[])
 		{
 			w.close();
 			Server s;
+			s.setWindowFlags(Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
 			s.show();
-			return s.exec();
+			return a.exec();
 		}
 	} while (tmp == -2);
 	return tmp;
