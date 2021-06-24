@@ -24,7 +24,7 @@ public:
 
 private:
 	Ui::Server ui;
-
+	//QTimer t;
 	QTcpServer* mp_TCPServer;
 	QTcpSocket* mp_TCPSocket[100];
 	QSignalMapper* signalMapper;
@@ -39,5 +39,6 @@ private slots:
 	void ServerReadData();
 	void ServerNewConnection();
 	void sServerDisConnection();
+	void ChkCon();
 	void on_btnChangA_clicked();
 };

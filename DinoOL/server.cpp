@@ -8,6 +8,9 @@ Server::Server(QWidget* parent)
 	ui.txtPort->setText("30628");
 	connect(ui.btnListen, SIGNAL(clicked()), this, SLOT(OnBtnInitSocket()));
 	connect(ui.btnSend, SIGNAL(clicked()), this, SLOT(OnBtnSendData()));
+	//t.setInterval(3000);
+	//connect(&t, SIGNAL(timeout()), this, SLOT(ChkCon()));
+	//t.start();
 	//signalMapper = new QSignalMapper(this);
 	//connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(sServerDisConnection(int)));
 }
@@ -257,6 +260,10 @@ void Server::ProcessCMsg(QString msg)
 		tmp = "CGLIFE$" + msg.split('$')[0] + "$" + msg.split('$')[3] + "$$$";
 		SendTo(msg.split('$')[2], tmp);
 	}
+	else if (fun == "DISCONNECT")
+	{
+		sServerDisConnection();
+	}
 }
 
 void Server::SendTo(int PID, QString Msg)
@@ -429,6 +436,12 @@ void Server::OnBtnSendData()
 void Server::sServerDisConnection()
 {
 	ui.txtLog->append("disconnect with client");
+	ui.txtToSend->setPlainText("CTEST$$$$$$");
+	OnBtnSendData();
+	return;
+}
+void Server::ChkCon()
+{
 	ui.txtToSend->setPlainText("CTEST$$$$$$");
 	OnBtnSendData();
 	return;

@@ -15,6 +15,7 @@ int main(int argc, char* argv[])
 			w.close();
 			Server s;
 			s.setWindowFlags(Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
+			s.setFixedSize(751, 500);
 			s.show();
 			return a.exec();
 		}

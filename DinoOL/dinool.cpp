@@ -615,6 +615,20 @@ void DinoOL::SendReady()
 	}
 
 }
+void DinoOL::SendDC()
+{
+	if (ui.menuSPID->title() == "SPID") return;
+	QString sendMsg = QString::number(SPID) + "$DISCONNECT$$$$";
+	char sendMsgChar[1024] = { 0 };
+	strcpy_s(sendMsgChar, sendMsg.toStdString().c_str());
+	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
+	if (sendRe == -1)
+	{
+		ui.labelLog->setText("QT网络通信向服务端发送数据失败！");
+		return;
+	}
+
+}
 
 void DinoOL::SendCL(int lifeNum)
 {
@@ -832,6 +846,7 @@ void DinoOL::ProduceOBS()
 
 void DinoOL::reStart(QString)
 {
+	SendDC();
 	qApp->exit(-2);
 }
 
@@ -1002,6 +1017,7 @@ void DinoOL::on_actionRun_as_a_server_triggered()
 
 void DinoOL::on_actionExit_triggered()
 {
+
 	qApp->exit(0);
 }
 

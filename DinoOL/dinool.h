@@ -57,6 +57,7 @@ public slots:
 	void refreshScore(int);
 	int isTouched(QLabel*, QLabel*);
 	void SendReady();
+	void SendDC();
 
 private slots:
 	void on_actionRun_as_a_server_triggered();
