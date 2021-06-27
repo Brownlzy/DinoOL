@@ -1,4 +1,9 @@
-﻿#pragma once
+﻿/*
+* 2021年6月27日17点45分
+* By：Brownlzy
+*/
+
+#pragma once
 
 #include <QtWidgets/QMainWindow>
 #include <QtGui/QMovie>
@@ -19,9 +24,10 @@
 
 #include "ui_dinool.h"
 #include "dino.h"
+#include "about.h"
 
 //#define DEBUG
-#define DINOVER "v1.0-beta.2"
+#define DINOVER "v1.0-beta.3"
 
 class DinoOL : public QMainWindow
 {
@@ -65,6 +71,7 @@ private slots:
 	void on_actionConnect_a_server_triggered();
 	void on_actionDebug_triggered();
 	void on_actionRestart_triggered();
+	void on_action_2_triggered();
 	void on_btnCon_clicked();
 	void on_btnCreRoom_clicked();
 	void on_btnSend_clicked();

@@ -17,9 +17,9 @@ public:
 	QTimer ptdino;
 	QMovie movie;
 	QPropertyAnimation* pAnima = NULL;
-	double vy0 = 542.2;
+	double vy0 = 542.2 * 1.5;
 	double vx0 = 305.6;
-	double G = 980.0;
+	double G = 980.0 * 2;
 	int tms = 10;
 	int isOn = 0;
 	int fx;

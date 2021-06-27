@@ -1,10 +1,18 @@
-﻿#include "dinool.h"
+﻿/*
+* 2021年6月27日17点45分
+* By：Brownlzy
+*/
+
+#include "dinool.h"
 
 DinoOL::DinoOL(QWidget* parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
 	buildTime = __TIMESTAMP__;
+	QString tmp = "DinoOL ";
+	tmp += QString::fromStdString(DINOVER) + " By:Brownlzy";
+	this->setWindowTitle(tmp);
 	this->setWindowIcon(QIcon(":/pic/icon/DinoOL"));
 	int x = this->frameGeometry().width();
 	int y = this->frameGeometry().height();
@@ -832,36 +840,6 @@ void DinoOL::ProduceOBS()
 		SendObstacle(kind, dy);
 	else if (!WebGame)
 		ProduceOBS(kind, dy);
-
-	/*
-		if (Score.elapsed() == 0)
-		{
-			Score.start();
-			ui.frmScore->show();
-			if (P2->isOn) ui.frmLlife->show();
-			else if (WebGame)
-			{
-				if (!R[1]->isOn && !R[0]->isOn)
-				{
-					ui.frmRlife->setGeometry(0, 0, 71, 61);
-					ui.frmRlife->show();
-				}
-				else if (!R[1]->isOn)
-				{
-					ui.frmRlife->setGeometry(0, 0, 161, 61);
-					ui.frmRlife->show();
-				}
-				else
-				{
-					ui.frmRlife->show();
-				}
-			}
-		}
-	*/
-	//refreshScore(Score.elapsed() / 100);
-	//if (WebGame && ui.tableRoomer->item(0, 3)->text() != "是") return;
-
-
 }
 
 void DinoOL::reStart(QString)
@@ -872,7 +850,7 @@ void DinoOL::reStart(QString)
 
 void DinoOL::ProduceOBS(int kind, int dy)
 {
-	/*kind:
+	/*kind:dinool.qrc文件名
 	* 0-bird
 	* 10-cactus_s_1 * 13-.......l_1
 	* 11-.......s_2 * 14-.......l_2
@@ -1068,6 +1046,20 @@ void DinoOL::on_actionRestart_triggered()
 	reStart("");
 }
 
+void DinoOL::on_action_2_triggered()
+{
+	About frmabout;
+	frmabout.setWindowIcon(QIcon(":/pic/icon/DinoOL"));
+	QString tmp = "DinoOL ";
+	tmp += DINOVER;
+	frmabout.ui.label_2->setText(tmp);
+	frmabout.ui.label_3->setText(__TIMESTAMP__);
+	frmabout.setModal(true);
+	frmabout.setFixedSize(291, 141);
+	frmabout.show();
+	if (frmabout.exec());
+}
+
 void DinoOL::on_btnCon_clicked()
 {
 	if (ui.menuSPID->title() != "SPID") return;
@@ -1181,7 +1173,5 @@ QString getWebSource(QUrl url)
 
 	QByteArray codeContent = reply->readAll();
 
-	//将获取到的网页源码写入文件
-	//一定要注意编码问题，否则很容易出现乱码的
 	return QTextCodec::codecForHtml(codeContent)->toUnicode(codeContent);
 }

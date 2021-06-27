@@ -180,11 +180,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="chklcs.cpp" />
+    <ClCompile Include="about.cpp" />
     <ClCompile Include="dino.cpp" />
     <ClCompile Include="server.cpp" />
     <QtRcc Include="dinool.qrc" />
-    <QtUic Include="chklcs.ui" />
+    <QtUic Include="about.ui" />
     <QtUic Include="dinool.ui" />
     <QtMoc Include="dinool.h" />
     <ClCompile Include="dinool.cpp" />
@@ -195,12 +195,10 @@
     <QtMoc Include="server.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="chklcs.h" />
-  </ItemGroup>
-  <ItemGroup>
     <QtMoc Include="dino.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="about.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +206,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="RES\DinoOL.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtTranslation Include="dinool_en.ts" />
+    <QtTranslation Include="dinool_zh.ts" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>DinoOL服务器端</string>
+   <string>DinoOL服务器端 v1.0b</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTextBrowser" name="txtGet">
@@ -118,7 +118,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>542.2</string>
+     <string>813.9</string>
     </property>
    </widget>
    <widget class="QTableWidget" name="tableRoom">
@@ -416,7 +416,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>980</string>
+     <string>1960</string>
     </property>
    </widget>
    <widget class="QPlainTextEdit" name="txtToSend">

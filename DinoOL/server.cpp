@@ -1,3 +1,8 @@
+/*
+* 2021年6月27日17点45分
+* By：Brownlzy
+*/
+
 #include "server.h"
 
 Server::Server(QWidget* parent)

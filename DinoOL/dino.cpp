@@ -1,4 +1,9 @@
-﻿#include "dino.h"
+﻿/*
+* 2021年6月27日17点45分
+* By：Brownlzy
+*/
+
+#include "dino.h"
 
 Dino::Dino(int x, int y, QObject* parent, QWidget* dinop)
 	: fx(x), fy(y), QObject(parent), labDino(dinop), labP(dinop)

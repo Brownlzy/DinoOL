@@ -43,10 +43,10 @@
     <ClCompile Include="server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="chklcs.cpp">
+    <ClCompile Include="dino.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dino.cpp">
+    <ClCompile Include="about.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,10 +54,10 @@
     <QtMoc Include="server.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="chklcs.h">
+    <QtMoc Include="dino.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="dino.h">
+    <QtMoc Include="about.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -65,7 +65,7 @@
     <QtUic Include="server.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="chklcs.ui">
+    <QtUic Include="about.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -83,5 +83,13 @@
     <Image Include="RES\DinoOL.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <QtTranslation Include="dinool_zh.ts">
+      <Filter>Translation Files</Filter>
+    </QtTranslation>
+    <QtTranslation Include="dinool_en.ts">
+      <Filter>Translation Files</Filter>
+    </QtTranslation>
   </ItemGroup>
 </Project>
