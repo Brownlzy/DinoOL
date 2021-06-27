@@ -907,6 +907,19 @@
      </property>
     </widget>
    </widget>
+   <widget class="QLabel" name="labReady">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>250</y>
+      <width>41</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/pic/png/6&quot; width=&quot;36&quot; height=&quot;44&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
    <zorder>lab_7</zorder>
    <zorder>labRoad</zorder>
    <zorder>label_2</zorder>
@@ -923,6 +936,7 @@
    <zorder>labelFail</zorder>
    <zorder>frmLlife</zorder>
    <zorder>frmRlife</zorder>
+   <zorder>labReady</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -930,12 +944,12 @@
      <x>0</x>
      <y>0</y>
      <width>963</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>文件(F)</string>
     </property>
     <addaction name="actionRun_as_a_server"/>
     <addaction name="separator"/>
@@ -943,18 +957,15 @@
    </widget>
    <widget class="QMenu" name="menuGame">
     <property name="title">
-     <string>Game</string>
+     <string>游戏(G)</string>
     </property>
     <addaction name="actionConnect_a_server"/>
-    <addaction name="separator"/>
-    <addaction name="actionCreate_a_room"/>
-    <addaction name="actionJoin_a_room"/>
     <addaction name="separator"/>
     <addaction name="actionRestart"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>帮助(H)</string>
     </property>
     <addaction name="actionDebug"/>
    </widget>
@@ -992,37 +1003,37 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionExit">
    <property name="text">
-    <string>Exit</string>
+    <string>退出</string>
    </property>
   </action>
   <action name="actionCreate_a_room">
    <property name="text">
-    <string>Create a room</string>
+    <string>创建房间</string>
    </property>
   </action>
   <action name="actionJoin_a_room">
    <property name="text">
-    <string>Join a room</string>
+    <string>加入房间</string>
    </property>
   </action>
   <action name="actionRun_as_a_server">
    <property name="text">
-    <string>Run as a server</string>
+    <string>启动服务器</string>
    </property>
   </action>
   <action name="actionConnect_a_server">
    <property name="text">
-    <string>Connect a server</string>
+    <string>联机游戏</string>
    </property>
   </action>
   <action name="actionDebug">
    <property name="text">
-    <string>Debug</string>
+    <string>调试信息</string>
    </property>
   </action>
   <action name="actionRestart">
    <property name="text">
-    <string>Restart</string>
+    <string>重新开始</string>
    </property>
   </action>
  </widget>

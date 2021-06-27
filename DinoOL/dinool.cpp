@@ -26,6 +26,9 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.label_2->hide();
 	ui.label_3->adjustSize();
 	ui.labelchklcs->hide();
+	ui.labReady->setText("<html><head/><body><p><img src="":/pic/png/6"" widyh=""162"" height=""198""/></p></body></html>");
+	ui.labReady->adjustSize();
+	ui.labReady->hide();
 	//ui.whitebg->hide();
 	ui.frame_4->hide();
 	ui.lab_2->move(x - 1 - ui.lab_2->width(), ui.lab_2->y());
@@ -124,6 +127,7 @@ void DinoOL::resizeEvent(QResizeEvent* event)
 	int y = this->frameGeometry().height();
 	horline = 0.6 * y;
 	P1->setfxy(x, y);
+	ui.labReady->move((x - ui.labReady->width()) * 0.5, (horline - ui.labReady->height()) * 0.5);
 	if (P2 != NULL)P2->setfxy(x, y);
 	if (R[0] != NULL)R[0]->setfxy(x, y);
 	if (R[1] != NULL)R[1]->setfxy(x, y);
@@ -328,7 +332,7 @@ void DinoOL::StartGame(int step)
 		QTimer::singleShot(700, this, SLOT(roadloop()));
 		QTimer::singleShot(700, this, SLOT(cloudloop()));
 		QTimer::singleShot(700, P1, SLOT(showP()));
-		QTimer::singleShot(4000, this, SLOT(ProduceOBS()));
+		QTimer::singleShot(700, this, SLOT(ProduceOBS()));
 		break;
 	}
 }
@@ -406,6 +410,7 @@ void DinoOL::ProcessSMsg(QString msg)
 			P1->WebGame = 1;
 			R[0]->WebGame = 1;
 			R[1]->WebGame = 1;
+			if (isAllReady()) ProduceOBS();
 			//if (ui.tableRoomer->item(0, 1)->text().toInt() == SPID)
 				//QTimer::singleShot(3000, this, SLOT(ProduceOBS()));
 		}
@@ -789,15 +794,30 @@ void DinoOL::ProduceOBS()
 {
 	int kind;
 	kind = randNum(1000) + 1000;		//计算下一次创建障碍物时间ms
-	if (!isPause)
+	if (!isPause && (ui.labReady->text().split("/")[4].left(1) == "-"))
 	{
 		if (ui.tableRoomer->item(0, 1)->text().toInt() == SPID || !WebGame)
 			QTimer::singleShot(kind, this, SLOT(ProduceOBS()));
 	}
-	if (!((WebGame && ui.tableRoomer->item(0, 1)->text().toInt() == SPID && isAllReady()) || !WebGame))
+	if (!((WebGame && isAllReady()) || !WebGame))
 	{
 		return;
 	}
+	if (ui.labReady->text().split("/")[4].left(1).toInt() > 1)			//开始前54321倒数
+	{
+		ui.labReady->show();
+		ui.labReady->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(ui.labReady->text().split("/")[4].left(1).toInt() - 1) + """ widyh=""162"" height=""198""/></p></body></html>");
+		ui.labReady->adjustSize();
+		QTimer::singleShot(1000, this, SLOT(ProduceOBS()));				//1秒后重新调用自己
+		return;
+	}
+	else if (ui.labReady->text().split("/")[4].left(1) != "-")
+	{
+		ui.labReady->hide();
+		ui.labReady->setText("<html><head/><body><p><img src="":/pic/png/-1"" widyh=""27"" height=""33""/></p></body></html>");
+		QTimer::singleShot(1000, this, SLOT(ProduceOBS()));				//1秒后重新调用自己
+	}
+	if (WebGame && ui.tableRoomer->item(0, 1)->text().toInt() != SPID) return;
 	int dy = 0;
 	kind = randNum(3);
 	if (!kind)			//kind = 0时，生成鸟
@@ -1028,16 +1048,6 @@ void DinoOL::on_actionConnect_a_server_triggered()
 	ui.frame_4->setVisible(true);
 	ui.frame_4->raise();
 	if (ui.btnCon->text() == "已连接") QTimer::singleShot(3000, ui.frame, SLOT(hide()));
-}
-
-void DinoOL::on_actionCreate_a_room_triggered()
-{
-	ui.frame_2->setVisible(true);
-}
-
-void DinoOL::on_actionJoin_a_room_triggered()
-{
-	ui.frame_3->setVisible(true);
 }
 
 void DinoOL::on_actionDebug_triggered()

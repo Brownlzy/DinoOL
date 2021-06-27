@@ -63,8 +63,6 @@ private slots:
 	void on_actionRun_as_a_server_triggered();
 	void on_actionExit_triggered();
 	void on_actionConnect_a_server_triggered();
-	void on_actionCreate_a_room_triggered();
-	void on_actionJoin_a_room_triggered();
 	void on_actionDebug_triggered();
 	void on_actionRestart_triggered();
 	void on_btnCon_clicked();
