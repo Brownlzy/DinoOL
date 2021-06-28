@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>About DinoOL</string>
+   <string>关于 DinoOL</string>
   </property>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
@@ -66,14 +66,17 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>160</x>
      <y>110</y>
      <width>91</width>
      <height>23</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>Close</string>
+   </property>
    <property name="text">
-    <string>OK</string>
+    <string>确定</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
@@ -104,10 +107,47 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>110</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>更新</string>
+   </property>
+  </widget>
+  <widget class="QProgressBar" name="progressBar">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>110</y>
+     <width>121</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="value">
+    <number>0</number>
+   </property>
+   <property name="textVisible">
+    <bool>true</bool>
+   </property>
+   <property name="textDirection">
+    <enum>QProgressBar::TopToBottom</enum>
+   </property>
+  </widget>
+  <zorder>progressBar</zorder>
   <zorder>label_2</zorder>
   <zorder>label_3</zorder>
   <zorder>label</zorder>
   <zorder>pushButton</zorder>
+  <zorder>pushButton_2</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

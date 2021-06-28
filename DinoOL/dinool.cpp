@@ -11,7 +11,7 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.setupUi(this);
 	buildTime = __TIMESTAMP__;
 	QString tmp = "DinoOL ";
-	tmp += QString::fromStdString(DINOVER) + " By:Brownlzy";
+	tmp += /*QString::fromStdString(DINOVER) + */" By:Brownlzy";
 	this->setWindowTitle(tmp);
 	this->setWindowIcon(QIcon(":/pic/icon/DinoOL"));
 	int x = this->frameGeometry().width();
@@ -62,6 +62,10 @@ DinoOL::DinoOL(QWidget* parent)
 		}
 	}
 	//pdtime->start();
+#ifdef DEBUG
+	ui.actionDebug->setVisible(false);
+#endif // DEBUG
+
 }
 DinoOL::~DinoOL()
 {
@@ -212,7 +216,7 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 		{
 			ui.labelchklcs->hide();
 			if (tmp.length() < 20 && tmp.length() > 0)
-				QMessageBox::critical(this, "版本已过期！", "请向开发者索要最新版！\n当前版本:" + QString::fromUtf8(DINOVER) + "\n当前最新版:" + tmp);
+				QMessageBox::critical(this, "版本已过期！", "请在菜单-帮助(H)-关于处升级最新版！\n当前版本:" + QString::fromUtf8(DINOVER) + "\n当前最新版:" + tmp);
 			else
 				QMessageBox::critical(this, "无效许可！", "请确定已联网且安装了DinoOLServer组件,\n或向开发者索要最新版！\n当前版本:" + QString::fromUtf8(DINOVER));
 			isStarted = 0;
@@ -998,7 +1002,7 @@ void DinoOL::on_actionRun_as_a_server_triggered()
 	{
 		ui.labelchklcs->hide();
 		if (tmp.length() < 20 && tmp.length() > 0)
-			QMessageBox::critical(this, "版本已过期！", "请向开发者索要最新版！\n当前版本:" + QString::fromUtf8(DINOVER) + "\n当前最新版:" + tmp);
+			QMessageBox::critical(this, "版本已过期！", "请在菜单-帮助(H)-关于处升级最新版！\n当前版本:" + QString::fromUtf8(DINOVER) + "\n当前最新版:" + tmp);
 		else
 			QMessageBox::critical(this, "无效许可！", "请确定已联网且安装了DinoOLServer组件,\n或向开发者索要最新版！\n当前版本:" + QString::fromUtf8(DINOVER));
 		isStarted = 0;
@@ -1015,7 +1019,6 @@ void DinoOL::on_actionRun_as_a_server_triggered()
 
 void DinoOL::on_actionExit_triggered()
 {
-
 	qApp->exit(0);
 }
 
@@ -1053,9 +1056,29 @@ void DinoOL::on_action_2_triggered()
 	QString tmp = "DinoOL ";
 	tmp += DINOVER;
 	frmabout.ui.label_2->setText(tmp);
-	frmabout.ui.label_3->setText(__TIMESTAMP__);
+	tmp = "Build Time: ";
+	tmp += __TIMESTAMP__;
+	frmabout.ui.label_3->setText(tmp);
 	frmabout.setModal(true);
-	frmabout.setFixedSize(291, 141);
+	frmabout.setWindowFlags(Qt::WindowCloseButtonHint);
+	tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt"));
+	if (tmp != DINOVER)
+	{
+		if (tmp.length() < 20 && tmp.length() > 0)
+		{
+			frmabout.ui.pushButton_2->setEnabled(true);
+			frmabout.ui.pushButton_2->setToolTip(tmp);
+			frmabout.setWindowTitle("DinoOL -有可用更新-");
+		}
+		else
+		{
+			frmabout.setWindowTitle("DinoOL -未授权版本-");
+		}
+	}
+	else
+	{
+		frmabout.setFixedSize(291, 141);
+	}
 	frmabout.show();
 	if (frmabout.exec());
 }

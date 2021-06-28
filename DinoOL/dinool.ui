@@ -951,24 +951,22 @@
     <property name="title">
      <string>文件(F)</string>
     </property>
-    <addaction name="actionRun_as_a_server"/>
-    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuGame">
     <property name="title">
      <string>游戏(G)</string>
     </property>
-    <addaction name="actionConnect_a_server"/>
-    <addaction name="separator"/>
     <addaction name="actionRestart"/>
+    <addaction name="separator"/>
+    <addaction name="actionRun_as_a_server"/>
+    <addaction name="actionConnect_a_server"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>帮助(H)</string>
     </property>
     <addaction name="actionDebug"/>
-    <addaction name="separator"/>
     <addaction name="action_2"/>
    </widget>
    <widget class="QMenu" name="menuSPID">
