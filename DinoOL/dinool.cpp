@@ -210,28 +210,41 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 	if (isStarted == 0 && (e->key() == Qt::Key_Space || e->key() == Qt::Key_W))
 	{
 		isStarted = -1;
-#ifndef DEBUG
 		ui.labelchklcs->show();
-		QString  tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt"));
-		if (tmp != DINOVER)
+		QString  tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLUpdateInfo.txt"));
+		tmp += "!<<<<<!";
+		//DinoOL_OTA_Info!101<v1.0.2<102<1<20BAF4F9<296KB!
+		//DinoOL_OTA_Info!低于此比较号强制升级 < 当前最新版本号 < 比较号(int) < 是否可快速升级(bool) < CRC32校验码 < 大小!(结束标记)
+		if (tmp.split("!")[0] == "DinoOL_OTA_Info")
 		{
-			ui.labelchklcs->hide();
-			if (tmp.length() < 20 && tmp.length() > 0)
-				QMessageBox::critical(this, "版本已过期！", "请在菜单-帮助(H)-关于处升级最新版！\n当前版本:" + QString::fromUtf8(DINOVER) + "\n当前最新版:" + tmp);
+			if (tmp.split("!")[1].split("<")[0].toInt() > DINOVERNUM)
+			{
+				QMessageBox::critical(this, tr("版本已过期！"), tr("请在菜单-帮助(H)-关于处升级最新版！\n当前版本:") + QString::fromUtf8(DINOVER) + tr("\n当前最新版:") + tmp.split("!")[1].split("<")[1]);
+				isStarted = 0;
+				P1->setDinoState(":/pic/gif/dino_jump");
+				P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
+				P1->setScaledContents(true);
+			}
 			else
-				QMessageBox::critical(this, "无效许可！", "请确定已联网且安装了DinoOLServer组件,\n或向开发者索要最新版！\n当前版本:" + QString::fromUtf8(DINOVER));
+			{
+				ui.labelchklcs->hide();
+				StartGame();
+			}
+			ui.labelchklcs->hide();
+			return;
+		}
+		else
+		{
+			QMessageBox::critical(this, tr("无效许可！"), tr("请确定已联网且安装了DinoOLServer组件,\n或向开发者索要最新版！\n当前版本:") + QString::fromUtf8(DINOVER));
 			isStarted = 0;
 			P1->setDinoState(":/pic/gif/dino_jump");
 			P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
 			P1->setScaledContents(true);
-			//qApp->exit(0);
-			return;
 		}
 		ui.labelchklcs->hide();
-#endif // DEBUG
-		StartGame();
 		return;
 	}
+	ui.labelchklcs->hide();
 	if (isStarted < 4) return;
 	if (e->key() == Qt::Key_Up && !WebGame)
 	{
@@ -403,9 +416,9 @@ void DinoOL::ProcessSMsg(QString msg)
 					ui.tableRoomer->item(i, 3)->setText(msg.split('$')[2].split('-')[i]);
 			}
 		}
-		if (ui.tableRoomer->item(0, 3)->text().split('-')[0] == "是"
-			&& (!(ui.tableRoomer->item(1, 1)->text() != "") || ui.tableRoomer->item(1, 3)->text() == "是")
-			&& (!(ui.tableRoomer->item(2, 1)->text() != "") || ui.tableRoomer->item(2, 3)->text() == "是"))
+		if (ui.tableRoomer->item(0, 3)->text().split('-')[0] == tr("是")
+			&& (!(ui.tableRoomer->item(1, 1)->text() != "") || ui.tableRoomer->item(1, 3)->text() == tr("是"))
+			&& (!(ui.tableRoomer->item(2, 1)->text() != "") || ui.tableRoomer->item(2, 3)->text() == tr("是")))
 		{
 			for (int i = 0, j = 0; i < 3; i++)
 			{
@@ -468,10 +481,10 @@ void DinoOL::ProcessSMsg(QString msg)
 		{
 		case 1:
 			ui.menuROOM->setTitle("ROOM=" + msg.split('$')[2]);
-			ui.tableRoomer->item(0, 0)->setText("是");
+			ui.tableRoomer->item(0, 0)->setText(tr("是"));
 			ui.tableRoomer->item(0, 1)->setText(QString::number(SPID));
-			ui.tableRoomer->item(0, 2)->setText("Grey");
-			ui.tableRoomer->item(0, 3)->setText("否");
+			ui.tableRoomer->item(0, 2)->setText(tr("Grey"));
+			ui.tableRoomer->item(0, 3)->setText(tr("否"));
 			break;
 		default:
 			break;
@@ -506,7 +519,7 @@ void DinoOL::ProcessSMsg(QString msg)
 				{
 					ui.tableRoomer->item(i, 1)->setText(msg.split('$')[2]);
 					ui.tableRoomer->item(i, 2)->setText(msg.split('$')[3]);
-					ui.tableRoomer->item(i, 3)->setText("否");
+					ui.tableRoomer->item(i, 3)->setText(tr("否"));
 					break;
 				}
 			}
@@ -597,7 +610,7 @@ void DinoOL::SendPOS(int dx, int dy, int key, bool isPress)
 	t.start();
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText("QT网络通信向服务端发送数据失败！");
+		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
 		return;
 	}
 
@@ -613,7 +626,7 @@ void DinoOL::SendObstacle(int kind, int dy)
 	tobs.start();
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText("QT网络通信向服务端发送数据失败！");
+		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
 		return;
 	}
 
@@ -628,7 +641,7 @@ void DinoOL::SendReady()
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText("QT网络通信向服务端发送数据失败！");
+		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
 		return;
 	}
 
@@ -642,7 +655,7 @@ void DinoOL::SendDC()
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText("QT网络通信向服务端发送数据失败！");
+		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
 		return;
 	}
 
@@ -657,7 +670,7 @@ void DinoOL::SendCL(int lifeNum)
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText("QT网络通信向服务端发送数据失败！");
+		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
 		return;
 	}
 
@@ -667,7 +680,7 @@ int DinoOL::isAllReady()
 {
 	if (WebGame)
 	{
-		if (ui.tableRoomer->item(0, 3)->text() != "否" && ui.tableRoomer->item(1, 3)->text() != "否" && ui.tableRoomer->item(2, 3)->text() != "否")
+		if (ui.tableRoomer->item(0, 3)->text() != tr("否") && ui.tableRoomer->item(1, 3)->text() != "否" && ui.tableRoomer->item(2, 3)->text() != "否")
 			return 1;
 		else
 			return 0;
@@ -996,26 +1009,35 @@ void DinoOL::cloudloop()
 
 void DinoOL::on_actionRun_as_a_server_triggered()
 {
-#ifndef DEBUG
 	ui.labelchklcs->show();
-	QString  tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt"));
-	if (tmp != DINOVER)
+	QString  tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLUpdateInfo.txt"));
+	if (tmp.split("!")[0] == "DinoOL_OTA_Info")
 	{
-		ui.labelchklcs->hide();
-		if (tmp.length() < 20 && tmp.length() > 0)
-			QMessageBox::critical(this, "版本已过期！", "请在菜单-帮助(H)-关于处升级最新版！\n当前版本:" + QString::fromUtf8(DINOVER) + "\n当前最新版:" + tmp);
+		if (tmp.split("!")[1].split("<")[0].toInt() > DINOVERNUM)
+		{
+			QMessageBox::critical(this, tr("版本已过期！"), tr("请在菜单-帮助(H)-关于处升级最新版！\n当前版本:") + QString::fromUtf8(DINOVER) + tr("\n当前最新版:") + tmp.split("!")[1].split("<")[1]);
+			isStarted = 0;
+			P1->setDinoState(":/pic/gif/dino_jump");
+			P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
+			P1->setScaledContents(true);
+		}
 		else
-			QMessageBox::critical(this, "无效许可！", "请确定已联网且安装了DinoOLServer组件,\n或向开发者索要最新版！\n当前版本:" + QString::fromUtf8(DINOVER));
+		{
+			ui.labelchklcs->hide();
+			qApp->exit(-1);
+		}
+		ui.labelchklcs->hide();
+		return;
+	}
+	else
+	{
+		QMessageBox::critical(this, tr("无效许可！"), tr("请确定已联网且安装了DinoOLServer组件,\n或向开发者索要最新版！\n当前版本:") + QString::fromUtf8(DINOVER));
 		isStarted = 0;
 		P1->setDinoState(":/pic/gif/dino_jump");
 		P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
 		P1->setScaledContents(true);
-		//qApp->exit(0);
-		return;
 	}
 	ui.labelchklcs->hide();
-#endif // DEBUG
-	qApp->exit(-1);
 }
 
 void DinoOL::on_actionExit_triggered()
@@ -1029,7 +1051,7 @@ void DinoOL::on_actionConnect_a_server_triggered()
 	ui.frame_4->move((this->frameGeometry().width() - ui.frame_4->width()) / 2, ui.frame_4->y());
 	ui.frame_4->setVisible(true);
 	ui.frame_4->raise();
-	if (ui.btnCon->text() == "已连接") QTimer::singleShot(3000, ui.frame, SLOT(hide()));
+	if (ui.btnCon->text() == tr("已连接")) QTimer::singleShot(3000, ui.frame, SLOT(hide()));
 }
 
 void DinoOL::on_actionDebug_triggered()
@@ -1062,23 +1084,42 @@ void DinoOL::on_action_2_triggered()
 	frmabout.ui.label_3->setText(tmp);
 	frmabout.setModal(true);
 	frmabout.setWindowFlags(Qt::WindowCloseButtonHint);
-	tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt"));
-	if (tmp != DINOVER)
+	//tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt"));
+	tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLUpdateInfo.txt"));
+	//DinoOL_OTA_Info!101<v1.0.2<102<1<20BAF4F9<296KB!
+	//DinoOL_OTA_Info!低于此比较号强制升级 < 当前最新版本号 < 比较号(int) < 是否可快速升级(bool) < CRC32校验码 < 大小!(结束标记)
+	tmp += "!<<<<<!";//防止下标越界;
+	qDebug() << tmp;
+	if (tmp.split("!")[0] == "DinoOL_OTA_Info")
 	{
-		if (tmp.length() < 20 && tmp.length() > 0)
+		if (tmp.split("!")[1].split("<")[2].toInt() > DINOVERNUM)
 		{
-			frmabout.ui.pushButton_2->setEnabled(true);
-			frmabout.ui.pushButton_2->setToolTip(tmp);
-			frmabout.setWindowTitle("DinoOL -有可用更新-");
+			if (tmp.split("!")[1].split("<")[3].toInt() == 1)
+			{
+				frmabout.ui.pushButton_2->setEnabled(true);
+				QString otaInfo = tmp.split("!")[1].split("<")[1] + "_";
+				otaInfo += tmp.split("!")[1].split("<")[5];
+				frmabout.ui.pushButton_2->setToolTip(otaInfo);
+				//frmabout.ui.pushButton_2->setWhatsThis(tmp.split("!")[1]);
+				frmabout.strCRC32 = tmp.split("!")[1].split("<")[4];
+			}
+			else
+			{
+				frmabout.ui.pushButton_2->setText(tr("请手动更新"));
+				QString otaInfo = tmp.split("!")[1].split("<")[1] + "_";
+				otaInfo += tmp.split("!")[1].split("<")[5];
+				frmabout.ui.pushButton_2->setToolTip(otaInfo);
+				frmabout.setWindowTitle(tr("DinoOL -有可用更新-"));
+			}
 		}
 		else
 		{
-			frmabout.setWindowTitle("DinoOL -未授权版本-");
+			frmabout.setFixedSize(291, 141);
 		}
 	}
 	else
 	{
-		frmabout.setFixedSize(291, 141);
+		frmabout.setWindowTitle(tr("DinoOL -未授权版本-"));
 	}
 	frmabout.show();
 	if (frmabout.exec());
@@ -1095,7 +1136,7 @@ void DinoOL::on_btnCon_clicked()
 	mp_clientSocket->connectToHost(ip, port);
 	if (!mp_clientSocket->waitForConnected(30000))
 	{
-		ui.labelLog->setText("QT网络通信连接服务端失败！");
+		ui.labelLog->setText(tr("QT网络通信连接服务端失败！"));
 		return;
 	}
 	connect(mp_clientSocket, SIGNAL(readyRead()), this, SLOT(ClientRecvData()));
@@ -1110,7 +1151,7 @@ void DinoOL::on_btnCreRoom_clicked()
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText("QT网络通信向服务端发送数据失败！");
+		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
 		return;
 	}
 }
@@ -1123,7 +1164,7 @@ void DinoOL::on_btnSend_clicked()
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText("QT网络通信向服务端发送数据失败！");
+		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
 		return;
 	}
 }
@@ -1136,7 +1177,7 @@ void DinoOL::on_btnJoin_clicked()
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText("QT网络通信向服务端发送数据失败！");
+		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
 		return;
 	}
 
@@ -1154,7 +1195,7 @@ void DinoOL::ClientRecvData()
 	int recvRe = mp_clientSocket->read(recvMsg, 1024);
 	if (recvRe == -1)
 	{
-		ui.labelLog->setText("QT网络通信接收服务端数据失败！");
+		ui.labelLog->setText(tr("QT网络通信接收服务端数据失败！"));
 		return;
 	}
 	QString showQstr = recvMsg;

@@ -118,20 +118,20 @@ void Server::ProcessCMsg(QString msg)
 					if (ui.tableRoom->item(i, 4 + j)->text().toInt() == PID)
 						ri[j] = 1;
 					else
-						ri[j] = (ui.tableRoom->item(i, 7)->text().split('-')[j] == "是" ? 1 : 0);
+						ri[j] = (ui.tableRoom->item(i, 7)->text().split('-')[j] == tr("是") ? 1 : 0);
 				}
-				newready += (ri[0] ? "是" : "否");
+				newready += (ri[0] ? tr("是") : tr("否"));
 				newready += "-";
-				newready += (ri[1] ? "是" : "否");
+				newready += (ri[1] ? tr("是") : tr("否"));
 				newready += "-";
-				newready += (ri[2] ? "是" : "否");
+				newready += (ri[2] ? tr("是") : tr("否"));
 				ui.tableRoom->item(i, 7)->setText(newready);
 				SendTo(room, "READY$2$" + newready + "$$$");
-				if (ui.tableRoom->item(i, 7)->text().split('-')[0] == "是"
-					&& (!(ui.tableRoom->item(i, 5)->text() != "") || ui.tableRoom->item(i, 7)->text().split('-')[1] == "是")
-					&& (!(ui.tableRoom->item(i, 6)->text() != "") || ui.tableRoom->item(i, 7)->text().split('-')[2] == "是"))
+				if (ui.tableRoom->item(i, 7)->text().split('-')[0] == tr("是")
+					&& (!(ui.tableRoom->item(i, 5)->text() != "") || ui.tableRoom->item(i, 7)->text().split('-')[1] == tr("是"))
+					&& (!(ui.tableRoom->item(i, 6)->text() != "") || ui.tableRoom->item(i, 7)->text().split('-')[2] == tr("是")))
 				{
-					ui.tableRoom->item(i, 3)->setText("游戏中...");
+					ui.tableRoom->item(i, 3)->setText(tr("游戏中..."));
 				}
 				break;
 			}
@@ -148,7 +148,7 @@ void Server::ProcessCMsg(QString msg)
 			{
 				if (ui.tableRoom->item(i, 0)->text() == msg.split('$')[3] || ui.tableRoom->item(i, 1)->text() == QString::number(PID))
 				{
-					SendTo(PID, "ROOM$0$$房间已存在$$"); //房间已存在
+					SendTo(PID, tr("ROOM$0$$房间已存在$$")); //房间已存在
 					return;
 				}
 			}
@@ -156,17 +156,17 @@ void Server::ProcessCMsg(QString msg)
 			ui.tableRoom->setItem(row, 0, new QTableWidgetItem(msg.split('$')[3]));
 			ui.tableRoom->setItem(row, 1, new QTableWidgetItem(QString::number(PID)));
 			ui.tableRoom->setItem(row, 2, new QTableWidgetItem("1"));
-			ui.tableRoom->setItem(row, 3, new QTableWidgetItem("等待玩家加入..."));
+			ui.tableRoom->setItem(row, 3, new QTableWidgetItem(tr("等待玩家加入...")));
 			ui.tableRoom->setItem(row, 4, new QTableWidgetItem(QString::number(PID)));
 			ui.tableRoom->setItem(row, 5, new QTableWidgetItem(""));
 			ui.tableRoom->setItem(row, 6, new QTableWidgetItem(""));
-			ui.tableRoom->setItem(row, 7, new QTableWidgetItem("否-否-否"));
+			ui.tableRoom->setItem(row, 7, new QTableWidgetItem(tr("否-否-否")));
 
 			ui.tablePlayer->item(PID % 100, 3)->setText("ROOM:" + msg.split('$')[3]);
 
 			RoomNum++;
 			ui.label_3->setText(QString::number(RoomNum));
-			SendTo(PID, "ROOM$1$" + msg.split('$')[3] + "$创建成功$$");//创建成功
+			SendTo(PID, "ROOM$1$" + msg.split('$')[3] + tr("$创建成功$$"));//创建成功
 		}
 		else
 		{
@@ -174,13 +174,13 @@ void Server::ProcessCMsg(QString msg)
 			{
 				if (ui.tableRoom->item(i, 0)->text() == msg.split('$')[3] && ui.tableRoom->item(i, 1)->text() == QString::number(PID))
 				{
-					SendTo(ui.tableRoom->item(i, 5)->text().toInt(), "ROOM$-1$$房间已关闭$$");
-					SendTo(ui.tableRoom->item(i, 6)->text().toInt(), "ROOM$-1$$房间已关闭$$");
+					SendTo(ui.tableRoom->item(i, 5)->text().toInt(), tr("ROOM$-1$$房间已关闭$$"));
+					SendTo(ui.tableRoom->item(i, 6)->text().toInt(), tr("ROOM$-1$$房间已关闭$$"));
 					ui.tableRoom->removeRow(i);
 					return;
 				}
 			}
-			SendTo(PID, "ROOM$-2$删除失败$$$");//删除失败
+			SendTo(PID, tr("ROOM$-2$删除失败$$$"));//删除失败
 		}
 	}
 	else if (fun == "JOIN")
@@ -207,25 +207,25 @@ void Server::ProcessCMsg(QString msg)
 							ui.tableRoom->item(i, 2)->setText(QString::number(ui.tableRoom->item(i, 2)->text().toInt() + 1));
 							ui.tablePlayer->item(PID % 100, 3)->setText("ROOM:" + msg.split('$')[3]);
 							QString RoomMem;
-							RoomMem = "JOIN$2$" + msg.split('$')[3] + "$是#" + ui.tableRoom->item(i, 4)->text() + "#Grey#@";
+							RoomMem = "JOIN$2$" + msg.split('$')[3] + tr("$是#") + ui.tableRoom->item(i, 4)->text() + tr("#Grey#@");
 							for (int j = 5; j < 7; j++)
 							{
 								if (ui.tableRoom->item(i, j)->text() != "")
-									RoomMem += "#" + ui.tableRoom->item(i, j)->text() + "#Grey#@";
+									RoomMem += "#" + ui.tableRoom->item(i, j)->text() + tr("#Grey#@");
 							}
 							RoomMem += "###@###@$" + ui.tableRoom->item(i, 7)->text() + "$$$";
 							SendTo(PID, RoomMem);
-							SendTo(PID, "JOIN$1$加入成功$$$"); //1表示加入成功
+							SendTo(PID, tr("JOIN$1$加入成功$$$")); //1表示加入成功
 						}
 						else
-							SendTo(PID, "JOIN$-2$已在房间中$$$"); //-2表示已在房间中
+							SendTo(PID, tr("JOIN$-2$已在房间中$$$")); //-2表示已在房间中
 					}
 					else
-						SendTo(PID, "JOIN$0$房间已满$$$"); //0表示房间已满
+						SendTo(PID, tr("JOIN$0$房间已满$$$")); //0表示房间已满
 					return;
 				}
 			}
-			SendTo(PID, "JOIN$-1$无房间$$$"); //-1表示无房间
+			SendTo(PID, tr("JOIN$-1$无房间$$$")); //-1表示无房间
 		}
 		else
 		{
@@ -355,13 +355,13 @@ void Server::ServerNewConnection()
 		if (sockid == 0)
 		{
 			connection[0] = 1;
-			SendTo(100, "PID=100$已达到最大连接数！请稍后再试。");
+			SendTo(100, tr("PID=100$已达到最大连接数！请稍后再试。"));
 		}
 		else
 		{
 			connection[sockid] = 1;
 			refreshPlayer(1, sockid, QString::number(sockid + 100));
-			SendTo(100 + sockid, "PID$" + QString::number(100 + sockid) + "$连接成功。");
+			SendTo(100 + sockid, "PID$" + QString::number(100 + sockid) + tr("$连接成功。"));
 			PlayerNum++;
 			ui.label_4->setText(QString::number(PlayerNum));
 			QTimer::singleShot(1000, ui.btnChangA, SLOT(clicked));

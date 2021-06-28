@@ -26,6 +26,7 @@ public:
 	~About();
 	void startRequest(QUrl url); //请求链接
 	Ui::About ui;
+	QString strCRC32 = "";
 
 private slots:
 	void on_pushButton_2_clicked();
@@ -34,3 +35,6 @@ private slots:
 	void updateDataReadProgress(qint64, qint64); //更新进度条
 
 };
+
+QString calcFileCRC(QString fileName);
+quint32 calcCRC32(const QByteArray& data);
