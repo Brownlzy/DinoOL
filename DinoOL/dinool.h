@@ -26,7 +26,7 @@
 #include "dino.h"
 #include "about.h"
 
-#define DINOVER "v1.0-beta.4"
+#define DINOVER "v1.0.0"
 
 class DinoOL : public QMainWindow
 {

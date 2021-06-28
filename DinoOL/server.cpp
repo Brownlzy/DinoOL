@@ -11,6 +11,10 @@ Server::Server(QWidget* parent)
 	ui.setupUi(this);
 	this->setWindowIcon(QIcon(":/pic/icon/Server"));
 	ui.txtPort->setText("30628");
+#ifndef _DEBUG
+	ui.txtLog->setGeometry(0, 249, 271, 251);
+	ui.txtGet->hide();
+#endif // !_DEBUG
 	connect(ui.btnListen, SIGNAL(clicked()), this, SLOT(OnBtnInitSocket()));
 	connect(ui.btnSend, SIGNAL(clicked()), this, SLOT(OnBtnSendData()));
 	//t.setInterval(3000);
