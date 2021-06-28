@@ -722,17 +722,24 @@ void DinoOL::printOBS()
 			ui.lifeP2->setText("<html><head/><body><p><img src = "":/pic/png/" + QString::number(ui.labP1P2Life->text().split(':')[1].toInt() - 1) + """ width = ""36"" height = ""44"" / >< / p>< / body>< / html>");
 			ui.labP1P2Life->setText(ui.labP1P2Life->text().split(':')[0] + ":" + QString::number(ui.labP1P2Life->text().split(':')[1].toInt() - 1));
 		}
-		if (!isPause && isTouched(OBS[i], &P1->labDino))
+		if (!isPause && !P1->isShining && isTouched(OBS[i], &P1->labDino))
 		{
 			if (!P2->isOn && !WebGame)
 			{
 				if (R[1]->isOn == 1 && (R[0]->isFail == 1 || R[1]->isFail == 1) || R[1]->isOn == 0)
 				{
-					GamePause();
-					mOBS[i]->stop();
-					isPause = 1;
-					P1->setDinoState(":/pic/png/dino_fail");
-					//ui.lab_7->setText("碰到障碍" + QString::number(i));
+					if (ui.labP1P2Life->text().split(':')[0].toInt() <= 1)
+					{
+
+						GamePause();
+						mOBS[i]->stop();
+						isPause = 1;
+						P1->setDinoState(":/pic/png/dino_fail");
+						//ui.lab_7->setText("碰到障碍" + QString::number(i));
+					}
+					else { P1->shining(); }
+					ui.lifeP1->setText("<html><head/><body><p><img src = "":/pic/png/" + QString::number(ui.labP1P2Life->text().split(':')[0].toInt() - 1) + """ width = ""36"" height = ""44""/></p></body></html>");
+					ui.labP1P2Life->setText(QString::number(ui.labP1P2Life->text().split(':')[0].toInt() - 1) + ":" + ui.labP1P2Life->text().split(':')[1]);
 				}
 				else
 				{
@@ -798,6 +805,11 @@ void DinoOL::GamePause()
 void DinoOL::refreshScore(int t)
 {
 	if (isPause) return;
+	//if (vx0 < 1000)vx0 = t / 100 * 100 + 305.6;
+	for (int i = 0; i < 6 && t < 1000; i++)
+	{
+		if (dy[i] && vOBS[i]) vOBS[i] = 0 - vx0 - t;
+	}
 	ui.score7->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
 	t /= 10;
 	ui.score6->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
@@ -834,7 +846,7 @@ void DinoOL::ProduceOBS()
 		ui.labReady->show();
 		ui.labReady->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(ui.labReady->text().split("/")[4].left(1).toInt() - 1) + """ widyh=""162"" height=""198""/></p></body></html>");
 		ui.labReady->adjustSize();
-		QTimer::singleShot(1000, this, SLOT(ProduceOBS()));				//1秒后重新调用自己
+		QTimer::singleShot(1000, this, SLOT(ProduceOBS()));				//1秒后重新调用
 		return;
 	}
 	else if (ui.labReady->text().split("/")[4].left(1) != "-")
@@ -901,7 +913,11 @@ void DinoOL::ProduceOBS(int kind, int dy)
 		Score.start();
 		ui.frmScore->show();
 	}
-	if (P2->isOn) ui.frmLlife->show();
+	if (!WebGame)
+	{
+		ui.frmLlife->show();
+		if (!P2->isOn) ui.frmLlife->setGeometry(0, 0, 71, 61);
+	}
 	else if (WebGame && isAllReady())
 	{
 		if (!R[1]->isOn && !R[0]->isOn)
