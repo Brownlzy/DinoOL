@@ -10,6 +10,7 @@ void About::Update()
 	std::ofstream fbat;
 	fbat.open("update.bat");
 	fbat << "@echo off\n";
+	fbat << "TIMEOUT /T 1\n";
 	fbat << "taskkill /pid " << qApp->applicationPid() << " -t -f\n";
 	fbat << "del DinoOL.exe\n";
 	fbat << "ren DinoOLNew.exe DinoOL.exe\n";
@@ -17,7 +18,7 @@ void About::Update()
 	fbat << "del update.bat\n";
 	fbat.close();
 	QProcess::startDetached("update.bat");
-	//qApp->exit(-3);
+	qApp->exit(-3);
 }
 
 About::About(QWidget* parent)

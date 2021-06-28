@@ -10,6 +10,11 @@
 int main(int argc, char* argv[])
 {
 	int tmp;
+	if (QFileInfo("update.bat").exists())
+	{
+		QProcess::startDetached("update.bat");
+		qApp->exit(-3);
+	}
 	do {
 		QApplication a(argc, argv);
 		DinoOL w;
