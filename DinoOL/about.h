@@ -1,4 +1,9 @@
-﻿#pragma once
+﻿/*
+* 2021年6月27日17点45分
+* By：Brownlzy
+*/
+
+#pragma once
 
 #include <QDialog>
 #include <fstream>

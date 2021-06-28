@@ -1,4 +1,10 @@
-﻿#pragma once
+﻿/*
+* 2021年5月25日0点10分
+* By：Brownlzy
+*/
+
+
+#pragma once
 
 #include <QObject>
 #include <QtGui/QMovie>

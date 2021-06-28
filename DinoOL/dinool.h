@@ -1,5 +1,5 @@
 ﻿/*
-* 2021年6月27日17点45分
+* 2021年5月19日17点38分
 * By：Brownlzy
 */
 
@@ -26,7 +26,6 @@
 #include "dino.h"
 #include "about.h"
 
-//#define DEBUG
 #define DINOVER "v1.0-beta.4"
 
 class DinoOL : public QMainWindow

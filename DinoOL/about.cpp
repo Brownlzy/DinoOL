@@ -1,4 +1,9 @@
-﻿#include "about.h"
+﻿/*
+* 2021年6月27日17点45分
+* By：Brownlzy
+*/
+
+#include "about.h"
 
 void About::Update()
 {

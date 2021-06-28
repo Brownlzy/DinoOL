@@ -1,5 +1,5 @@
 ﻿/*
-* 2021年6月27日17点45分
+* 2021年5月19日17点38分
 * By：Brownlzy
 */
 
@@ -11,7 +11,12 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.setupUi(this);
 	buildTime = __TIMESTAMP__;
 	QString tmp = "DinoOL ";
-	tmp += /*QString::fromStdString(DINOVER) + */" By:Brownlzy";
+#ifdef _DEBUG
+	tmp += QString::fromStdString(DINOVER) + " By:Brownlzy ====DEBUG====DEBUG====DEBUG====";
+#else
+	tmp += QString::fromStdString(DINOVER) + " By:Brownlzy";
+	ui.actionDebug->setVisible(false);
+#endif // _DEBUG
 	this->setWindowTitle(tmp);
 	this->setWindowIcon(QIcon(":/pic/icon/DinoOL"));
 	int x = this->frameGeometry().width();
@@ -62,10 +67,6 @@ DinoOL::DinoOL(QWidget* parent)
 		}
 	}
 	//pdtime->start();
-#ifdef DEBUG
-	ui.actionDebug->setVisible(false);
-#endif // DEBUG
-
 }
 DinoOL::~DinoOL()
 {
