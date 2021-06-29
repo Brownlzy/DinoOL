@@ -1046,13 +1046,13 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>文件(F)</string>
+     <string>文件(&amp;F)</string>
     </property>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuGame">
     <property name="title">
-     <string>游戏(G)</string>
+     <string>游戏(&amp;G)</string>
     </property>
     <addaction name="actionRestart"/>
     <addaction name="separator"/>
@@ -1061,7 +1061,7 @@
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>帮助(H)</string>
+     <string>帮助(&amp;H)</string>
     </property>
     <addaction name="actionDebug"/>
     <addaction name="action_2"/>
@@ -1092,7 +1092,7 @@
    </widget>
    <widget class="QMenu" name="menu_S">
     <property name="title">
-     <string>统计(&amp;S)</string>
+     <string>统计(&amp;T)</string>
     </property>
     <widget class="QMenu" name="menu">
      <property name="title">
