@@ -33,6 +33,114 @@
         <source>更新</source>
         <translation>UPDATE</translation>
     </message>
+    <message>
+        <location filename="about.cpp" line="15"/>
+        <source>校验失败！</source>
+        <translation>Error!</translation>
+    </message>
+</context>
+<context>
+    <name>DinoOL</name>
+    <message>
+        <location filename="dinool.cpp" line="222"/>
+        <location filename="dinool.cpp" line="1034"/>
+        <source>版本已过期！</source>
+        <translation>Version expired!</translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="222"/>
+        <location filename="dinool.cpp" line="1034"/>
+        <source>请在菜单-帮助(H)-关于处升级最新版！
+当前版本:</source>
+        <translation>Please update the latest version in menu-Help(H)-about!
+Current version:</translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="222"/>
+        <location filename="dinool.cpp" line="1034"/>
+        <source>
+当前最新版:</source>
+        <translation>
+Current version:</translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="238"/>
+        <location filename="dinool.cpp" line="1050"/>
+        <source>无效许可！</source>
+        <translation>Invalid license!</translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="238"/>
+        <location filename="dinool.cpp" line="1050"/>
+        <source>请确定已联网且安装了DinoOLServer组件,
+或向开发者索要最新版！
+当前版本:</source>
+        <translation>Please make sure that you are connected to the network and that the dinoolserver component is installed,
+Or ask the developer for the latest version!
+Current version:</translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="419"/>
+        <location filename="dinool.cpp" line="420"/>
+        <location filename="dinool.cpp" line="421"/>
+        <location filename="dinool.cpp" line="484"/>
+        <source>是</source>
+        <translation>Y</translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="486"/>
+        <source>Grey</source>
+        <translation>Grey</translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="487"/>
+        <location filename="dinool.cpp" line="522"/>
+        <location filename="dinool.cpp" line="683"/>
+        <source>否</source>
+        <translation>N</translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="613"/>
+        <location filename="dinool.cpp" line="629"/>
+        <location filename="dinool.cpp" line="644"/>
+        <location filename="dinool.cpp" line="658"/>
+        <location filename="dinool.cpp" line="673"/>
+        <location filename="dinool.cpp" line="1170"/>
+        <location filename="dinool.cpp" line="1183"/>
+        <location filename="dinool.cpp" line="1196"/>
+        <source>QT网络通信向服务端发送数据失败！</source>
+        <translation>Failed to send data to server!</translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="1070"/>
+        <source>已连接</source>
+        <translation>Connected</translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="1124"/>
+        <source>请手动更新</source>
+        <translation>Manual</translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="1128"/>
+        <source>DinoOL -有可用更新-</source>
+        <translation>DinoOL -Updates available-</translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="1138"/>
+        <source>DinoOL -未授权版本-</source>
+        <translation>DinoOL -Unauthorized version-</translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="1155"/>
+        <source>QT网络通信连接服务端失败！</source>
+        <translation>Failed to connect to server!</translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="1214"/>
+        <source>QT网络通信接收服务端数据失败！</source>
+        <translation>Failed to receive server data!</translation>
+    </message>
 </context>
 <context>
     <name>DinoOLClass</name>
@@ -227,7 +335,7 @@
     <message>
         <location filename="dinool.ui" line="1041"/>
         <source>关于</source>
-        <translation type="unfinished"></translation>
+        <translation>About(&amp;A)</translation>
     </message>
 </context>
 <context>
@@ -374,6 +482,101 @@
         <location filename="server.ui" line="471"/>
         <source>305.6</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="121"/>
+        <location filename="server.cpp" line="123"/>
+        <location filename="server.cpp" line="125"/>
+        <location filename="server.cpp" line="127"/>
+        <location filename="server.cpp" line="130"/>
+        <location filename="server.cpp" line="131"/>
+        <location filename="server.cpp" line="132"/>
+        <source>是</source>
+        <translation>Y</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="123"/>
+        <location filename="server.cpp" line="125"/>
+        <location filename="server.cpp" line="127"/>
+        <source>否</source>
+        <translation>N</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="134"/>
+        <source>游戏中...</source>
+        <translation>Playing...</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="151"/>
+        <source>ROOM$0$$房间已存在$$</source>
+        <translation>ROOM$0$$Room Existed$$</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="159"/>
+        <source>等待玩家加入...</source>
+        <translation>Waiting for player...</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="163"/>
+        <source>否-否-否</source>
+        <translation>N-N-N</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="169"/>
+        <source>$创建成功$$</source>
+        <translation>$Create successfully$$</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="177"/>
+        <location filename="server.cpp" line="178"/>
+        <source>ROOM$-1$$房间已关闭$$</source>
+        <translation>ROOM$-1$$Room Closed$$</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="183"/>
+        <source>ROOM$-2$删除失败$$$</source>
+        <translation>ROOM$-2$Deletion Failed$$$</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="210"/>
+        <source>$是#</source>
+        <translation>$Y#</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="210"/>
+        <location filename="server.cpp" line="214"/>
+        <source>#Grey#@</source>
+        <translation>#Grey#@</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="218"/>
+        <source>JOIN$1$加入成功$$$</source>
+        <translation>JOIN$1$Joined$$$</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="221"/>
+        <source>JOIN$-2$已在房间中$$$</source>
+        <translation>JOIN$-2$Already in the Room$$$</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="224"/>
+        <source>JOIN$0$房间已满$$$</source>
+        <translation>JOIN$0$Room is Full$$$</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="228"/>
+        <source>JOIN$-1$无房间$$$</source>
+        <translation>JOIN$-1$No this Room$$$</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="358"/>
+        <source>PID=100$已达到最大连接数！请稍后再试。</source>
+        <translation>PID=100$Maximum number of connections reached! Please try again later.</translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="364"/>
+        <source>$连接成功。</source>
+        <translation>$Connected.</translation>
     </message>
 </context>
 </TS>

@@ -806,9 +806,12 @@ void DinoOL::refreshScore(int t)
 {
 	if (isPause) return;
 	//if (vx0 < 1000)vx0 = t / 100 * 100 + 305.6;
-	for (int i = 0; i < 6 && t < 1000; i++)
+	for (int i = 0; i < 6; i++)
 	{
-		if (dy[i] && vOBS[i]) vOBS[i] = 0 - vx0 - t;
+		if (t < 1000 && dy[i] && vOBS[i])
+			vOBS[i] = 0 - vx0 - int(log10(t) - 1) * 100;
+		else if (dy[i] && vOBS[i])
+			vOBS[i] = 0 - vx0 - 3 * 100;
 	}
 	ui.score7->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
 	t /= 10;
@@ -1102,8 +1105,8 @@ void DinoOL::on_action_2_triggered()
 	frmabout.setWindowFlags(Qt::WindowCloseButtonHint);
 	//tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt"));
 	tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLUpdateInfo.txt"));
-	//DinoOL_OTA_Info!101<v1.0.2<102<1<20BAF4F9<296KB!
-	//DinoOL_OTA_Info!低于此比较号强制升级 < 当前最新版本号 < 比较号(int) < 是否可快速升级(bool) < CRC32校验码 < 大小!(结束标记)
+	//DinoOL_OTA_Info!101<v1.0.2<102<1<20BAF4F9<296KB<更新日志!
+	//DinoOL_OTA_Info!低于此比较号强制升级 < 当前最新版本号 < 比较号(int) < 是否可快速升级(bool) < CRC32校验码 < 大小 < 更新日志!(结束标记)
 	tmp += "!<<<<<!";//防止下标越界;
 	qDebug() << tmp;
 	if (tmp.split("!")[0] == "DinoOL_OTA_Info")
@@ -1114,7 +1117,8 @@ void DinoOL::on_action_2_triggered()
 			{
 				frmabout.ui.pushButton_2->setEnabled(true);
 				QString otaInfo = tmp.split("!")[1].split("<")[1] + "_";
-				otaInfo += tmp.split("!")[1].split("<")[5];
+				otaInfo += tmp.split("!")[1].split("<")[5] + "\n";
+				otaInfo += tmp.split("!")[1].split("<")[6];
 				frmabout.ui.pushButton_2->setToolTip(otaInfo);
 				//frmabout.ui.pushButton_2->setWhatsThis(tmp.split("!")[1]);
 				frmabout.strCRC32 = tmp.split("!")[1].split("<")[4];
@@ -1124,6 +1128,7 @@ void DinoOL::on_action_2_triggered()
 				frmabout.ui.pushButton_2->setText(tr("请手动更新"));
 				QString otaInfo = tmp.split("!")[1].split("<")[1] + "_";
 				otaInfo += tmp.split("!")[1].split("<")[5];
+				otaInfo += tmp.split("!")[1].split("<")[6];
 				frmabout.ui.pushButton_2->setToolTip(otaInfo);
 				frmabout.setWindowTitle(tr("DinoOL -有可用更新-"));
 			}
