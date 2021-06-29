@@ -29,8 +29,8 @@
 #include "dino.h"
 #include "about.h"
 
-#define DINOVER "v1.0.6"
-#define DINOVERNUM 1060		//最后一位可以用于区分小版本
+#define DINOVER "v1.0.7"
+#define DINOVERNUM 1070		//最后一位可以用于区分小版本
 
 class DinoOL : public QMainWindow
 {
@@ -51,6 +51,7 @@ public:
 	void RKey(int, int, int);
 	int readDataFile();
 	int writeDataFile();
+	int Initialize();
 
 public slots:
 	void NetworkChk(QString);
@@ -68,6 +69,7 @@ public slots:
 	int isTouched(QLabel*, QLabel*);
 	void SendReady();
 	void SendDC();
+	void resizeDinoOL();
 
 private slots:
 	void on_actionRun_as_a_server_triggered();
@@ -78,6 +80,7 @@ private slots:
 	void on_action_2_triggered();
 	void on_btnCon_clicked();
 	void on_btnWhatsThis_clicked();
+	void on_btnRandRoom_clicked();
 	void on_btnCreRoom_clicked();
 	void on_btnExitRoom_clicked();
 	void on_btnSend_clicked();

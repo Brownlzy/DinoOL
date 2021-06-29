@@ -16,6 +16,7 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.txtServer->setText("127.0.0.1:30628");
 	ui.txtNewRoom->setText("debug");
 	ui.txtRoom->setText("debug");
+	ui.frame_4->setGeometry(0, 0, ui.frame_4->width(), 341);
 #else
 	tmp += QString::fromStdString(DINOVER) + " By:Brownlzy";
 	ui.actionDebug->setVisible(false);
@@ -50,15 +51,15 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.lab_2->move(x - 1 - ui.lab_2->width(), ui.lab_2->y());
 	ui.lab_3->move(x - 1 - ui.lab_3->width(), ui.lab_3->y());
 	ui.lab_6->move(x - 1 - ui.lab_6->width(), ui.lab_6->y());
-	connect(ui.label_2, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
-	connect(ui.label_3, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
-	connect(ui.labelFail, SIGNAL(linkActivated(QString)), this, SLOT(reStart(QString)));
 	maxH = vy0 * vy0 / (2 * G);
 	pdtime = new QTimer(this);
 	ptcloud = new QTimer(this);
 	ptOBS = new QTimer(this);
 	ptOBS->setInterval(tms);
 	pdtime->setInterval(100);
+	connect(ui.label_2, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
+	connect(ui.label_3, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
+	connect(ui.labelFail, SIGNAL(linkActivated(QString)), this, SLOT(reStart(QString)));
 	connect(ptcloud, SIGNAL(timeout()), this, SLOT(cloudloop()));
 	connect(pdtime, SIGNAL(timeout()), this, SLOT(printpos()));
 	connect(ptOBS, SIGNAL(timeout()), this, SLOT(printOBS()));
@@ -138,6 +139,10 @@ void DinoOL::printpos()
 	ui.lab_6->move(this->frameGeometry().width() - 1 - ui.lab_6->width(), ui.lab_6->y());
 }
 void DinoOL::resizeEvent(QResizeEvent* event)
+{
+	resizeDinoOL();
+}
+void DinoOL::resizeDinoOL()
 {
 	//获取ui形成窗口宽度
 	int x = this->frameGeometry().width();
@@ -537,6 +542,8 @@ void DinoOL::ProcessSMsg(QString msg)
 				}
 				if (ui.tableRoomer->item(i, 1)->text() != "")
 					ui.tableRoomer->item(i, 3)->setText(msg.split('$')[4].split('-')[i]);
+				else
+					ui.tableRoomer->item(i, 3)->setText("");
 			}
 			ui.menuROOM->setTitle("ROOM=" + msg.split('$')[2]);
 		}
@@ -782,8 +789,120 @@ int DinoOL::writeDataFile()
 	}
 	fout << QString::number(calcCRC32(raw), 16).toUpper().toStdString() << " ";
 	fout << ui.actionMaxScore->text().toInt() << " " << ui.actionJump->text().toInt() << " " << ui.actionDive->text().toInt() << " " << ui.actionRunJump->text().toInt();
-	fout << "\nPlease_DON'T_change_the_file_manually!";
+	fout << "\nPlease_DONT_change_the_file_manually!";
 	fout.close();
+	return 0;
+}
+
+int DinoOL::Initialize()
+{
+
+	disconnect(ui.label_2, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
+	disconnect(ui.label_3, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
+	disconnect(ui.labelFail, SIGNAL(linkActivated(QString)), this, SLOT(reStart(QString)));
+	disconnect(ptcloud, SIGNAL(timeout()), this, SLOT(cloudloop()));
+	disconnect(pdtime, SIGNAL(timeout()), this, SLOT(printpos()));
+	disconnect(ptOBS, SIGNAL(timeout()), this, SLOT(printOBS()));
+	CleanAM(pAnimationRoad);
+	if (labCloud != NULL)
+	{
+		delete[]labCloud;
+		labCloud = NULL;
+	}
+	/*
+	if (pAnimationRoad != NULL)
+		delete[] pAnimationRoad;
+	*/
+	if (movie_cloud != NULL)
+	{
+		delete[]movie_cloud;
+		movie_cloud = NULL;
+	}
+	if (pAnimationCloud != NULL)
+	{
+		delete[]pAnimationCloud;
+		pAnimationCloud = NULL;
+	}
+
+	delete[] P1;
+	delete[] P2;
+	delete[] R[0];
+	delete[] R[1];
+	delete[] R;
+	delete[] pdtime;
+	delete[] ptcloud;
+	delete[] ptOBS;
+
+	P1 = NULL;
+	P2 = NULL;
+	R = NULL;
+	pdtime = NULL;
+	ptcloud = NULL;
+	ptOBS = NULL;
+	isStarted = 0;
+
+	buildTime = __TIMESTAMP__;
+	QString tmp = "DinoOL ";
+#ifdef _DEBUG
+	tmp += QString::fromStdString(DINOVER) + ".debug By:Brownlzy ====D====E====B====U====G====";
+	ui.txtServer->setText("127.0.0.1:30628");
+	ui.txtNewRoom->setText("debug");
+	ui.txtRoom->setText("debug");
+#else
+	tmp += QString::fromStdString(DINOVER) + " By:Brownlzy";
+	ui.actionDebug->setVisible(false);
+#endif // _DEBUG
+	this->setWindowTitle(tmp);
+	this->setWindowIcon(QIcon(":/pic/icon/DinoOL"));
+	int x = this->frameGeometry().width();
+	int y = this->frameGeometry().height();
+	qDebug() << ui.centralWidget->pos();
+	ui.labelFail->hide();
+	ui.frmLlife->hide();
+	ui.frmRlife->hide();
+	P1 = new Dino(x, y, this, this->centralWidget());
+	P1->isOn = 1;
+	P2 = new Dino(x, y, this, this->centralWidget());
+	R = new Dino * [2];
+	R[0] = new Dino(x, y, this, this->centralWidget());
+	R[1] = new Dino(x, y, this, this->centralWidget());
+	P1->setDinoState(":/pic/gif/dino_start");
+	P1->move(0.2 * x, 0.2 * y);
+	P1->adjustSize();
+	P1->show(true);
+	ui.frmScore->hide();
+	ui.label_2->hide();
+	ui.label_3->adjustSize();
+	ui.labelchklcs->hide();
+	ui.labReady->setText("<html><head/><body><p><img src="":/pic/png/6"" widyh=""162"" height=""198""/></p></body></html>");
+	ui.labReady->adjustSize();
+	ui.labReady->hide();
+	ui.frame_4->hide();
+	ui.lab_2->move(x - 1 - ui.lab_2->width(), ui.lab_2->y());
+	ui.lab_3->move(x - 1 - ui.lab_3->width(), ui.lab_3->y());
+	ui.lab_6->move(x - 1 - ui.lab_6->width(), ui.lab_6->y());
+	maxH = vy0 * vy0 / (2 * G);
+	pdtime = new QTimer(this);
+	ptcloud = new QTimer(this);
+	ptOBS = new QTimer(this);
+	ptOBS->setInterval(tms);
+	pdtime->setInterval(100);
+	connect(ui.label_2, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
+	connect(ui.label_3, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
+	connect(ui.labelFail, SIGNAL(linkActivated(QString)), this, SLOT(reStart(QString)));
+	connect(ptcloud, SIGNAL(timeout()), this, SLOT(cloudloop()));
+	connect(pdtime, SIGNAL(timeout()), this, SLOT(printpos()));
+	connect(ptOBS, SIGNAL(timeout()), this, SLOT(printOBS()));
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			ui.tableRoomer->setItem(i, j, new QTableWidgetItem(""));
+		}
+	}
+	resizeDinoOL();
+	readDataFile();
+
 	return 0;
 }
 
@@ -1189,6 +1308,8 @@ void DinoOL::on_actionDebug_triggered()
 void DinoOL::on_actionRestart_triggered()
 {
 	reStart("");
+	//太乱了，以后再搞；
+	//Initialize();
 }
 
 void DinoOL::on_action_2_triggered()
@@ -1217,14 +1338,16 @@ void DinoOL::on_action_2_triggered()
 	{
 		if (tmp.split("!")[1].split("<")[2].toInt() > DINOVERNUM)
 		{
+			frmabout.setFixedSize(291, 351);
 			if (tmp.split("!")[1].split("<")[3].toInt() == 1)
 			{
 				frmabout.ui.progressBar->setMaximum(0);
 				frmabout.ui.pushButton_2->setEnabled(true);
-				QString otaInfo = tmp.split("!")[1].split("<")[1] + "_";
-				otaInfo += tmp.split("!")[1].split("<")[5] + "\n";
+				QString otaInfo = "新版本:\t" + tmp.split("!")[1].split("<")[1] + "\n大小:\t";
+				otaInfo += tmp.split("!")[1].split("<")[5] + "\n更新内容:\n";
 				otaInfo += tmp.split("!")[1].split("<")[6];
-				frmabout.ui.pushButton_2->setToolTip(otaInfo);
+				//frmabout.ui.pushButton_2->setToolTip(otaInfo);
+				frmabout.ui.textBrowser->setText(otaInfo);
 				//frmabout.ui.pushButton_2->setWhatsThis(tmp.split("!")[1]);
 				frmabout.strCRC32 = tmp.split("!")[1].split("<")[4];
 			}
@@ -1232,24 +1355,26 @@ void DinoOL::on_action_2_triggered()
 			{
 				frmabout.ui.progressBar->hide();
 				frmabout.ui.pushButton_2->setText(tr("请手动更新"));
-				QString otaInfo = tmp.split("!")[1].split("<")[1] + "_";
-				otaInfo += tmp.split("!")[1].split("<")[5];
+				QString otaInfo = "新版本:\t" + tmp.split("!")[1].split("<")[1] + "\n大小:\t";
+				otaInfo += tmp.split("!")[1].split("<")[5] + "\n更新内容:\n";
 				otaInfo += tmp.split("!")[1].split("<")[6];
-				frmabout.ui.pushButton_2->setToolTip(otaInfo);
+				//frmabout.ui.pushButton_2->setToolTip(otaInfo);
+				frmabout.ui.textBrowser->setText(otaInfo);
 				frmabout.setWindowTitle(tr("DinoOL -有可用更新-"));
 			}
 		}
 		else
 		{
+			frmabout.setFixedSize(291, 146);
 			frmabout.ui.progressBar->hide();
 		}
 	}
 	else
 	{
+		frmabout.setFixedSize(291, 146);
 		frmabout.ui.progressBar->hide();
 		frmabout.setWindowTitle(tr("DinoOL -未授权版本-"));
 	}
-	frmabout.setFixedSize(291, 146);
 	frmabout.show();
 	if (frmabout.exec());
 }
@@ -1275,6 +1400,30 @@ void DinoOL::on_btnCon_clicked()
 void DinoOL::on_btnWhatsThis_clicked()
 {
 	QWhatsThis::enterWhatsThisMode();
+}
+
+void DinoOL::on_btnRandRoom_clicked()
+{
+	if (ui.menuSPID->title() == "SPID")
+	{
+		ui.labelLog->setText(tr("你还未连接至服务器并取得有效SPID"));
+		return;
+	}
+	if (ui.menuROOM->title() != "ROOM")
+	{
+		ui.labelLog->setText(tr("你已加入房间！"));
+		return;
+	}
+	QString sendMsg = QString::number(SPID) + "$JOIN$2$$$$";
+	char sendMsgChar[1024] = { 0 };
+	strcpy_s(sendMsgChar, sendMsg.toStdString().c_str());
+	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
+	if (sendRe == -1)
+	{
+		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
+		return;
+	}
+
 }
 
 void DinoOL::on_btnCreRoom_clicked()

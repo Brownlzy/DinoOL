@@ -210,42 +210,87 @@ void Server::ProcessCMsg(QString msg)
 		int row = ui.tableRoom->rowCount();
 		if (isIn)
 		{
-			for (int i = 0; i < row; i++)
+			if (isIn == 1)
 			{
-				if (ui.tableRoom->item(i, 0)->text() == msg.split('$')[3])
+				for (int i = 0; i < row; i++)
 				{
-					if (ui.tableRoom->item(i, 2)->text().toInt() < 3 && ui.tableRoom->item(i, 7)->text().startsWith("否"))
+					if (ui.tableRoom->item(i, 0)->text() == msg.split('$')[3])
+					{
+						if (ui.tableRoom->item(i, 2)->text().toInt() < 3 && ui.tableRoom->item(i, 7)->text().startsWith("否"))
+						{
+							if (ui.tablePlayer->item(PID % 100, 3)->text() == "Spare")
+							{
+								for (int j = 4, flag = 0; j < 7; j++)
+								{
+									if (ui.tableRoom->item(i, j)->text() == "")
+									{
+										ui.tableRoom->item(i, j)->setText(QString::number(PID));
+										break;
+									}
+								}
+								ui.tableRoom->item(i, 2)->setText(QString::number(ui.tableRoom->item(i, 2)->text().toInt() + 1));
+								ui.tablePlayer->item(PID % 100, 3)->setText("ROOM:" + msg.split('$')[3]);
+								QString RoomMem;
+								RoomMem = "JOIN$2$" + msg.split('$')[3] + tr("$是#") + ui.tableRoom->item(i, 4)->text() + tr("#Grey#@");
+								for (int j = 5; j < 7; j++)
+								{
+									if (ui.tableRoom->item(i, j)->text() != "")
+										RoomMem += "#" + ui.tableRoom->item(i, j)->text() + tr("#Grey#@");
+									else
+										RoomMem += "###@";
+								}
+								RoomMem += "###@###@$" + ui.tableRoom->item(i, 7)->text() + "$$$";
+								SendTo(ui.tableRoom->item(i, 0)->text(), RoomMem);
+								SendTo(PID, tr("JOIN$1$加入成功$$$")); //1表示加入成功
+							}
+							else
+								SendTo(PID, tr("JOIN$-2$已在房间中$$$")); //-2表示已在房间中
+						}
+						else
+							SendTo(PID, tr("JOIN$0$房间已满$$$")); //0表示房间已满
+						return;
+					}
+				}
+				SendTo(PID, tr("JOIN$-1$无房间$$$")); //-1表示无房间
+			}
+			else if (isIn == 2)	//随机加入房间（返回一个未满的房间ID让客户端加入）
+			{
+				for (int i = 0; i < row; i++)
+				{
+					if (ui.tableRoom->item(i, 0)->text().startsWith("R") && ui.tableRoom->item(i, 2)->text().toInt() < 3 && ui.tableRoom->item(i, 7)->text().startsWith("否"))
 					{
 						if (ui.tablePlayer->item(PID % 100, 3)->text() == "Spare")
 						{
-							QString sendtmp = "ADDU$1$" + QString::number(PID) + "$Grey$";
-							for (int j = 4; j < 4 + ui.tableRoom->item(i, 2)->text().toInt(); j++)
+							for (int j = 4; j < 7; j++)
 							{
-								SendTo(ui.tableRoom->item(i, j)->text().toInt(), sendtmp);
+								if (ui.tableRoom->item(i, j)->text() == "")
+								{
+									ui.tableRoom->item(i, j)->setText(QString::number(PID));
+									break;
+								}
 							}
-							ui.tableRoom->item(i, 4 + ui.tableRoom->item(i, 2)->text().toInt())->setText(QString::number(PID));
 							ui.tableRoom->item(i, 2)->setText(QString::number(ui.tableRoom->item(i, 2)->text().toInt() + 1));
-							ui.tablePlayer->item(PID % 100, 3)->setText("ROOM:" + msg.split('$')[3]);
+							ui.tablePlayer->item(PID % 100, 3)->setText("ROOM:" + ui.tableRoom->item(i, 0)->text());
 							QString RoomMem;
-							RoomMem = "JOIN$2$" + msg.split('$')[3] + tr("$是#") + ui.tableRoom->item(i, 4)->text() + tr("#Grey#@");
+							RoomMem = "JOIN$2$" + ui.tableRoom->item(i, 0)->text() + tr("$是#") + ui.tableRoom->item(i, 4)->text() + tr("#Grey#@");
 							for (int j = 5; j < 7; j++)
 							{
 								if (ui.tableRoom->item(i, j)->text() != "")
 									RoomMem += "#" + ui.tableRoom->item(i, j)->text() + tr("#Grey#@");
+								else
+									RoomMem += "###@";
 							}
 							RoomMem += "###@###@$" + ui.tableRoom->item(i, 7)->text() + "$$$";
-							SendTo(PID, RoomMem);
+							SendTo(ui.tableRoom->item(i, 0)->text(), RoomMem);
 							SendTo(PID, tr("JOIN$1$加入成功$$$")); //1表示加入成功
 						}
 						else
 							SendTo(PID, tr("JOIN$-2$已在房间中$$$")); //-2表示已在房间中
+						return;
 					}
-					else
-						SendTo(PID, tr("JOIN$0$房间已满$$$")); //0表示房间已满
-					return;
 				}
+				SendTo(PID, tr("JOIN$-1$无空闲开放房间$$$")); //-1表示无房间
 			}
-			SendTo(PID, tr("JOIN$-1$无房间$$$")); //-1表示无房间
 		}
 		else
 		{
@@ -271,13 +316,18 @@ void Server::ProcessCMsg(QString msg)
 						else
 						{
 							SendTo(PID, sendtmp);
-							sendtmp = "ADDU$-1$" + QString::number(PID) + "$$$";
-							for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); k++)
-							{
-								if (k != j)
-									SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
-							}
+							QString RoomMem;
+							RoomMem = "JOIN$2$" + ui.tableRoom->item(i, 0)->text() + tr("$是#") + ui.tableRoom->item(i, 4)->text() + tr("#Grey#@");
 							ui.tableRoom->item(i, j)->setText("");
+							for (int j = 5; j < 7; j++)
+							{
+								if (ui.tableRoom->item(i, j)->text() != "")
+									RoomMem += "#" + ui.tableRoom->item(i, j)->text() + tr("#Grey#@");
+								else
+									RoomMem += "###@";
+							}
+							RoomMem += "###@###@$" + ui.tableRoom->item(i, 7)->text() + "$$$";
+							SendTo(ui.tableRoom->item(i, 0)->text(), RoomMem);
 							ui.tableRoom->item(i, 2)->setText(QString::number(ui.tableRoom->item(i, 2)->text().toInt() - 1));
 							ui.tablePlayer->item(PID % 100, 3)->setText("Spare");
 						}

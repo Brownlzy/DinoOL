@@ -10,7 +10,8 @@
     </message>
     <message>
         <location filename="about.ui" line="44"/>
-        <source>DinoOL vX.X-XXXX.X</source>
+        <source>DinoOL vX.X.X</source>
+        <oldsource>DinoOL vX.X-XXXX.X</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -42,36 +43,36 @@
 <context>
     <name>DinoOL</name>
     <message>
-        <location filename="dinool.cpp" line="222"/>
-        <location filename="dinool.cpp" line="1034"/>
+        <location filename="dinool.cpp" line="231"/>
+        <location filename="dinool.cpp" line="1256"/>
         <source>版本已过期！</source>
         <translation>Version expired!</translation>
     </message>
     <message>
-        <location filename="dinool.cpp" line="222"/>
-        <location filename="dinool.cpp" line="1034"/>
+        <location filename="dinool.cpp" line="231"/>
+        <location filename="dinool.cpp" line="1256"/>
         <source>请在菜单-帮助(H)-关于处升级最新版！
 当前版本:</source>
         <translation>Please update the latest version in menu-Help(H)-about!
 Current version:</translation>
     </message>
     <message>
-        <location filename="dinool.cpp" line="222"/>
-        <location filename="dinool.cpp" line="1034"/>
+        <location filename="dinool.cpp" line="231"/>
+        <location filename="dinool.cpp" line="1256"/>
         <source>
 当前最新版:</source>
         <translation>
 Current version:</translation>
     </message>
     <message>
-        <location filename="dinool.cpp" line="238"/>
-        <location filename="dinool.cpp" line="1050"/>
+        <location filename="dinool.cpp" line="247"/>
+        <location filename="dinool.cpp" line="1272"/>
         <source>无效许可！</source>
         <translation>Invalid license!</translation>
     </message>
     <message>
-        <location filename="dinool.cpp" line="238"/>
-        <location filename="dinool.cpp" line="1050"/>
+        <location filename="dinool.cpp" line="247"/>
+        <location filename="dinool.cpp" line="1272"/>
         <source>请确定已联网且安装了DinoOLServer组件,
 或向开发者索要最新版！
 当前版本:</source>
@@ -80,64 +81,103 @@ Or ask the developer for the latest version!
 Current version:</translation>
     </message>
     <message>
-        <location filename="dinool.cpp" line="419"/>
-        <location filename="dinool.cpp" line="420"/>
-        <location filename="dinool.cpp" line="421"/>
-        <location filename="dinool.cpp" line="484"/>
+        <location filename="dinool.cpp" line="443"/>
+        <location filename="dinool.cpp" line="444"/>
+        <location filename="dinool.cpp" line="445"/>
+        <location filename="dinool.cpp" line="521"/>
         <source>是</source>
         <translation>Y</translation>
     </message>
     <message>
         <location filename="dinool.cpp" line="486"/>
+        <source>游戏服务器已满,请稍后再试!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="492"/>
+        <source>已连接至游戏服务器</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="513"/>
+        <source>收到服务器通知，由于房间关闭，已停止游戏！</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="523"/>
         <source>Grey</source>
         <translation>Grey</translation>
     </message>
     <message>
-        <location filename="dinool.cpp" line="487"/>
-        <location filename="dinool.cpp" line="522"/>
-        <location filename="dinool.cpp" line="683"/>
+        <location filename="dinool.cpp" line="524"/>
+        <location filename="dinool.cpp" line="562"/>
+        <location filename="dinool.cpp" line="723"/>
         <source>否</source>
         <translation>N</translation>
     </message>
     <message>
-        <location filename="dinool.cpp" line="613"/>
-        <location filename="dinool.cpp" line="629"/>
-        <location filename="dinool.cpp" line="644"/>
-        <location filename="dinool.cpp" line="658"/>
-        <location filename="dinool.cpp" line="673"/>
-        <location filename="dinool.cpp" line="1170"/>
-        <location filename="dinool.cpp" line="1183"/>
-        <location filename="dinool.cpp" line="1196"/>
+        <location filename="dinool.cpp" line="653"/>
+        <location filename="dinool.cpp" line="669"/>
+        <location filename="dinool.cpp" line="684"/>
+        <location filename="dinool.cpp" line="698"/>
+        <location filename="dinool.cpp" line="713"/>
+        <location filename="dinool.cpp" line="1419"/>
+        <location filename="dinool.cpp" line="1443"/>
+        <location filename="dinool.cpp" line="1463"/>
+        <location filename="dinool.cpp" line="1484"/>
+        <location filename="dinool.cpp" line="1502"/>
         <source>QT网络通信向服务端发送数据失败！</source>
         <translation>Failed to send data to server!</translation>
     </message>
     <message>
-        <location filename="dinool.cpp" line="1070"/>
+        <location filename="dinool.cpp" line="1292"/>
         <source>已连接</source>
         <translation>Connected</translation>
     </message>
     <message>
-        <location filename="dinool.cpp" line="1124"/>
+        <location filename="dinool.cpp" line="1355"/>
         <source>请手动更新</source>
         <translation>Manual</translation>
     </message>
     <message>
-        <location filename="dinool.cpp" line="1128"/>
+        <location filename="dinool.cpp" line="1360"/>
         <source>DinoOL -有可用更新-</source>
         <translation>DinoOL -Updates available-</translation>
     </message>
     <message>
-        <location filename="dinool.cpp" line="1138"/>
+        <location filename="dinool.cpp" line="1371"/>
         <source>DinoOL -未授权版本-</source>
         <translation>DinoOL -Unauthorized version-</translation>
     </message>
     <message>
-        <location filename="dinool.cpp" line="1155"/>
+        <location filename="dinool.cpp" line="1389"/>
         <source>QT网络通信连接服务端失败！</source>
         <translation>Failed to connect to server!</translation>
     </message>
     <message>
-        <location filename="dinool.cpp" line="1214"/>
+        <location filename="dinool.cpp" line="1405"/>
+        <location filename="dinool.cpp" line="1429"/>
+        <source>你还未连接至服务器并取得有效SPID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="1410"/>
+        <source>你已加入房间！</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="1434"/>
+        <location filename="dinool.cpp" line="1493"/>
+        <source>房间号不能含有“$”，请重新输入</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="1452"/>
+        <source>你还未加入任何房间！</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.cpp" line="1520"/>
         <source>QT网络通信接收服务端数据失败！</source>
         <translation>Failed to receive server data!</translation>
     </message>
@@ -170,170 +210,256 @@ Current version:</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="150"/>
-        <location filename="dinool.ui" line="198"/>
-        <source>1212</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dinool.ui" line="166"/>
+        <location filename="dinool.ui" line="172"/>
         <source>加入</source>
         <translation>Join</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="214"/>
+        <location filename="dinool.ui" line="226"/>
         <source>创建</source>
         <translation>Create</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="246"/>
-        <source>127.0.0.1:30628</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dinool.ui" line="262"/>
+        <location filename="dinool.ui" line="277"/>
         <source>连接</source>
         <translation>Connect</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="279"/>
+        <location filename="dinool.ui" line="294"/>
         <source>隐藏</source>
         <translation>Hide</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="292"/>
+        <location filename="dinool.ui" line="422"/>
         <source>联机模式</source>
         <translation>Online Mode</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="324"/>
+        <location filename="dinool.ui" line="339"/>
         <source>房主</source>
         <translation>isRoomer</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="329"/>
+        <location filename="dinool.ui" line="150"/>
+        <source>输入好友提供的房间号加入房间</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="169"/>
+        <source>加入已有房间</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="204"/>
+        <source>输入房间名称，不能含有“$”和“=”，以大写“R”开头的房间将对所有人开放随机加入权限。</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="223"/>
+        <source>创建房间，目前支持1-3人</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="258"/>
+        <source>输入游戏服务器的IP地址，如“192.168.0.2:60328”，“my.website.net:24773”.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="344"/>
         <source>玩家PID</source>
         <translation>PlayerID</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="334"/>
+        <location filename="dinool.ui" line="349"/>
         <source>玩家角色</source>
         <translation>PlayerSkin</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="339"/>
+        <location filename="dinool.ui" line="354"/>
         <source>准备？</source>
         <translation>Ready?</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="487"/>
+        <location filename="dinool.ui" line="390"/>
+        <source>随机加入以“O”开头的房间进行游戏。</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="393"/>
+        <source>随机加入</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="409"/>
+        <source>退出房间</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="435"/>
+        <source>?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="448"/>
+        <source>清除消息</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="451"/>
+        <source>╳</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="584"/>
         <source>检查许可中，确保网络连接正常，请稍后...</source>
         <translation>Check the license, make sure the network connection is normal, please wait...</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="547"/>
-        <location filename="dinool.ui" line="560"/>
-        <location filename="dinool.ui" line="573"/>
-        <location filename="dinool.ui" line="586"/>
-        <location filename="dinool.ui" line="599"/>
-        <location filename="dinool.ui" line="612"/>
-        <location filename="dinool.ui" line="625"/>
-        <location filename="dinool.ui" line="638"/>
+        <location filename="dinool.ui" line="644"/>
+        <location filename="dinool.ui" line="657"/>
+        <location filename="dinool.ui" line="670"/>
+        <location filename="dinool.ui" line="683"/>
+        <location filename="dinool.ui" line="696"/>
+        <location filename="dinool.ui" line="709"/>
+        <location filename="dinool.ui" line="722"/>
+        <location filename="dinool.ui" line="735"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/pic/png/0&quot; width=&quot;27&quot; height=&quot;33&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="652"/>
+        <location filename="dinool.ui" line="749"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;:/pic/png/GG&quot; width=&quot;764&quot; height=&quot;44&quot;/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;restart&quot;&gt;&lt;img src=&quot;:/pic/png/restart&quot; width=&quot;72&quot; height=&quot;64&quot;/&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="680"/>
-        <location filename="dinool.ui" line="737"/>
-        <location filename="dinool.ui" line="779"/>
-        <location filename="dinool.ui" line="836"/>
-        <location filename="dinool.ui" line="906"/>
+        <location filename="dinool.ui" line="777"/>
+        <location filename="dinool.ui" line="834"/>
+        <location filename="dinool.ui" line="876"/>
+        <location filename="dinool.ui" line="933"/>
+        <location filename="dinool.ui" line="1003"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/pic/png/3&quot; width=&quot;36&quot; height=&quot;44&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="750"/>
-        <location filename="dinool.ui" line="849"/>
+        <location filename="dinool.ui" line="847"/>
+        <location filename="dinool.ui" line="946"/>
         <source>3:3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="920"/>
+        <location filename="dinool.ui" line="1017"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/pic/png/6&quot; width=&quot;36&quot; height=&quot;44&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="952"/>
+        <location filename="dinool.ui" line="1049"/>
         <source>文件(F)</source>
         <translation>File(&amp;F)</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="958"/>
+        <location filename="dinool.ui" line="1055"/>
         <source>游戏(G)</source>
         <translation>Game(&amp;G)</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="967"/>
+        <location filename="dinool.ui" line="1064"/>
         <source>帮助(H)</source>
         <translation>Help(&amp;H)</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="977"/>
+        <location filename="dinool.ui" line="1074"/>
         <source>SPID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="985"/>
+        <location filename="dinool.ui" line="1082"/>
         <source>ROOM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="993"/>
+        <location filename="dinool.ui" line="1090"/>
         <source>Delay:0ms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="1006"/>
+        <location filename="dinool.ui" line="1095"/>
+        <source>统计(&amp;S)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="1099"/>
+        <source>历史最高分</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="1103"/>
+        <location filename="dinool.ui" line="1239"/>
+        <source>单机历史最高</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="1111"/>
+        <source>数据统计</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="1115"/>
+        <source>跳跃总次数</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="1120"/>
+        <source>下蹲总次数</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="1125"/>
+        <source>跑跳总次数</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dinool.ui" line="1153"/>
         <source>退出</source>
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="1011"/>
+        <location filename="dinool.ui" line="1207"/>
+        <location filename="dinool.ui" line="1216"/>
+        <location filename="dinool.ui" line="1225"/>
+        <location filename="dinool.ui" line="1234"/>
+        <source>0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>创建房间</source>
-        <translation>Create room</translation>
+        <translation type="vanished">Create room</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="1016"/>
         <source>加入房间</source>
-        <translation>Join room</translation>
+        <translation type="vanished">Join room</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="1021"/>
+        <location filename="dinool.ui" line="1162"/>
         <source>启动服务器</source>
         <translation>Switch to Server</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="1026"/>
+        <location filename="dinool.ui" line="1171"/>
         <source>联机游戏</source>
         <translation>Online Mode</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="1031"/>
+        <location filename="dinool.ui" line="1180"/>
         <source>调试信息</source>
         <translation>DEBUG</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="1036"/>
+        <location filename="dinool.ui" line="1189"/>
         <source>重新开始</source>
         <translation>ReStrat</translation>
     </message>
     <message>
-        <location filename="dinool.ui" line="1041"/>
+        <location filename="dinool.ui" line="1198"/>
         <source>关于</source>
         <translation>About(&amp;A)</translation>
     </message>
@@ -342,8 +468,9 @@ Current version:</translation>
     <name>Server</name>
     <message>
         <location filename="server.ui" line="20"/>
-        <source>DinoOL服务器端 v1.0b</source>
-        <translation>DinoOL Server v1.0b</translation>
+        <source>DinoOL服务器端 v1.0</source>
+        <oldsource>DinoOL服务器端 v1.0b</oldsource>
+        <translation type="unfinished">DinoOL Server v1.0b</translation>
     </message>
     <message>
         <location filename="server.ui" line="43"/>
@@ -367,8 +494,9 @@ Current version:</translation>
     </message>
     <message>
         <location filename="server.ui" line="108"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;g值:&lt;span style=&quot; color:#ffffff;&quot;&gt;-------&lt;/span&gt;Vx:&lt;span style=&quot; color:#ffffff;&quot;&gt;-------&lt;/span&gt;Vy:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;grm:&lt;span style=&quot; color:#ffffff;&quot;&gt;-------&lt;/span&gt;Vx:&lt;span style=&quot; color:#ffffff;&quot;&gt;-------&lt;/span&gt;Vy:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;g值:&lt;span style=&quot; color:#ffffff;&quot;&gt;-----------&lt;/span&gt;Vx:&lt;span style=&quot; color:#ffffff;&quot;&gt;----------&lt;/span&gt;Vy:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <oldsource>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;g值:&lt;span style=&quot; color:#ffffff;&quot;&gt;-------&lt;/span&gt;Vx:&lt;span style=&quot; color:#ffffff;&quot;&gt;-------&lt;/span&gt;Vy:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
+        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;grm:&lt;span style=&quot; color:#ffffff;&quot;&gt;-------&lt;/span&gt;Vx:&lt;span style=&quot; color:#ffffff;&quot;&gt;-------&lt;/span&gt;Vy:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="server.ui" line="121"/>
@@ -484,97 +612,110 @@ Current version:</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="server.cpp" line="121"/>
-        <location filename="server.cpp" line="123"/>
-        <location filename="server.cpp" line="125"/>
-        <location filename="server.cpp" line="127"/>
-        <location filename="server.cpp" line="130"/>
-        <location filename="server.cpp" line="131"/>
-        <location filename="server.cpp" line="132"/>
+        <location filename="server.cpp" line="141"/>
+        <location filename="server.cpp" line="143"/>
+        <location filename="server.cpp" line="145"/>
+        <location filename="server.cpp" line="147"/>
+        <location filename="server.cpp" line="150"/>
+        <location filename="server.cpp" line="151"/>
+        <location filename="server.cpp" line="152"/>
         <source>是</source>
         <translation>Y</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="123"/>
-        <location filename="server.cpp" line="125"/>
-        <location filename="server.cpp" line="127"/>
+        <location filename="server.cpp" line="143"/>
+        <location filename="server.cpp" line="145"/>
+        <location filename="server.cpp" line="147"/>
         <source>否</source>
         <translation>N</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="134"/>
+        <location filename="server.cpp" line="154"/>
         <source>游戏中...</source>
         <translation>Playing...</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="151"/>
+        <location filename="server.cpp" line="171"/>
         <source>ROOM$0$$房间已存在$$</source>
         <translation>ROOM$0$$Room Existed$$</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="159"/>
+        <location filename="server.cpp" line="179"/>
         <source>等待玩家加入...</source>
         <translation>Waiting for player...</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="163"/>
+        <location filename="server.cpp" line="183"/>
         <source>否-否-否</source>
         <translation>N-N-N</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="169"/>
+        <location filename="server.cpp" line="189"/>
         <source>$创建成功$$</source>
         <translation>$Create successfully$$</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="177"/>
-        <location filename="server.cpp" line="178"/>
+        <location filename="server.cpp" line="197"/>
+        <location filename="server.cpp" line="198"/>
         <source>ROOM$-1$$房间已关闭$$</source>
         <translation>ROOM$-1$$Room Closed$$</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="183"/>
+        <location filename="server.cpp" line="203"/>
         <source>ROOM$-2$删除失败$$$</source>
         <translation>ROOM$-2$Deletion Failed$$$</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="210"/>
+        <location filename="server.cpp" line="234"/>
+        <location filename="server.cpp" line="275"/>
+        <location filename="server.cpp" line="320"/>
         <source>$是#</source>
         <translation>$Y#</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="210"/>
-        <location filename="server.cpp" line="214"/>
+        <location filename="server.cpp" line="234"/>
+        <location filename="server.cpp" line="238"/>
+        <location filename="server.cpp" line="275"/>
+        <location filename="server.cpp" line="279"/>
+        <location filename="server.cpp" line="320"/>
+        <location filename="server.cpp" line="325"/>
         <source>#Grey#@</source>
         <translation>#Grey#@</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="218"/>
+        <location filename="server.cpp" line="244"/>
+        <location filename="server.cpp" line="285"/>
         <source>JOIN$1$加入成功$$$</source>
         <translation>JOIN$1$Joined$$$</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="221"/>
+        <location filename="server.cpp" line="247"/>
+        <location filename="server.cpp" line="288"/>
         <source>JOIN$-2$已在房间中$$$</source>
         <translation>JOIN$-2$Already in the Room$$$</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="224"/>
+        <location filename="server.cpp" line="250"/>
         <source>JOIN$0$房间已满$$$</source>
         <translation>JOIN$0$Room is Full$$$</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="228"/>
+        <location filename="server.cpp" line="254"/>
         <source>JOIN$-1$无房间$$$</source>
         <translation>JOIN$-1$No this Room$$$</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="358"/>
+        <location filename="server.cpp" line="292"/>
+        <source>JOIN$-1$无空闲开放房间$$$</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="server.cpp" line="432"/>
         <source>PID=100$已达到最大连接数！请稍后再试。</source>
         <translation>PID=100$Maximum number of connections reached! Please try again later.</translation>
     </message>
     <message>
-        <location filename="server.cpp" line="364"/>
+        <location filename="server.cpp" line="438"/>
         <source>$连接成功。</source>
         <translation>$Connected.</translation>
     </message>
