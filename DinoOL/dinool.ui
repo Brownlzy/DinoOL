@@ -68,7 +68,7 @@
       <x>0</x>
       <y>80</y>
       <width>621</width>
-      <height>341</height>
+      <height>191</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -81,7 +81,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>190</y>
+       <y>191</y>
        <width>601</width>
        <height>141</height>
       </rect>
@@ -123,7 +123,7 @@
      <property name="geometry">
       <rect>
        <x>390</x>
-       <y>150</y>
+       <y>110</y>
        <width>222</width>
        <height>41</height>
       </rect>
@@ -146,8 +146,11 @@
       <property name="focusPolicy">
        <enum>Qt::ClickFocus</enum>
       </property>
+      <property name="whatsThis">
+       <string>输入好友提供的房间号加入房间</string>
+      </property>
       <property name="text">
-       <string>1212</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="btnJoin">
@@ -162,6 +165,9 @@
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
       </property>
+      <property name="whatsThis">
+       <string>加入已有房间</string>
+      </property>
       <property name="text">
        <string>加入</string>
       </property>
@@ -171,7 +177,7 @@
      <property name="geometry">
       <rect>
        <x>390</x>
-       <y>90</y>
+       <y>70</y>
        <width>222</width>
        <height>41</height>
       </rect>
@@ -194,8 +200,11 @@
       <property name="focusPolicy">
        <enum>Qt::ClickFocus</enum>
       </property>
+      <property name="whatsThis">
+       <string>输入房间名称，不能含有“$”和“=”，以大写“R”开头的房间将对所有人开放随机加入权限。</string>
+      </property>
       <property name="text">
-       <string>1212</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="btnCreRoom">
@@ -209,6 +218,9 @@
       </property>
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="whatsThis">
+       <string>创建房间，目前支持1-3人</string>
       </property>
       <property name="text">
        <string>创建</string>
@@ -242,8 +254,11 @@
       <property name="focusPolicy">
        <enum>Qt::ClickFocus</enum>
       </property>
+      <property name="whatsThis">
+       <string>输入游戏服务器的IP地址，如“192.168.0.2:60328”，“my.website.net:24773”.</string>
+      </property>
       <property name="text">
-       <string>127.0.0.1:30628</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="btnCon">
@@ -282,14 +297,14 @@
     <widget class="QLabel" name="labelLog">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>91</x>
        <y>10</y>
-       <width>481</width>
+       <width>431</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>联机模式</string>
+      <string/>
      </property>
     </widget>
     <widget class="QTableWidget" name="tableRoomer">
@@ -349,7 +364,7 @@
        <x>0</x>
        <y>0</y>
        <width>621</width>
-       <height>341</height>
+       <height>191</height>
       </rect>
      </property>
      <property name="focusPolicy">
@@ -357,6 +372,83 @@
      </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnRandRoom">
+     <property name="geometry">
+      <rect>
+       <x>390</x>
+       <y>150</y>
+       <width>132</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="whatsThis">
+      <string>随机加入以“O”开头的房间进行游戏。</string>
+     </property>
+     <property name="text">
+      <string>随机加入</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnExitRoom">
+     <property name="geometry">
+      <rect>
+       <x>520</x>
+       <y>150</y>
+       <width>93</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>退出房间</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>11</x>
+       <y>10</y>
+       <width>54</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>联机模式</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnWhatsThis">
+     <property name="geometry">
+      <rect>
+       <x>554</x>
+       <y>9</y>
+       <width>24</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>?</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnCleanMsg">
+     <property name="geometry">
+      <rect>
+       <x>533</x>
+       <y>9</y>
+       <width>24</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>清除消息</string>
+     </property>
+     <property name="text">
+      <string>╳</string>
      </property>
     </widget>
     <zorder>whitebg</zorder>
@@ -369,6 +461,11 @@
     <zorder>tableRoomer</zorder>
     <zorder>txtGet</zorder>
     <zorder>btnHD</zorder>
+    <zorder>btnRandRoom</zorder>
+    <zorder>btnExitRoom</zorder>
+    <zorder>label</zorder>
+    <zorder>btnWhatsThis</zorder>
+    <zorder>btnCleanMsg</zorder>
    </widget>
    <widget class="QLabel" name="lab">
     <property name="geometry">
@@ -993,8 +1090,54 @@
      <string>Delay:0ms</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menu_S">
+    <property name="title">
+     <string>统计(&amp;S)</string>
+    </property>
+    <widget class="QMenu" name="menu">
+     <property name="title">
+      <string>历史最高分</string>
+     </property>
+     <widget class="QMenu" name="menu_6">
+      <property name="title">
+       <string>单机历史最高</string>
+      </property>
+     </widget>
+     <addaction name="menu_6"/>
+     <addaction name="actionMaxScore"/>
+    </widget>
+    <widget class="QMenu" name="menu_2">
+     <property name="title">
+      <string>数据统计</string>
+     </property>
+     <widget class="QMenu" name="menu_3">
+      <property name="title">
+       <string>跳跃总次数</string>
+      </property>
+     </widget>
+     <widget class="QMenu" name="menu_4">
+      <property name="title">
+       <string>下蹲总次数</string>
+      </property>
+     </widget>
+     <widget class="QMenu" name="menu_5">
+      <property name="title">
+       <string>跑跳总次数</string>
+      </property>
+     </widget>
+     <addaction name="menu_3"/>
+     <addaction name="actionJump"/>
+     <addaction name="menu_4"/>
+     <addaction name="actionDive"/>
+     <addaction name="menu_5"/>
+     <addaction name="actionRunJump"/>
+    </widget>
+    <addaction name="menu"/>
+    <addaction name="menu_2"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuGame"/>
+   <addaction name="menu_S"/>
    <addaction name="menuHelp"/>
    <addaction name="menuSPID"/>
    <addaction name="menuROOM"/>
@@ -1002,43 +1145,98 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionExit">
+   <property name="icon">
+    <iconset resource="dinool.qrc">
+     <normaloff>:/pic/gif/dino_dive</normaloff>:/pic/gif/dino_dive</iconset>
+   </property>
    <property name="text">
     <string>退出</string>
    </property>
   </action>
-  <action name="actionCreate_a_room">
-   <property name="text">
-    <string>创建房间</string>
-   </property>
-  </action>
-  <action name="actionJoin_a_room">
-   <property name="text">
-    <string>加入房间</string>
-   </property>
-  </action>
   <action name="actionRun_as_a_server">
+   <property name="icon">
+    <iconset resource="dinool.qrc">
+     <normaloff>:/pic/icon/Server</normaloff>:/pic/icon/Server</iconset>
+   </property>
    <property name="text">
     <string>启动服务器</string>
    </property>
   </action>
   <action name="actionConnect_a_server">
+   <property name="icon">
+    <iconset resource="dinool.qrc">
+     <normaloff>:/pic/obs/14</normaloff>:/pic/obs/14</iconset>
+   </property>
    <property name="text">
     <string>联机游戏</string>
    </property>
   </action>
   <action name="actionDebug">
+   <property name="icon">
+    <iconset resource="dinool.qrc">
+     <normaloff>:/pic/gif/bird</normaloff>:/pic/gif/bird</iconset>
+   </property>
    <property name="text">
     <string>调试信息</string>
    </property>
   </action>
   <action name="actionRestart">
+   <property name="icon">
+    <iconset resource="dinool.qrc">
+     <normaloff>:/pic/png/restart</normaloff>:/pic/png/restart</iconset>
+   </property>
    <property name="text">
     <string>重新开始</string>
    </property>
   </action>
   <action name="action_2">
+   <property name="icon">
+    <iconset resource="dinool.qrc">
+     <normaloff>:/pic/icon/DinoOL</normaloff>:/pic/icon/DinoOL</iconset>
+   </property>
    <property name="text">
     <string>关于</string>
+   </property>
+  </action>
+  <action name="actionMaxScore">
+   <property name="icon">
+    <iconset resource="dinool.qrc">
+     <normaloff>:/pic/png/I</normaloff>:/pic/png/I</iconset>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+  </action>
+  <action name="actionJump">
+   <property name="icon">
+    <iconset resource="dinool.qrc">
+     <normaloff>:/pic/obs/13</normaloff>:/pic/obs/13</iconset>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+  </action>
+  <action name="actionDive">
+   <property name="icon">
+    <iconset resource="dinool.qrc">
+     <normaloff>:/pic/gif/bird</normaloff>:/pic/gif/bird</iconset>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+  </action>
+  <action name="actionRunJump">
+   <property name="icon">
+    <iconset resource="dinool.qrc">
+     <normaloff>:/pic/gif/dino_run</normaloff>:/pic/gif/dino_run</iconset>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>单机历史最高</string>
    </property>
   </action>
  </widget>
@@ -1046,5 +1244,22 @@
  <resources>
   <include location="dinool.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btnCleanMsg</sender>
+   <signal>clicked()</signal>
+   <receiver>labelLog</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>533</x>
+     <y>134</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>128</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>DinoOL服务器端 v1.0b</string>
+   <string>DinoOL服务器端 v1.0</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTextBrowser" name="txtGet">
@@ -105,7 +105,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;g值:&lt;span style=&quot; color:#ffffff;&quot;&gt;-------&lt;/span&gt;Vx:&lt;span style=&quot; color:#ffffff;&quot;&gt;-------&lt;/span&gt;Vy:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;g值:&lt;span style=&quot; color:#ffffff;&quot;&gt;-----------&lt;/span&gt;Vx:&lt;span style=&quot; color:#ffffff;&quot;&gt;----------&lt;/span&gt;Vy:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_3">

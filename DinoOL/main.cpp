@@ -2,11 +2,11 @@
 * 2021年5月19日17点38分
 * By：Brownlzy
 */
+#pragma execution_character_set("utf-8")
 
 #include "dinool.h"
 #include "server.h"
 #include <QtWidgets/QApplication>
-
 int main(int argc, char* argv[])
 {
 	int tmp;

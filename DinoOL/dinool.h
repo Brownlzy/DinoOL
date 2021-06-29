@@ -21,13 +21,16 @@
 #include <QtCore/QTextCodec>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QSslConfiguration>
+#include <QtWidgets/QWhatsThis>
+#include <QtCore/QString>
+#include <fstream>
 
 #include "ui_dinool.h"
 #include "dino.h"
 #include "about.h"
 
-#define DINOVER "v1.0.2"
-#define DINOVERNUM 102
+#define DINOVER "v1.0.6"
+#define DINOVERNUM 1060		//最后一位可以用于区分小版本
 
 class DinoOL : public QMainWindow
 {
@@ -38,7 +41,6 @@ public:
 	~DinoOL();
 	void StartGame(int step = 0);
 	void CleanAM(QMovie* pitem);
-	void CleanAM(QObject* pitem);
 	void CleanAM(QPropertyAnimation* pitem);
 	void setOBSPic(QString pic, int id);
 	void ProcessSMsg(QString);
@@ -47,6 +49,8 @@ public:
 	void SendCL(int);
 	int isAllReady();
 	void RKey(int, int, int);
+	int readDataFile();
+	int writeDataFile();
 
 public slots:
 	void NetworkChk(QString);
@@ -73,7 +77,9 @@ private slots:
 	void on_actionRestart_triggered();
 	void on_action_2_triggered();
 	void on_btnCon_clicked();
+	void on_btnWhatsThis_clicked();
 	void on_btnCreRoom_clicked();
+	void on_btnExitRoom_clicked();
 	void on_btnSend_clicked();
 	void on_btnJoin_clicked();
 	void on_btnHD_clicked();

@@ -34,7 +34,7 @@ About::About(QWidget* parent)
 {
 	ui.setupUi(this);
 	manager = new QNetworkAccessManager(this);
-	ui.progressBar->hide();
+	//ui.progressBar->hide();
 }
 
 About::~About()
@@ -62,6 +62,7 @@ void About::on_pushButton_2_clicked()
 		return;
 	}
 	startRequest(url);  //进行链接请求
+	ui.progressBar->setMaximum(100);
 	ui.progressBar->setValue(0);  //进度条的值设为0
 	ui.progressBar->show();  //显示进度条
 	ui.pushButton_2->hide();

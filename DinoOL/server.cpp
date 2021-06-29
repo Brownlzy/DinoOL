@@ -50,35 +50,55 @@ void Server::refreshPlayer(int isAdd, int sockid, QString PID)
 			item = new QTableWidgetItem("");
 			ui.tablePlayer->item(sockid, i)->setText("");
 		}
+		//在调用此函数前已执行
+		//PlayerNum--;
+		//ui.label_4->setText(QString::number(PlayerNum));
 		for (int i = 0; i < ui.tableRoom->rowCount(); i++)
 		{
 			for (int j = 4; j <= 6; j++)
 			{
 				if (ui.tableRoom->item(i, j)->text() == QString::number(100 + sockid))
 				{
-					//QString sendtmp = "ROOM$0$$";
+					QString sendtmp = "ROOM$0$$";
 					if (j == 4)
 					{
-						//for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); j++)
-						//{
-							//SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
-						//}
+						for (int k = 5; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); k++)
+						{
+							try
+							{
+								SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
+							}
+							catch (...)
+							{
+
+							}
+						}
 						ui.tableRoom->removeRow(i);
+						RoomNum--;
+						ui.label_3->setText(QString::number(RoomNum));
 					}
 					else
 					{
-						//SendTo(PID, sendtmp);
-						//sendtmp = "ADDU$-1$" + QString::number(sockid + 100) + "$$$";
-						//for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); k++)
-						//{
-							//if (k != j)
-								//SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
-						//}
+						SendTo(PID, sendtmp);
+						sendtmp = "ADDU$-1$" + QString::number(sockid + 100) + "$$$";
+						for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); k++)
+						{
+							if (k != j)
+							{
+								try
+								{
+									SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
+								}
+								catch (...)
+								{
+
+								}
+							}
+						}
 						ui.tableRoom->item(i, j)->setText("");
 						ui.tableRoom->item(i, 2)->setText(QString::number(ui.tableRoom->item(i, 2)->text().toInt() - 1));
 					}
 					return;
-
 				}
 			}
 		}
@@ -235,20 +255,24 @@ void Server::ProcessCMsg(QString msg)
 				{
 					if (ui.tableRoom->item(i, j)->text() == msg.split('$')[0])
 					{
-						QString sendtmp = "ROOM$0$$";
+						QString sendtmp = "ROOM$0$$$$";
 						if (j == 4)
 						{
-							for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); j++)
+							for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); k++)
 							{
 								SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
+								ui.tablePlayer->item(ui.tableRoom->item(i, k)->text().toInt() % 100, 3)->setText("Spare");
 							}
-							ui.tablePlayer->removeRow(i);
+							ui.tableRoom->removeRow(i);
+							RoomNum--;
+							ui.label_3->setText(QString::number(RoomNum));
+							ui.tablePlayer->item(PID % 100, 3)->setText("Spare");
 						}
 						else
 						{
 							SendTo(PID, sendtmp);
 							sendtmp = "ADDU$-1$" + QString::number(PID) + "$$$";
-							for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); j++)
+							for (int k = 4; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); k++)
 							{
 								if (k != j)
 									SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);

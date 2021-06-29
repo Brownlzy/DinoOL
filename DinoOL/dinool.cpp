@@ -12,7 +12,10 @@ DinoOL::DinoOL(QWidget* parent)
 	buildTime = __TIMESTAMP__;
 	QString tmp = "DinoOL ";
 #ifdef _DEBUG
-	tmp += QString::fromStdString(DINOVER) + " By:Brownlzy ====DEBUG====DEBUG====DEBUG====";
+	tmp += QString::fromStdString(DINOVER) + ".debug By:Brownlzy ====D====E====B====U====G====";
+	ui.txtServer->setText("127.0.0.1:30628");
+	ui.txtNewRoom->setText("debug");
+	ui.txtRoom->setText("debug");
 #else
 	tmp += QString::fromStdString(DINOVER) + " By:Brownlzy";
 	ui.actionDebug->setVisible(false);
@@ -66,6 +69,7 @@ DinoOL::DinoOL(QWidget* parent)
 			ui.tableRoomer->setItem(i, j, new QTableWidgetItem(""));
 		}
 	}
+	readDataFile();
 	//pdtime->start();
 }
 DinoOL::~DinoOL()
@@ -271,11 +275,26 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 		P1->vy += P1->vy0;
 		P1->isJump = 1;
 		if (WebGame) SendPOS(P1->x(), horline - P1->y(), e->key(), 1);
+		if (P1->vx == 0)
+		{
+			ui.actionJump->setText(QString::number(ui.actionJump->text().toInt() + 1));
+		}
+		else
+		{
+			ui.actionRunJump->setText(QString::number(ui.actionRunJump->text().toInt() + 1));
+		}
 	}
 	if (!e->isAutoRepeat())
 	{
 		if (WebGame) SendPOS(P1->x(), horline - P1->y(), e->key(), 1);
-		if (e->key() == Qt::Key_A || e->key() == Qt::Key_D || e->key() == Qt::Key_S) P1->keyPR(e->key(), 1);
+		if (e->key() == Qt::Key_A || e->key() == Qt::Key_D || e->key() == Qt::Key_S)
+		{
+			P1->keyPR(e->key(), 1);
+			if (e->key() == Qt::Key_S)
+			{
+				ui.actionDive->setText(QString::number(ui.actionDive->text().toInt() + 1));
+			}
+		}
 		if (P2->isOn && (e->key() == Qt::Key_Left || e->key() == Qt::Key_Right || e->key() == Qt::Key_Down)) P2->keyPR(e->key(), 1);
 	}
 }
@@ -459,11 +478,13 @@ void DinoOL::ProcessSMsg(QString msg)
 		int pid = msg.split('$')[1].toInt();
 		if (pid == 100)
 		{
+			ui.labelLog->setText(tr("游戏服务器已满,请稍后再试!"));
 			mp_clientSocket->disconnect();
 			ui.txtGet->setPlainText("PID=100 x disconnected");
 		}
 		else
 		{
+			ui.labelLog->setText(tr("已连接至游戏服务器"));
 			SPID = pid;
 			QString tmp = "SPID=" + QString::number(SPID);
 			ui.menuSPID->setTitle(tmp);
@@ -479,6 +500,17 @@ void DinoOL::ProcessSMsg(QString msg)
 		ui.labelLog->setText(msg.split('$')[3]);
 		switch (state)
 		{
+		case 0:
+			//mp_clientSocket->disconnectFromHost();
+			if (isStarted)
+			{
+				GamePause();
+				ui.labelLog->setText(tr("收到服务器通知，由于房间关闭，已停止游戏！"));
+				ui.frame_4->raise();
+				ui.frame_4->show();
+				ui.frame_4->raise();
+			}
+			break;
 		case 1:
 			ui.menuROOM->setTitle("ROOM=" + msg.split('$')[2]);
 			ui.tableRoomer->item(0, 0)->setText(tr("是"));
@@ -493,6 +525,7 @@ void DinoOL::ProcessSMsg(QString msg)
 	else if (fun == "JOIN")
 	{
 		int state = msg.split('$')[1].toInt();
+		ui.labelLog->setText(msg.split('$')[2]);
 		if (state == 2)
 		{
 			QString ExistMem = msg.split('$')[3];
@@ -685,12 +718,73 @@ int DinoOL::isAllReady()
 		else
 			return 0;
 	}
-	return 1;
+	else
+	{
+		if (isStarted)
+			return 1;
+		else
+			return 0;
+	}
+	return 0;
 }
 
 void DinoOL::RKey(int id, int key, int isPress)
 {
 	R[id]->keyPR(key, isPress);
+}
+
+int DinoOL::readDataFile()
+{
+	if (QFileInfo("gamedata.dat").exists())
+	{
+		std::ifstream fin;
+		fin.open("gamedata.dat");
+		if (!fin)
+		{
+			return 1;
+		}
+		std::string strcrc;
+		int s, j, d, rj, a;
+		fin >> strcrc >> s >> j >> d >> rj;
+		fin.close();
+		a = s + j + d + rj + 2636;
+		QByteArray raw = QByteArray::fromStdString(QString::number(a).toStdString());
+		if (QString::number(calcCRC32(raw), 16).toUpper() == QString::fromStdString(strcrc))
+		{
+			ui.actionMaxScore->setText(QString::number(s));
+			ui.actionJump->setText(QString::number(j));
+			ui.actionDive->setText(QString::number(d));
+			ui.actionRunJump->setText(QString::number(rj));
+			return 0;
+		}
+		else
+		{
+			return writeDataFile();
+		}
+	}
+	else
+	{
+		return writeDataFile();
+	}
+}
+
+int DinoOL::writeDataFile()
+{
+	int a = ui.actionMaxScore->text().toInt() + ui.actionJump->text().toInt() + ui.actionDive->text().toInt() + ui.actionRunJump->text().toInt();
+	a += 2636;
+	QByteArray raw = QByteArray::fromStdString(QString::number(a).toStdString());
+	//QString::number(calcCRC32(raw), 16).toUpper();
+	std::ofstream fout;
+	fout.open("gamedata.dat", std::ios::trunc);
+	if (!fout)
+	{
+		return 1;
+	}
+	fout << QString::number(calcCRC32(raw), 16).toUpper().toStdString() << " ";
+	fout << ui.actionMaxScore->text().toInt() << " " << ui.actionJump->text().toInt() << " " << ui.actionDive->text().toInt() << " " << ui.actionRunJump->text().toInt();
+	fout << "\nPlease_DON'T_change_the_file_manually!";
+	fout.close();
+	return 0;
 }
 
 void DinoOL::printOBS()
@@ -791,6 +885,7 @@ int DinoOL::isTouched(QLabel* lab1, QLabel* lab2)
 
 void DinoOL::GamePause()
 {
+	int curScore = Score.elapsed() / 100;
 	ptOBS->stop();
 	if (P2->isOn) P2->Pause();
 	P1->Pause();
@@ -800,6 +895,11 @@ void DinoOL::GamePause()
 	ui.labelFail->show();
 	ui.labelFail->raise();
 	pAnimationRoad->stop();
+	if (curScore > ui.actionMaxScore->text().toInt())
+	{
+		ui.actionMaxScore->setText(QString::number(curScore));
+	}
+	writeDataFile();
 }
 
 void DinoOL::refreshScore(int t)
@@ -1066,7 +1166,7 @@ void DinoOL::on_actionExit_triggered()
 
 void DinoOL::on_actionConnect_a_server_triggered()
 {
-	if (isStarted) return;
+	if (isAllReady()) return;
 	ui.frame_4->move((this->frameGeometry().width() - ui.frame_4->width()) / 2, ui.frame_4->y());
 	ui.frame_4->setVisible(true);
 	ui.frame_4->raise();
@@ -1097,6 +1197,9 @@ void DinoOL::on_action_2_triggered()
 	frmabout.setWindowIcon(QIcon(":/pic/icon/DinoOL"));
 	QString tmp = "DinoOL ";
 	tmp += DINOVER;
+#if _DEBUG
+	tmp += ".debug";
+#endif // _DEBUG
 	frmabout.ui.label_2->setText(tmp);
 	tmp = "Build Time: ";
 	tmp += __TIMESTAMP__;
@@ -1105,6 +1208,7 @@ void DinoOL::on_action_2_triggered()
 	frmabout.setWindowFlags(Qt::WindowCloseButtonHint);
 	//tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLver.txt"));
 	tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLUpdateInfo.txt"));
+	//tmp.toUtf8();
 	//DinoOL_OTA_Info!101<v1.0.2<102<1<20BAF4F9<296KB<更新日志!
 	//DinoOL_OTA_Info!低于此比较号强制升级 < 当前最新版本号 < 比较号(int) < 是否可快速升级(bool) < CRC32校验码 < 大小 < 更新日志!(结束标记)
 	tmp += "!<<<<<!";//防止下标越界;
@@ -1115,6 +1219,7 @@ void DinoOL::on_action_2_triggered()
 		{
 			if (tmp.split("!")[1].split("<")[3].toInt() == 1)
 			{
+				frmabout.ui.progressBar->setMaximum(0);
 				frmabout.ui.pushButton_2->setEnabled(true);
 				QString otaInfo = tmp.split("!")[1].split("<")[1] + "_";
 				otaInfo += tmp.split("!")[1].split("<")[5] + "\n";
@@ -1125,6 +1230,7 @@ void DinoOL::on_action_2_triggered()
 			}
 			else
 			{
+				frmabout.ui.progressBar->hide();
 				frmabout.ui.pushButton_2->setText(tr("请手动更新"));
 				QString otaInfo = tmp.split("!")[1].split("<")[1] + "_";
 				otaInfo += tmp.split("!")[1].split("<")[5];
@@ -1135,13 +1241,15 @@ void DinoOL::on_action_2_triggered()
 		}
 		else
 		{
-			frmabout.setFixedSize(291, 141);
+			frmabout.ui.progressBar->hide();
 		}
 	}
 	else
 	{
+		frmabout.ui.progressBar->hide();
 		frmabout.setWindowTitle(tr("DinoOL -未授权版本-"));
 	}
+	frmabout.setFixedSize(291, 146);
 	frmabout.show();
 	if (frmabout.exec());
 }
@@ -1164,8 +1272,23 @@ void DinoOL::on_btnCon_clicked()
 	connect(mp_clientSocket, SIGNAL(disconnected()), this, SLOT(sDisConnection()));
 }
 
+void DinoOL::on_btnWhatsThis_clicked()
+{
+	QWhatsThis::enterWhatsThisMode();
+}
+
 void DinoOL::on_btnCreRoom_clicked()
 {
+	if (ui.menuSPID->title() == "SPID")
+	{
+		ui.labelLog->setText(tr("你还未连接至服务器并取得有效SPID"));
+		return;
+	}
+	if (ui.txtNewRoom->text().contains("$") || ui.txtNewRoom->text().contains("="))
+	{
+		ui.labelLog->setText(tr("房间号不能含有“$”，请重新输入"));
+		return;
+	}
 	QString sendMsg = QString::number(SPID) + "$ROOM$1$" + ui.txtNewRoom->text() + "$$$";
 	char sendMsgChar[1024] = { 0 };
 	strcpy_s(sendMsgChar, sendMsg.toStdString().c_str());
@@ -1175,6 +1298,34 @@ void DinoOL::on_btnCreRoom_clicked()
 		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
 		return;
 	}
+}
+
+void DinoOL::on_btnExitRoom_clicked()
+{
+	if (ui.menuROOM->title() == "ROOM")
+	{
+		ui.labelLog->setText(tr("你还未加入任何房间！"));
+		return;
+	}
+	if (isStarted) GamePause();
+	QString sendMsg = ui.menuSPID->title().split("=")[1];
+	sendMsg += "$JOIN$0$" + ui.menuSPID->title().split("=")[1] + "$$$";
+	char sendMsgChar[1024] = { 0 };
+	strcpy_s(sendMsgChar, sendMsg.toStdString().c_str());
+	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
+	if (sendRe == -1)
+	{
+		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
+		return;
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			ui.tableRoomer->item(i, j)->setText("");
+		}
+	}
+	ui.menuROOM->setTitle("ROOM");
 }
 
 void DinoOL::on_btnSend_clicked()
@@ -1192,6 +1343,11 @@ void DinoOL::on_btnSend_clicked()
 
 void DinoOL::on_btnJoin_clicked()
 {
+	if (ui.txtRoom->text().contains("$"))
+	{
+		ui.labelLog->setText(tr("房间号不能含有“$”，请重新输入"));
+		return;
+	}
 	QString sendMsg = QString::number(SPID) + "$JOIN$1$" + ui.txtRoom->text() + "$$$";
 	char sendMsgChar[1024] = { 0 };
 	strcpy_s(sendMsgChar, sendMsg.toStdString().c_str());
@@ -1259,5 +1415,6 @@ QString getWebSource(QUrl url)
 
 	QByteArray codeContent = reply->readAll();
 
-	return QTextCodec::codecForHtml(codeContent)->toUnicode(codeContent);
+	//return QTextCodec::codecForHtml(codeContent)->toUnicode(codeContent);
+	return codeContent;
 }
