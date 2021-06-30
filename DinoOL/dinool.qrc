@@ -37,6 +37,7 @@
         <file alias="restart">RES/restart.png</file>
         <file alias="road">RES/road.png</file>
         <file alias="dino">RES/dino_1.png</file>
+        <file alias="pay">RES/WeChatPay.png</file>
     </qresource>
     <qresource prefix="/pic/icon">
         <file alias="DinoOL">RES/DinoOL.ico</file>

@@ -13,6 +13,7 @@ void About::Update()
 		ui.progressBar->hide();
 		ui.pushButton_2->show();
 		ui.pushButton_2->setText(tr("校验失败！"));
+		ui.pushButton_2->setToolTip(tr("无法确定下载的程序的有效性,你可以重试，或到程序目录下的DinoOLNew手动替换DinoOL.exe"));
 		return;
 	}
 	std::ofstream fbat;
@@ -94,6 +95,16 @@ void About::updateDataReadProgress(qint64 bytesRead, qint64 totalBytes)
 {
 	ui.progressBar->setMaximum(totalBytes); //最大值
 	ui.progressBar->setValue(bytesRead);  //当前值
+}
+void About::on_btnDonate_clicked()
+{
+	QLabel* plab = new QLabel("<html><head/><body><p><img src="":/pic/png/pay"" widyh=""191"" height=""191""/></p></body></html>");
+	plab->setFixedSize(191, 191);
+	plab->setWindowIcon(QIcon(":/pic/icon/DinoOL"));
+	plab->setWindowTitle("注意:赞助是无偿自愿行为");
+	plab->setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowStaysOnTopHint);
+	plab->show();
+	this->close();
 }
 void About::httpFinished()  //完成下载
 {

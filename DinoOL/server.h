@@ -14,6 +14,9 @@
 #include <QtWidgets/QTableWidget>
 #include <QtCore/QTimer>
 
+#define SERVERVER "1.0.2"
+#define SERVERVERNUM 1020
+
 class Server : public QMainWindow
 {
 	Q_OBJECT

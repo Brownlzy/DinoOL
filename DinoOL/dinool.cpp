@@ -1147,6 +1147,12 @@ void DinoOL::ProduceOBS()
 				dy %= 3;
 				dy += 107;
 			}
+			/*else if (kind == 9)
+			{
+				kind = 3;
+				dy %= 2;
+				dy += 208;
+			}*/
 			else
 			{
 				kind = 0;
@@ -1188,6 +1194,7 @@ void DinoOL::ProduceOBS(int kind, int dy)
 	QString path;
 	if (kind == 0) path = ":/pic/gif/bird";
 	else if (kind == 2) path = ":/pic/gif/star";
+	else if (kind == 3) path = ":/pic/png/H";
 	else
 		path = ":/pic/obs/" + QString::number(kind);
 	for (i = 0; i < 7; i++)
@@ -1342,7 +1349,13 @@ void DinoOL::on_actionRun_as_a_server_triggered()
 		else
 		{
 			ui.labelchklcs->hide();
+#ifdef _DEBUG
 			qApp->exit(-1);
+#else
+			QStringList Par;
+			Par << "/DinoOLServer";
+			QProcess::startDetached(qApp->applicationFilePath(), Par);
+#endif // _DEBUG
 		}
 		ui.labelchklcs->hide();
 		return;
@@ -1387,6 +1400,11 @@ void DinoOL::on_actionDebug_triggered()
 	pdtime->start();
 }
 
+void DinoOL::on_actionNewOne_triggered()
+{
+	QProcess::startDetached(qApp->applicationFilePath());
+}
+
 void DinoOL::on_actionRestart_triggered()
 {
 	reStart("");
@@ -1426,7 +1444,7 @@ void DinoOL::on_action_2_triggered()
 				frmabout.ui.progressBar->setMaximum(0);
 				frmabout.ui.pushButton_2->setEnabled(true);
 				QString otaInfo = "新版本:\t" + tmp.split("!")[1].split("<")[1] + "\n大小:\t";
-				otaInfo += tmp.split("!")[1].split("<")[5] + "\n更新内容:\n";
+				otaInfo += tmp.split("!")[1].split("<")[5] + "\n";
 				otaInfo += tmp.split("!")[1].split("<")[6];
 				//frmabout.ui.pushButton_2->setToolTip(otaInfo);
 				frmabout.ui.textBrowser->setText(otaInfo);
@@ -1438,7 +1456,7 @@ void DinoOL::on_action_2_triggered()
 				frmabout.ui.progressBar->hide();
 				frmabout.ui.pushButton_2->setText(tr("请手动更新"));
 				QString otaInfo = "新版本:\t" + tmp.split("!")[1].split("<")[1] + "\n大小:\t";
-				otaInfo += tmp.split("!")[1].split("<")[5] + "\n更新内容:\n";
+				otaInfo += tmp.split("!")[1].split("<")[5] + "\n";
 				otaInfo += tmp.split("!")[1].split("<")[6];
 				//frmabout.ui.pushButton_2->setToolTip(otaInfo);
 				frmabout.ui.textBrowser->setText(otaInfo);
@@ -1459,6 +1477,16 @@ void DinoOL::on_action_2_triggered()
 	}
 	frmabout.show();
 	if (frmabout.exec());
+}
+
+void DinoOL::on_action_Z_triggered()
+{
+	QLabel* plab = new QLabel("<html><head/><body><p><img src="":/pic/png/pay"" widyh=""191"" height=""191""/></p></body></html>");
+	plab->setFixedSize(191, 191);
+	plab->setWindowIcon(QIcon(":/pic/icon/DinoOL"));
+	plab->setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowStaysOnTopHint);
+	plab->setWindowTitle("注意:赞助是无偿自愿行为");
+	plab->show();
 }
 
 void DinoOL::on_btnCon_clicked()

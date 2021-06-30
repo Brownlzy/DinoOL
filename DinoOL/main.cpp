@@ -9,14 +9,22 @@
 #include <QtWidgets/QApplication>
 int main(int argc, char* argv[])
 {
-	int tmp;
+	int tmp = 0;
+	QApplication a(argc, argv);
 	if (QFileInfo("update.bat").exists())
 	{
 		QProcess::startDetached("update.bat");
 		qApp->exit(-3);
 	}
+	if (argc == 2 && !strcmp(argv[1], "/DinoOLServer"))
+	{
+		Server s;
+		s.setWindowFlags(Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
+		s.setFixedSize(751, 500);
+		s.show();
+		return a.exec();
+	}
 	do {
-		QApplication a(argc, argv);
 		DinoOL w;
 		w.show();
 		tmp = a.exec();

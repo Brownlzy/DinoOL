@@ -10,6 +10,7 @@
 #include "ui_about.h"
 #include <QtNetwork>
 #include <QProcess>
+#include <QLabel>
 
 class About : public QDialog
 {
@@ -30,6 +31,7 @@ public:
 
 private slots:
 	void on_pushButton_2_clicked();
+	void on_btnDonate_clicked();
 	void httpFinished();  //完成下载后的处理
 	void httpReadyRead();  //接收到数据时的处理
 	void updateDataReadProgress(qint64, qint64); //更新进度条

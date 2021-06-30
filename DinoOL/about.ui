@@ -57,7 +57,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;All By &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Brownlzy, &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Visit &lt;/span&gt;&lt;br/&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline;&quot;&gt;github.com/Brownlzy/DinoOL&lt;/span&gt;&lt;br/&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;For More Information.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;All By -- &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Brownlzy, &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Visit &lt;/span&gt;&lt;br/&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline;&quot;&gt;github.com/Brownlzy/DinoOL&lt;/span&gt;&lt;br/&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;For More Information.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -155,6 +155,19 @@
     </rect>
    </property>
   </widget>
+  <widget class="QCommandLinkButton" name="btnDonate">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>38</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>progressBar</zorder>
   <zorder>label_2</zorder>
   <zorder>label_3</zorder>
@@ -162,9 +175,12 @@
   <zorder>pushButton</zorder>
   <zorder>pushButton_2</zorder>
   <zorder>textBrowser</zorder>
+  <zorder>btnDonate</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="dinool.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButton</sender>
