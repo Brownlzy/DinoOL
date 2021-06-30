@@ -29,6 +29,8 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.labelFail->hide();
 	ui.frmLlife->hide();
 	ui.frmRlife->hide();
+	ui.labMoon->hide();
+	ui.labSunMoon->hide();
 	P1 = new Dino(x, y, this, this->centralWidget());
 	P1->isOn = 1;
 	P2 = new Dino(x, y, this, this->centralWidget());
@@ -59,6 +61,8 @@ DinoOL::DinoOL(QWidget* parent)
 	pdtime->setInterval(100);
 	connect(ui.label_2, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
 	connect(ui.label_3, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
+	connect(ui.labSun, SIGNAL(linkActivated(QString)), this, SLOT(ChangeColor(QString)));
+	connect(ui.labMoon, SIGNAL(linkActivated(QString)), this, SLOT(ChangeColor(QString)));
 	connect(ui.labelFail, SIGNAL(linkActivated(QString)), this, SLOT(reStart(QString)));
 	connect(ptcloud, SIGNAL(timeout()), this, SLOT(cloudloop()));
 	connect(pdtime, SIGNAL(timeout()), this, SLOT(printpos()));
@@ -165,6 +169,10 @@ void DinoOL::resizeDinoOL()
 	int y = this->frameGeometry().height();
 	horline = 0.6 * y;
 	P1->setfxy(x, y);
+	ui.line_7->move(x - 43, 0);
+	ui.labMoon->move(x - 58, 50);
+	ui.labSunMoon->move(x - 58, 50);
+	ui.labSun->move(x - 58, 50);
 	ui.labReady->move((x - ui.labReady->width()) * 0.5, (horline - ui.labReady->height()) * 0.5);
 	if (P2 != NULL)P2->setfxy(x, y);
 	if (R[0] != NULL)R[0]->setfxy(x, y);
@@ -219,6 +227,73 @@ void DinoOL::resizeDinoOL()
 	roadloop();
 }
 
+void DinoOL::ChangeColor(QString color)
+{
+	if (color == "TurnBlack")
+	{
+		SunMoon(1);
+		ui.labSunMoon->show();
+		ui.labSun->hide();
+	}
+	else if (color == "TurnWhite")
+	{
+		SunMoon(0);
+		ui.labMoon->hide();
+		ui.labSunMoon->show();
+	}
+}
+
+void DinoOL::SunMoon(int istoMoon)
+{
+	if (istoMoon == -1)
+	{
+		if (isSun == 1)
+		{
+			ui.labSunMoon->hide();
+			ui.labSun->show();
+			ui.labSunMoon->clear();
+		}
+		else
+		{
+			ui.labSunMoon->hide();
+			ui.labMoon->show();
+			ui.labSunMoon->clear();
+		}
+	}
+	else if (istoMoon == 0)
+	{
+		isSun = 1;
+		S2M.stop();
+		S2M.setFileName(":pic/gif/M2S");
+		ui.labSunMoon->setMovie(&S2M);
+		S2M.start();
+		QTimer::singleShot(500, this, SLOT(SunMoon()));
+		QColor c = QColor("#F0F0F0");
+		QPalette p = this->palette();
+		p.setColor(QPalette::Window, c);
+		this->setPalette(p);
+		ui.labelchklcs->setStyleSheet("font: 9pt ""SimSun"";");
+		ui.label_2->setStyleSheet("font: 9pt ""黑体"";");
+		ui.label_3->setStyleSheet("font: 9pt ""黑体"";");
+	}
+	else
+	{
+		isSun = 0;
+		S2M.stop();
+		S2M.setFileName(":pic/gif/S2M");
+		ui.labSunMoon->setMovie(&S2M);
+		S2M.start();
+		QTimer::singleShot(500, this, SLOT(SunMoon()));
+		QColor c = QColor("#202020");
+		QPalette p = this->palette();
+		p.setColor(QPalette::Window, c);
+		this->setPalette(p);
+		ui.labelchklcs->setStyleSheet("font: 9pt ""SimSun"";color:#707070;");
+		ui.label_2->setStyleSheet("font: 9pt ""黑体"";color:#707070;");
+		ui.label_3->setStyleSheet("font: 9pt ""黑体"";color:#707070;");
+	}
+}
+
 void DinoOL::NetworkChk(QString str)
 {
 	QProcess process(this);
@@ -236,6 +311,7 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 	{
 		isStarted = -1;
 		ui.labelchklcs->show();
+#ifndef _DEBUG
 		QString  tmp = getWebSource(QUrl("https://brownlzy.github.io/DinoOLUpdateInfo.txt"));
 		tmp += "!<<<<<!";
 		//DinoOL_OTA_Info!101<v1.0.2<102<1<20BAF4F9<296KB!
@@ -269,10 +345,12 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 			P1->setScaledContents(true);
 			ui.label_2->show();
 			ui.label_3->hide();
-		}
+}
+#endif // !_DEBUG
+		StartGame();
 		ui.labelchklcs->hide();
 		return;
-	}
+}
 	ui.labelchklcs->hide();
 	if (isStarted < 4) return;
 	if (e->key() == Qt::Key_Up && !WebGame)
@@ -1356,10 +1434,10 @@ void DinoOL::on_actionRun_as_a_server_triggered()
 			Par << "/DinoOLServer";
 			QProcess::startDetached(qApp->applicationFilePath(), Par);
 #endif // _DEBUG
-		}
+	}
 		ui.labelchklcs->hide();
 		return;
-	}
+}
 	else
 	{
 		QMessageBox::critical(this, tr("无效许可！"), tr("请确定已联网且安装了DinoOLServer组件,\n或向开发者索要最新版！\n当前版本:") + QString::fromUtf8(DINOVER));

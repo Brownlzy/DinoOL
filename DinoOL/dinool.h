@@ -70,6 +70,8 @@ public slots:
 	void SendReady();
 	void SendDC();
 	void resizeDinoOL();
+	void ChangeColor(QString);
+	void SunMoon(int istoMoon = -1);
 
 private slots:
 	void on_actionRun_as_a_server_triggered();
@@ -138,6 +140,10 @@ private:
 	Dino** R = { NULL };
 
 	QTime Score;
+
+	QMovie S2M;
+	int isSun = 1;
+
 };
 
 int randNum(int Max);

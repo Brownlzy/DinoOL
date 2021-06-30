@@ -8,6 +8,8 @@
         <file alias="dino_jump">RES/dino_1stjump.gif</file>
         <file alias="dino_dive_shine">RES/dino_dive_shine.gif</file>
         <file alias="dino_run_shine">RES/dino_run_shine.gif</file>
+        <file alias="M2S">RES/MoonSun.gif</file>
+        <file alias="S2M">RES/SunMoon.gif</file>
     </qresource>
     <qresource prefix="/pic/png">
         <file alias="dino_fail">RES/dino_fail.png</file>
@@ -38,6 +40,8 @@
         <file alias="road">RES/road.png</file>
         <file alias="dino">RES/dino_1.png</file>
         <file alias="pay">RES/WeChatPay.png</file>
+        <file alias="Moon">RES/Moon.png</file>
+        <file alias="Sun">RES/Sun.png</file>
     </qresource>
     <qresource prefix="/pic/icon">
         <file alias="DinoOL">RES/DinoOL.ico</file>

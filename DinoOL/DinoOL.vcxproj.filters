@@ -83,6 +83,9 @@
     <Image Include="RES\DinoOL.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="RES\Server.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <QtTranslation Include="dinool_zh.ts">

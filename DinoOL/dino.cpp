@@ -128,7 +128,7 @@ void Dino::shining(int state)
 void Dino::changeP(QString Ptxt)
 {
 	labP.setText(Ptxt);
-	labP.setStyleSheet("font: 14pt ""黑体"";");
+	labP.setStyleSheet("font: 14pt ""黑体"";color:#707070;");
 	labP.setFrameShape(QFrame::Box);
 	labP.adjustSize();
 	labP.setGeometry(labP.x(), labP.y(), labP.width() + 20, labP.height());
