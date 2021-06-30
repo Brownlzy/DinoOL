@@ -29,8 +29,8 @@
 #include "dino.h"
 #include "about.h"
 
-#define DINOVER "v1.0.7"
-#define DINOVERNUM 1071		//最后一位可以用于区分小版本
+#define DINOVER "v1.0.8"
+#define DINOVERNUM 1080		//最后一位可以用于区分小版本
 
 class DinoOL : public QMainWindow
 {
@@ -93,6 +93,7 @@ private slots:
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event) override;
+	void closeEvent(QCloseEvent* event);
 
 private:
 	Ui::DinoOLClass ui;
@@ -102,6 +103,7 @@ private:
 	int isPause = 0;
 	int SPID = 100;
 	int WebGame = 0;
+	int flag4life = 0;
 	QTime t;
 	QTimer* pdtime = NULL;
 	QTimer* proad = NULL;

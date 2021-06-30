@@ -8,7 +8,7 @@
 void About::Update()
 {
 	//qDebug() << calcFileCRC("DinoOLNew.exe");
-	if (strCRC32 != calcFileCRC("DinoOLNew.exe"))
+	if (strCRC32 != calcFileCRC("DinoOLNew"))
 	{
 		ui.progressBar->hide();
 		ui.pushButton_2->show();
@@ -21,7 +21,7 @@ void About::Update()
 	fbat << "TIMEOUT /T 1\n";
 	fbat << "taskkill /pid " << qApp->applicationPid() << " -t -f\n";
 	fbat << "del DinoOL.exe\n";
-	fbat << "ren DinoOLNew.exe DinoOL.exe\n";
+	fbat << "ren DinoOLNew DinoOL.exe\n";
 	fbat << "start DinoOL.exe\n";
 	fbat << "del update.bat\n";
 	fbat.close();
@@ -48,7 +48,7 @@ void About::on_pushButton_2_clicked()
 	//url = "http://dl.360safe.com/drvmgr/guanwang__360DrvMgrInstaller_beta.exe";
 	//获取在界面中输入的url地址
 	QFileInfo info(url.path());
-	QString fileName("DinoOLNew.exe");//(info.fileName());
+	QString fileName("DinoOLNew");//(info.fileName());
 	//获取文件名
 	//if (fileName.isEmpty()) fileName = "index.html";
 	//如果文件名为空，则使用“index.html”，

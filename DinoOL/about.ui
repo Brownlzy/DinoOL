@@ -73,7 +73,7 @@
     </rect>
    </property>
    <property name="toolTip">
-    <string>Close</string>
+    <string/>
    </property>
    <property name="text">
     <string>确定</string>

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>DinoOL v1.0b - By:Brownlzy</string>
+   <string>DinoOL vX.X.X  By:Brownlzy</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="focusPolicy">
@@ -1134,6 +1134,8 @@
     </widget>
     <addaction name="menu"/>
     <addaction name="menu_2"/>
+    <addaction name="separator"/>
+    <addaction name="actionCleanData"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuGame"/>
@@ -1237,6 +1239,14 @@
   <action name="action">
    <property name="text">
     <string>单机历史最高</string>
+   </property>
+  </action>
+  <action name="actionCleanData">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>退出时清除数据</string>
    </property>
   </action>
  </widget>

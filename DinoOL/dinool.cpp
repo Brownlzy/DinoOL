@@ -95,6 +95,11 @@ DinoOL::~DinoOL()
 }
 void DinoOL::printpos()
 {
+	for (int i = 0; i < 7; i++)
+	{
+		if (OBS[i] != NULL)OBS[i]->setFrameShape(QFrame::Box);
+	}
+
 	QString tmp;
 	tmp = "P1:(" + QString::number(P1->x()) + "," + QString::number(P1->y()) + ")";
 	tmp = tmp + ",isDive:" + QString::number(P1->isDive) + ",isJump:" + QString::number(P1->isJump) + ",isMove:" + QString::number(P1->isMove);
@@ -141,6 +146,17 @@ void DinoOL::printpos()
 void DinoOL::resizeEvent(QResizeEvent* event)
 {
 	resizeDinoOL();
+}
+void DinoOL::closeEvent(QCloseEvent* event)
+{
+	if (ui.actionCleanData->isChecked())
+	{
+		ui.actionMaxScore->setText("0");
+		ui.actionJump->setText("0");
+		ui.actionDive->setText("0");
+		ui.actionRunJump->setText("0");
+		writeDataFile();
+	}
 }
 void DinoOL::resizeDinoOL()
 {
@@ -236,6 +252,8 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 			}
 			else
 			{
+				ui.label_2->hide();
+				ui.label_3->show();
 				ui.labelchklcs->hide();
 				StartGame();
 			}
@@ -249,6 +267,8 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 			P1->setDinoState(":/pic/gif/dino_jump");
 			P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
 			P1->setScaledContents(true);
+			ui.label_2->show();
+			ui.label_3->hide();
 		}
 		ui.labelchklcs->hide();
 		return;
@@ -393,7 +413,9 @@ void DinoOL::setOBSPic(QString pic, int id)
 	if (mOBS[id] == NULL) mOBS[id] = new QMovie(this);
 	mOBS[id]->stop();
 	mOBS[id]->setFileName(pic);
+	OBS[id]->clear();
 	OBS[id]->setMovie(mOBS[id]);
+	OBS[id]->adjustSize();
 	mOBS[id]->start();
 }
 
@@ -916,14 +938,21 @@ void DinoOL::printOBS()
 		if (OBS[i]->x() < 0 - OBS[i]->width()) vOBS[i] = 0;
 		if (!isPause)
 		{
-			OBS[i]->move(OBS[i]->x() + tobs.elapsed() * vOBS[i] / 1000, horline - dy[i] * maxH / 10 - OBS[i]->height());
+			OBS[i]->move(OBS[i]->x() + tobs.elapsed() * vOBS[i] / 1000, horline - (dy[i] % 100) * maxH / 10 - OBS[i]->height());
 		}
 		else
 		{
-			OBS[i]->move(OBS[i]->x(), horline - dy[i] * maxH / 10 - OBS[i]->height());
+			OBS[i]->move(OBS[i]->x(), horline - (dy[i] % 100) * maxH / 10 - OBS[i]->height());
 		}
 		if (!isPause && P2->isOn && !P2->isShining && isTouched(OBS[i], &P2->labDino))
 		{
+			if (dy[i] > 10)//star
+			{
+				OBS[i]->clear();
+				P2->shining();
+				dy[i] = -9;
+				goto aaa;
+			}
 			if (ui.labP1P2Life->text().split(':')[1].toInt() <= 1)
 			{
 				GamePause();
@@ -935,15 +964,22 @@ void DinoOL::printOBS()
 			ui.lifeP2->setText("<html><head/><body><p><img src = "":/pic/png/" + QString::number(ui.labP1P2Life->text().split(':')[1].toInt() - 1) + """ width = ""36"" height = ""44"" / >< / p>< / body>< / html>");
 			ui.labP1P2Life->setText(ui.labP1P2Life->text().split(':')[0] + ":" + QString::number(ui.labP1P2Life->text().split(':')[1].toInt() - 1));
 		}
+	aaa:
 		if (!isPause && !P1->isShining && isTouched(OBS[i], &P1->labDino))
 		{
-			if (!P2->isOn && !WebGame)
+			if (dy[i] > 10)//star
+			{
+				OBS[i]->clear();
+				P1->shining();
+				dy[i] = -9;
+				//continue;
+			}
+			else if (!P2->isOn && !WebGame)
 			{
 				if (R[1]->isOn == 1 && (R[0]->isFail == 1 || R[1]->isFail == 1) || R[1]->isOn == 0)
 				{
 					if (ui.labP1P2Life->text().split(':')[0].toInt() <= 1)
 					{
-
 						GamePause();
 						mOBS[i]->stop();
 						isPause = 1;
@@ -1027,10 +1063,16 @@ void DinoOL::refreshScore(int t)
 	//if (vx0 < 1000)vx0 = t / 100 * 100 + 305.6;
 	for (int i = 0; i < 6; i++)
 	{
-		if (t < 1000 && dy[i] && vOBS[i])
-			vOBS[i] = 0 - vx0 - int(log10(t) - 1) * 100;
-		else if (dy[i] && vOBS[i])
-			vOBS[i] = 0 - vx0 - 3 * 100;
+		if (t < 1000 && vOBS[i] && dy[i] > 0 && dy[i] <= 11)
+			vOBS[i] = 0 - vx0 - int(log10(t) - 1) * 100.;
+		else if (dy[i] > 0 && dy[i] <= 11 && vOBS[i])
+			vOBS[i] = 0 - vx0 - 3. * 100;
+	}
+	if (!WebGame && !P2->isOn && flag4life != t && (t == 100 || t == 500 || t == 1000 || t == 2000 || t == 5000 || t == 10000))
+	{
+		ui.labP1P2Life->setText(QString::number(ui.labP1P2Life->text().split(':')[0].toInt() + 1) + ":" + ui.labP1P2Life->text().split(':')[1].toInt());
+		ui.lifeP1->setText("<html><head/><body><p><img src = "":/pic/png/" + ui.labP1P2Life->text().split(':')[0] + """ width = ""36"" height = ""44"" / >< / p>< / body>< / html>");
+		flag4life = t;
 	}
 	ui.score7->setText("<html><head/><body><p><img src="":/pic/png/" + QString::number(t % 10) + """ widyh=""27"" height=""33""/></p></body></html>");
 	t /= 10;
@@ -1075,18 +1117,51 @@ void DinoOL::ProduceOBS()
 	{
 		ui.labReady->hide();
 		ui.labReady->setText("<html><head/><body><p><img src="":/pic/png/-1"" widyh=""27"" height=""33""/></p></body></html>");
+		//暂时不使用
+		/*
+		if (!WebGame && !P2->isOn)	//单人单机模式初始生命数为最高分数以10为底的对数
+		{
+			ui.lifeP1->setText("<html><head/><body><p><img src = "":/pic/png/" + QString::number(int(log10(ui.actionMaxScore->text().toInt() / 10))) + """ width = ""36"" height = ""44"" / >< / p>< / body>< / html>");
+			ui.labP1P2Life->setText(QString::number(int(log10(ui.actionMaxScore->text().toInt() / 10))) + ":3");
+		}*/
+		if (!WebGame && !P2->isOn)	//单人单机模式初始生命数为最高分数以10为底的对数
+		{
+			ui.lifeP1->setText("<html><head/><body><p><img src = "":/pic/png/1"" width = ""36"" height = ""44"" / >< / p>< / body>< / html>");
+			ui.labP1P2Life->setText("1:3");
+		}
+		P1->shining();
+		if (P2->isOn) P2->shining();
 		QTimer::singleShot(1000, this, SLOT(ProduceOBS()));				//1秒后重新调用自己
 	}
 	if (WebGame && ui.tableRoomer->item(0, 1)->text().toInt() != SPID) return;
 	int dy = 0;
 	kind = randNum(3);
-	if (!kind)			//kind = 0时，生成鸟
+	if (!kind)			//kind = 0时，生成鸟或星星
 	{
-		dy = randNum(10) + 1;
+		if (!WebGame)
+		{
+			kind = randNum(10);//kind为0生成星星1/30
+			if (kind == 0)
+			{
+				kind = 2;
+				dy %= 3;
+				dy += 107;
+			}
+			else
+			{
+				kind = 0;
+				dy = randNum(10) + 1;
+			}
+		}
+		else
+		{
+			dy = randNum(10) + 1;
+		}
 	}
 	else
 	{
 		kind = randNum(6) + 10;
+		dy = 0;
 	}
 	if (ui.tableRoomer->item(0, 1)->text().toInt() == SPID)
 		SendObstacle(kind, dy);
@@ -1104,6 +1179,7 @@ void DinoOL::ProduceOBS(int kind, int dy)
 {
 	/*kind:dinool.qrc文件名
 	* 0-bird
+	* 2-star
 	* 10-cactus_s_1 * 13-.......l_1
 	* 11-.......s_2 * 14-.......l_2
 	* 12-.......s_3 * 15-.......l_3
@@ -1111,6 +1187,7 @@ void DinoOL::ProduceOBS(int kind, int dy)
 	int i;
 	QString path;
 	if (kind == 0) path = ":/pic/gif/bird";
+	else if (kind == 2) path = ":/pic/gif/star";
 	else
 		path = ":/pic/obs/" + QString::number(kind);
 	for (i = 0; i < 7; i++)
@@ -1121,7 +1198,10 @@ void DinoOL::ProduceOBS(int kind, int dy)
 			OBS[i]->show();
 			setOBSPic(path, i);
 			OBS[i]->adjustSize();
-			OBS[i]->setGeometry(1920, horline - dy * maxH * 0.1 - 2. * OBS[i]->height(), 2 * OBS[i]->width(), 2 * OBS[i]->height());
+			if (kind >= 10)
+				OBS[i]->setGeometry(1920, horline - (dy % 100) * maxH * 0.1 - 2. * OBS[i]->height(), 2 * OBS[i]->width(), 2 * OBS[i]->height());
+			else
+				OBS[i]->setGeometry(1920, horline - 2. * OBS[i]->height(), 2 * OBS[i]->width(), 2 * OBS[i]->height());
 			OBS[i]->setScaledContents(true);
 			OBS[i]->raise();
 			vOBS[i] = 0. - vx0;
@@ -1275,6 +1355,8 @@ void DinoOL::on_actionRun_as_a_server_triggered()
 		P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
 		P1->setScaledContents(true);
 	}
+	ui.label_2->show();
+	ui.label_3->hide();
 	ui.labelchklcs->hide();
 }
 
