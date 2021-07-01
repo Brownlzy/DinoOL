@@ -261,7 +261,7 @@
        <enum>Qt::ClickFocus</enum>
       </property>
       <property name="whatsThis">
-       <string>输入游戏服务器的IP地址，如“192.168.0.2:60328”，“my.website.net:24773”.</string>
+       <string>输入游戏服务器的IP地址，如“192.168.0.2:60328”，“my.website.net:24773”.（留空表示连接本机30628端口）</string>
       </property>
       <property name="text">
        <string/>
@@ -323,7 +323,7 @@
       </rect>
      </property>
      <property name="cursor" stdset="0">
-      <cursorShape>BlankCursor</cursorShape>
+      <cursorShape>ArrowCursor</cursorShape>
      </property>
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>

@@ -329,9 +329,11 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 			{
 				QMessageBox::critical(this, tr("版本已过期！"), tr("请在菜单-帮助(H)-关于处升级最新版！\n当前版本:") + QString::fromUtf8(DINOVER) + tr("\n当前最新版:") + tmp.split("!")[1].split("<")[1]);
 				isStarted = 0;
+				/*
 				P1->setDinoState(":/pic/gif/dino_jump");
 				P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
 				P1->setScaledContents(true);
+				*/
 			}
 			else
 			{
@@ -347,14 +349,17 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 		{
 			QMessageBox::critical(this, tr("无效许可！"), tr("请确定已联网且安装了DinoOLServer组件,\n或向开发者索要最新版！\n当前版本:") + QString::fromUtf8(DINOVER));
 			isStarted = 0;
+			/*
 			P1->setDinoState(":/pic/gif/dino_jump");
 			P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
 			P1->setScaledContents(true);
 			ui.label_2->show();
 			ui.label_3->hide();
+			*/
 		}
-#endif // !_DEBUG
+#else
 		StartGame();
+#endif // !_DEBUG
 		ui.labelchklcs->hide();
 		return;
 	}
@@ -1288,6 +1293,7 @@ void DinoOL::ProduceOBS()
 void DinoOL::reStart(QString)
 {
 	SendDC();
+	closeEvent(NULL);
 	qApp->exit(-2);
 }
 
@@ -1453,9 +1459,10 @@ void DinoOL::on_actionRun_as_a_server_triggered()
 		{
 			QMessageBox::critical(this, tr("版本已过期！"), tr("请在菜单-帮助(H)-关于处升级最新版！\n当前版本:") + QString::fromUtf8(DINOVER) + tr("\n当前最新版:") + tmp.split("!")[1].split("<")[1]);
 			isStarted = 0;
+			/*
 			P1->setDinoState(":/pic/gif/dino_jump");
 			P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
-			P1->setScaledContents(true);
+			P1->setScaledContents(true);*/
 		}
 		else
 		{
@@ -1467,25 +1474,28 @@ void DinoOL::on_actionRun_as_a_server_triggered()
 			Par << "/DinoOLServer";
 			QProcess::startDetached(qApp->applicationFilePath(), Par);
 #endif // _DEBUG
-	}
+		}
 		ui.labelchklcs->hide();
 		return;
-}
+	}
 	else
 	{
 		QMessageBox::critical(this, tr("无效许可！"), tr("请确定已联网且安装了DinoOLServer组件,\n或向开发者索要最新版！\n当前版本:") + QString::fromUtf8(DINOVER));
 		isStarted = 0;
+		/*
 		P1->setDinoState(":/pic/gif/dino_jump");
 		P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
-		P1->setScaledContents(true);
+		P1->setScaledContents(true);*/
 	}
+	/*
 	ui.label_2->show();
-	ui.label_3->hide();
+	ui.label_3->hide();*/
 	ui.labelchklcs->hide();
 }
 
 void DinoOL::on_actionExit_triggered()
 {
+	closeEvent(NULL);
 	qApp->exit(0);
 }
 
