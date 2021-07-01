@@ -7,7 +7,6 @@
 
 void About::Update()
 {
-	//qDebug() << calcFileCRC("DinoOLNew.exe");
 	if (strCRC32 != calcFileCRC("DinoOLNew"))
 	{
 		ui.progressBar->hide();
@@ -150,7 +149,7 @@ QString calcFileCRC(QString fileName)
 		}
 
 		file.close();
-		strCRC = QString::number(crc, 16).toUpper();
+		strCRC = QString("%1").arg(crc, 8, 16, QChar('0')).toUpper();
 	}
 
 	return strCRC;

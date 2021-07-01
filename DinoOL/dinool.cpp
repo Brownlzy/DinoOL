@@ -1643,6 +1643,7 @@ void DinoOL::on_action_2_triggered() //关于
 				frmabout.ui.progressBar->setMaximum(0);
 				frmabout.ui.pushButton_2->setEnabled(true);
 				frmabout.strCRC32 = tmp.split("!")[1].split("<")[4];
+				qDebug() << tmp.split("!")[1].split("<")[4];
 			}
 			else
 			{
