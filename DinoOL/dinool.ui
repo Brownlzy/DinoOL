@@ -1124,6 +1124,7 @@
     </property>
     <addaction name="actionNewOne"/>
     <addaction name="separator"/>
+    <addaction name="action_3"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuGame">
@@ -1210,8 +1211,21 @@
      <addaction name="menu_5"/>
      <addaction name="actionRunJump"/>
     </widget>
+    <widget class="QMenu" name="menu_7">
+     <property name="title">
+      <string>道具个数</string>
+     </property>
+     <widget class="QMenu" name="menu_8">
+      <property name="title">
+       <string>吃到星星数</string>
+      </property>
+     </widget>
+     <addaction name="menu_8"/>
+     <addaction name="actionStar"/>
+    </widget>
     <addaction name="menu"/>
     <addaction name="menu_2"/>
+    <addaction name="menu_7"/>
     <addaction name="separator"/>
     <addaction name="actionCleanData"/>
    </widget>
@@ -1361,6 +1375,26 @@
    </property>
    <property name="text">
     <string>赞助(&amp;Z)</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>退出时记录状态</string>
+   </property>
+  </action>
+  <action name="actionStar">
+   <property name="icon">
+    <iconset resource="dinool.qrc">
+     <normaloff>:/pic/gif/star</normaloff>:/pic/gif/star</iconset>
+   </property>
+   <property name="text">
+    <string>0</string>
    </property>
   </action>
  </widget>

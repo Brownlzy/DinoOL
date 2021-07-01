@@ -4,6 +4,8 @@
 */
 #pragma execution_character_set("utf-8")
 
+#include <fstream>
+
 #include "dinool.h"
 #include "server.h"
 #include <QtWidgets/QApplication>
@@ -24,13 +26,39 @@ int main(int argc, char* argv[])
 		s.show();
 		return a.exec();
 	}
+	int flag = 0, isRcCfg, isMax, x, y, w, h, isMoon, version;
+	if (QFileInfo("DinoOL.cfg").exists())
+	{
+		std::ifstream fin("DinoOL.cfg");
+		if (fin)
+		{
+			fin >> version >> isRcCfg >> isMax >> x >> y >> w >> h >> isMoon;
+			if (version <= DINOVERNUM && version >= 1111)
+				flag = 1;
+			fin.close();
+		}
+		else
+			flag = -1;
+	}
+	else
+	{
+		flag = -1;
+	}
 	do {
-		DinoOL w;
-		w.show();
+		DinoOL d;
+		if (flag == 1)
+		{
+			d.CfgSet(isRcCfg, x, y, w, h, isMax, isMoon);
+		}
+		else if (flag == 0)
+		{
+			d.CfgSet(0);
+		}
+		d.show();
 		tmp = a.exec();
 		if (tmp == -1)
 		{
-			w.close();
+			d.close();
 			Server s;
 			s.setWindowFlags(Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
 			s.setFixedSize(751, 500);

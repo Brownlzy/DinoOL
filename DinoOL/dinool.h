@@ -30,7 +30,7 @@
 #include "about.h"
 
 #define DINOVER "v1.1.1"
-#define DINOVERNUM 1111		//最后一位可以用于区分小版本
+#define DINOVERNUM 1112		//最后一位可以用于区分小版本
 
 class DinoOL : public QMainWindow
 {
@@ -52,6 +52,7 @@ public:
 	int readDataFile();
 	int writeDataFile();
 	int Initialize();
+	void CfgSet(int isRember, int x = -1, int y = -1, int w = -1, int h = -1, int isMax = 0, int isMoon = 0);
 
 public slots:
 	void NetworkChk(QString);

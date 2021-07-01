@@ -158,9 +158,16 @@ void DinoOL::closeEvent(QCloseEvent* event)
 		ui.actionMaxScore->setText("0");
 		ui.actionJump->setText("0");
 		ui.actionDive->setText("0");
+		ui.actionStar->setText("0");
 		ui.actionRunJump->setText("0");
 		writeDataFile();
 	}
+	std::ofstream fout("DinoOL.cfg");
+	if (!fout) return;
+	fout << DINOVERNUM << " " << ui.action_3->isChecked() << " " << this->windowState() << " ";
+	fout << this->geometry().x() << " " << this->geometry().y() << " " << this->geometry().width() << " " << this->geometry().height() << " ";
+	fout << !isSun << "\n" << "This_is_DinoOL_config_file.";
+	fout.close();
 }
 void DinoOL::resizeDinoOL()
 {
@@ -851,16 +858,17 @@ int DinoOL::readDataFile()
 			return 1;
 		}
 		std::string strcrc;
-		int s, j, d, rj, a;
-		fin >> strcrc >> s >> j >> d >> rj;
+		int vernum, s, j, d, rj, star, a;
+		fin >> strcrc >> s >> j >> d >> rj >> star >> vernum;
 		fin.close();
-		a = s + j + d + rj + 2636;
+		a = s + j + d + rj + star + vernum + 2636;
 		QByteArray raw = QByteArray::fromStdString(QString::number(a).toStdString());
 		if (QString::number(calcCRC32(raw), 16).toUpper() == QString::fromStdString(strcrc))
 		{
 			ui.actionMaxScore->setText(QString::number(s));
 			ui.actionJump->setText(QString::number(j));
 			ui.actionDive->setText(QString::number(d));
+			ui.actionStar->setText(QString::number(star));
 			ui.actionRunJump->setText(QString::number(rj));
 			return 0;
 		}
@@ -877,7 +885,7 @@ int DinoOL::readDataFile()
 
 int DinoOL::writeDataFile()
 {
-	int a = ui.actionMaxScore->text().toInt() + ui.actionJump->text().toInt() + ui.actionDive->text().toInt() + ui.actionRunJump->text().toInt();
+	int a = DINOVERNUM + ui.actionMaxScore->text().toInt() + ui.actionJump->text().toInt() + ui.actionDive->text().toInt() + ui.actionRunJump->text().toInt() + ui.actionStar->text().toInt();
 	a += 2636;
 	QByteArray raw = QByteArray::fromStdString(QString::number(a).toStdString());
 	//QString::number(calcCRC32(raw), 16).toUpper();
@@ -888,7 +896,9 @@ int DinoOL::writeDataFile()
 		return 1;
 	}
 	fout << QString::number(calcCRC32(raw), 16).toUpper().toStdString() << " ";
-	fout << ui.actionMaxScore->text().toInt() << " " << ui.actionJump->text().toInt() << " " << ui.actionDive->text().toInt() << " " << ui.actionRunJump->text().toInt();
+	fout << ui.actionMaxScore->text().toInt() << " " << ui.actionJump->text().toInt() << " " << ui.actionDive->text().toInt() << " " << ui.actionRunJump->text().toInt() << " ";
+	fout << ui.actionStar->text().toInt() << " ";
+	fout << DINOVERNUM;
 	fout << "\nPlease_DONT_change_the_file_manually!";
 	fout.close();
 	return 0;
@@ -1006,6 +1016,27 @@ int DinoOL::Initialize()
 	return 0;
 }
 
+void DinoOL::CfgSet(int isRember, int x, int y, int w, int h, int isMax, int isMoon)
+{
+	if (!isRember)
+		ui.action_3->setChecked(false);
+	else
+	{
+		if (isMax == 2)
+		{
+			this->setWindowState(Qt::WindowMaximized);
+		}
+		else
+		{
+			this->setGeometry(x, y, w, h);
+		}
+		if (isMoon)
+		{
+			ChangeColor("TurnBlack");
+		}
+	}
+}
+
 void DinoOL::printOBS()
 {
 	//int isPause = 0;
@@ -1050,6 +1081,7 @@ void DinoOL::printOBS()
 				OBS[i]->clear();
 				P1->shining();
 				dy[i] = -9;
+				ui.actionStar->setText(QString::number(ui.actionStar->text().toInt() + 1));
 				//continue;
 			}
 			else if (!P2->isOn && !WebGame)
@@ -1435,10 +1467,10 @@ void DinoOL::on_actionRun_as_a_server_triggered()
 			Par << "/DinoOLServer";
 			QProcess::startDetached(qApp->applicationFilePath(), Par);
 #endif // _DEBUG
-		}
+	}
 		ui.labelchklcs->hide();
 		return;
-	}
+}
 	else
 	{
 		QMessageBox::critical(this, tr("无效许可！"), tr("请确定已联网且安装了DinoOLServer组件,\n或向开发者索要最新版！\n当前版本:") + QString::fromUtf8(DINOVER));
