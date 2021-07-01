@@ -30,7 +30,7 @@
 #include "about.h"
 
 #define DINOVER "v1.1.1"
-#define DINOVERNUM 1110		//最后一位可以用于区分小版本
+#define DINOVERNUM 1111		//最后一位可以用于区分小版本
 
 class DinoOL : public QMainWindow
 {

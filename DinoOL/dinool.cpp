@@ -258,6 +258,13 @@ void DinoOL::SunMoon(int istoMoon)
 			ui.labSunMoon->hide();
 			ui.labMoon->show();
 			ui.labSunMoon->clear();
+			QColor c = QColor("#202020");//黑
+			QPalette p = this->palette();
+			p.setColor(QPalette::Window, c);
+			this->setPalette(p);
+			ui.labelchklcs->setStyleSheet("font: 9pt ""SimSun"";color:#707070;");
+			ui.label_2->setStyleSheet("font: 9pt ""黑体"";color:#707070;");
+			ui.label_3->setStyleSheet("font: 9pt ""黑体"";color:#707070;");
 		}
 	}
 	else if (istoMoon == 0)
@@ -268,7 +275,7 @@ void DinoOL::SunMoon(int istoMoon)
 		ui.labSunMoon->setMovie(&S2M);
 		S2M.start();
 		QTimer::singleShot(500, this, SLOT(SunMoon()));
-		QColor c = QColor("#F0F0F0");
+		QColor c = QColor("#F0F0F0");//灰
 		QPalette p = this->palette();
 		p.setColor(QPalette::Window, c);
 		this->setPalette(p);
@@ -284,13 +291,6 @@ void DinoOL::SunMoon(int istoMoon)
 		ui.labSunMoon->setMovie(&S2M);
 		S2M.start();
 		QTimer::singleShot(500, this, SLOT(SunMoon()));
-		QColor c = QColor("#202020");
-		QPalette p = this->palette();
-		p.setColor(QPalette::Window, c);
-		this->setPalette(p);
-		ui.labelchklcs->setStyleSheet("font: 9pt ""SimSun"";color:#707070;");
-		ui.label_2->setStyleSheet("font: 9pt ""黑体"";color:#707070;");
-		ui.label_3->setStyleSheet("font: 9pt ""黑体"";color:#707070;");
 	}
 }
 
@@ -345,12 +345,12 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 			P1->setScaledContents(true);
 			ui.label_2->show();
 			ui.label_3->hide();
-}
+		}
 #endif // !_DEBUG
 		StartGame();
 		ui.labelchklcs->hide();
 		return;
-}
+	}
 	ui.labelchklcs->hide();
 	if (isStarted < 4) return;
 	if (e->key() == Qt::Key_Up && !WebGame)
@@ -1330,6 +1330,7 @@ void DinoOL::StartStep2() { StartGame(2); }
 
 void DinoOL::roadloop()
 {
+	if (isPause) return;
 	int t;
 	int y = this->frameGeometry().height();
 	CleanAM(pAnimationRoad);
@@ -1434,10 +1435,10 @@ void DinoOL::on_actionRun_as_a_server_triggered()
 			Par << "/DinoOLServer";
 			QProcess::startDetached(qApp->applicationFilePath(), Par);
 #endif // _DEBUG
-	}
+		}
 		ui.labelchklcs->hide();
 		return;
-}
+	}
 	else
 	{
 		QMessageBox::critical(this, tr("无效许可！"), tr("请确定已联网且安装了DinoOLServer组件,\n或向开发者索要最新版！\n当前版本:") + QString::fromUtf8(DINOVER));
