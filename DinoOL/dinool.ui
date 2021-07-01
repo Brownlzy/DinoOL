@@ -1152,6 +1152,7 @@
      <string>游戏(&amp;G)</string>
     </property>
     <addaction name="actionRestart"/>
+    <addaction name="actionOffline"/>
     <addaction name="separator"/>
     <addaction name="actionRun_as_a_server"/>
     <addaction name="actionConnect_a_server"/>
@@ -1424,6 +1425,17 @@
    </property>
    <property name="text">
     <string>无敌状态</string>
+   </property>
+  </action>
+  <action name="actionOffline">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>离线模式</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
  </widget>

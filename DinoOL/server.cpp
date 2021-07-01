@@ -64,14 +64,14 @@ void Server::refreshPlayer(int isAdd, int sockid, QString PID)
 					{
 						for (int k = 5; k < 4 + ui.tableRoom->item(i, 2)->text().toInt(); k++)
 						{
-							try
-							{
-								SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
-							}
-							catch (...)
-							{
+							//try
+							//{
+							SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
+							//}
+							//catch (...)
+							//{
 
-							}
+							//}
 						}
 						ui.tableRoom->removeRow(i);
 						RoomNum--;
@@ -85,14 +85,14 @@ void Server::refreshPlayer(int isAdd, int sockid, QString PID)
 						{
 							if (k != j)
 							{
-								try
-								{
-									SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
-								}
-								catch (...)
-								{
+								//try
+								//{
+								SendTo(ui.tableRoom->item(i, k)->text().toInt(), sendtmp);
+								//}
+								//catch (...)
+								//{
 
-								}
+								//}
 							}
 						}
 						ui.tableRoom->item(i, j)->setText("");
