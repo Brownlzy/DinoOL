@@ -18,6 +18,8 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.txtRoom->setText("debug");
 	ui.frame_4->setGeometry(0, 0, ui.frame_4->width(), 341);
 #else
+	ui.chkCheat->move(-80, 0);
+	ui.actionCheat->setVisible(false);
 	tmp += QString::fromStdString(DINOVER) + " By:Brownlzy";
 	ui.actionDebug->setVisible(false);
 #endif // _DEBUG
@@ -327,8 +329,36 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 		{
 			if (tmp.split("!")[1].split("<")[0].toInt() > DINOVERNUM)
 			{
-				QMessageBox::critical(this, tr("版本已过期！"), tr("请在菜单-帮助(H)-关于处升级最新版！\n当前版本:") + QString::fromUtf8(DINOVER) + tr("\n当前最新版:") + tmp.split("!")[1].split("<")[1]);
+				//QMessageBox::critical(this, tr("版本已过期！"), tr("请在菜单-帮助(H)-关于处升级最新版！\n当前版本:") + QString::fromUtf8(DINOVER) + tr("\n当前最新版:") + tmp.split("!")[1].split("<")[1]);
 				isStarted = 0;
+				About frmabout;
+				frmabout.setFixedSize(291, 351);
+				if (tmp.split("!")[1].split("<")[3].toInt() == 1)
+				{
+					frmabout.ui.progressBar->setMaximum(0);
+					frmabout.ui.pushButton_2->setEnabled(true);
+					QString otaInfo = "新版本:\t" + tmp.split("!")[1].split("<")[1] + "\n大小:\t";
+					otaInfo += tmp.split("!")[1].split("<")[5] + "\n";
+					otaInfo += tmp.split("!")[1].split("<")[6];
+					//frmabout.ui.pushButton_2->setToolTip(otaInfo);
+					frmabout.ui.textBrowser->setText(otaInfo);
+					//frmabout.ui.pushButton_2->setWhatsThis(tmp.split("!")[1]);
+					frmabout.strCRC32 = tmp.split("!")[1].split("<")[4];
+				}
+				else
+				{
+					frmabout.ui.progressBar->hide();
+					frmabout.ui.pushButton_2->setText(tr("请手动更新"));
+					QString otaInfo = "新版本:\t" + tmp.split("!")[1].split("<")[1] + "\n大小:\t";
+					otaInfo += tmp.split("!")[1].split("<")[5] + "\n";
+					otaInfo += tmp.split("!")[1].split("<")[6];
+					//frmabout.ui.pushButton_2->setToolTip(otaInfo);
+					frmabout.ui.textBrowser->setText(otaInfo);
+					frmabout.setWindowTitle(tr("DinoOL -有可用更新-"));
+				}
+				frmabout.setWindowIcon(QIcon(":pic/icon/DinoOL"));
+				frmabout.show();
+				if (frmabout.exec());
 				/*
 				P1->setDinoState(":/pic/gif/dino_jump");
 				P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
@@ -1037,7 +1067,18 @@ void DinoOL::CfgSet(int isRember, int x, int y, int w, int h, int isMax, int isM
 		}
 		if (isMoon)
 		{
-			ChangeColor("TurnBlack");
+			ui.labMoon->show();
+			ui.labSunMoon->clear();
+			ui.labSun->hide();
+			isSun = 0;
+			QColor c = QColor("#202020");//黑
+			QPalette p = this->palette();
+			p.setColor(QPalette::Window, c);
+			this->setPalette(p);
+			ui.labelchklcs->setStyleSheet("font: 9pt ""SimSun"";color:#707070;");
+			ui.label_2->setStyleSheet("font: 9pt ""黑体"";color:#707070;");
+			ui.label_3->setStyleSheet("font: 9pt ""黑体"";color:#707070;");
+			//ChangeColor("TurnBlack");
 		}
 	}
 }
@@ -1093,7 +1134,7 @@ void DinoOL::printOBS()
 			{
 				if (R[1]->isOn == 1 && (R[0]->isFail == 1 || R[1]->isFail == 1) || R[1]->isOn == 0)
 				{
-					if (ui.labP1P2Life->text().split(':')[0].toInt() <= 1)
+					if (ui.labP1P2Life->text().split(':')[0].toInt() <= 1 && !ui.chkCheat->isChecked())
 					{
 						GamePause();
 						mOBS[i]->stop();
@@ -1102,8 +1143,11 @@ void DinoOL::printOBS()
 						//ui.lab_7->setText("碰到障碍" + QString::number(i));
 					}
 					else { P1->shining(); }
-					ui.lifeP1->setText("<html><head/><body><p><img src = "":/pic/png/" + QString::number(ui.labP1P2Life->text().split(':')[0].toInt() - 1) + """ width = ""36"" height = ""44""/></p></body></html>");
-					ui.labP1P2Life->setText(QString::number(ui.labP1P2Life->text().split(':')[0].toInt() - 1) + ":" + ui.labP1P2Life->text().split(':')[1]);
+					if (!ui.chkCheat->isChecked())
+					{
+						ui.lifeP1->setText("<html><head/><body><p><img src = "":/pic/png/" + QString::number(ui.labP1P2Life->text().split(':')[0].toInt() - 1) + """ width = ""36"" height = ""44""/></p></body></html>");
+						ui.labP1P2Life->setText(QString::number(ui.labP1P2Life->text().split(':')[0].toInt() - 1) + ":" + ui.labP1P2Life->text().split(':')[1]);
+					}
 				}
 				else
 				{
@@ -1457,8 +1501,37 @@ void DinoOL::on_actionRun_as_a_server_triggered()
 	{
 		if (tmp.split("!")[1].split("<")[0].toInt() > DINOVERNUM)
 		{
-			QMessageBox::critical(this, tr("版本已过期！"), tr("请在菜单-帮助(H)-关于处升级最新版！\n当前版本:") + QString::fromUtf8(DINOVER) + tr("\n当前最新版:") + tmp.split("!")[1].split("<")[1]);
+			//QMessageBox::critical(this, tr("版本已过期！"), tr("请在菜单-帮助(H)-关于处升级最新版！\n当前版本:") + QString::fromUtf8(DINOVER) + tr("\n当前最新版:") + tmp.split("!")[1].split("<")[1]);
 			isStarted = 0;
+			About frmabout;
+			frmabout.setFixedSize(291, 351);
+			if (tmp.split("!")[1].split("<")[3].toInt() == 1)
+			{
+				frmabout.ui.progressBar->setMaximum(0);
+				frmabout.ui.pushButton_2->setEnabled(true);
+				QString otaInfo = "新版本:\t" + tmp.split("!")[1].split("<")[1] + "\n大小:\t";
+				otaInfo += tmp.split("!")[1].split("<")[5] + "\n";
+				otaInfo += tmp.split("!")[1].split("<")[6];
+				//frmabout.ui.pushButton_2->setToolTip(otaInfo);
+				frmabout.ui.textBrowser->setText(otaInfo);
+				//frmabout.ui.pushButton_2->setWhatsThis(tmp.split("!")[1]);
+				frmabout.strCRC32 = tmp.split("!")[1].split("<")[4];
+			}
+			else
+			{
+				frmabout.ui.progressBar->hide();
+				frmabout.ui.pushButton_2->setText(tr("请手动更新"));
+				QString otaInfo = "新版本:\t" + tmp.split("!")[1].split("<")[1] + "\n大小:\t";
+				otaInfo += tmp.split("!")[1].split("<")[5] + "\n";
+				otaInfo += tmp.split("!")[1].split("<")[6];
+				//frmabout.ui.pushButton_2->setToolTip(otaInfo);
+				frmabout.ui.textBrowser->setText(otaInfo);
+				frmabout.setWindowTitle(tr("DinoOL -有可用更新-"));
+			}
+			frmabout.setWindowIcon(QIcon(":pic/icon/DinoOL"));
+			frmabout.show();
+			if (frmabout.exec());
+
 			/*
 			P1->setDinoState(":/pic/gif/dino_jump");
 			P1->setGeometry(0.2 * this->frameGeometry().width(), 0.2 * this->frameGeometry().height() - 83, 44, 130);
@@ -1533,7 +1606,7 @@ void DinoOL::on_actionRestart_triggered()
 	//Initialize();
 }
 
-void DinoOL::on_action_2_triggered()
+void DinoOL::on_action_2_triggered() //关于
 {
 	About frmabout;
 	frmabout.setWindowIcon(QIcon(":/pic/icon/DinoOL"));
@@ -1557,6 +1630,11 @@ void DinoOL::on_action_2_triggered()
 	qDebug() << tmp;
 	if (tmp.split("!")[0] == "DinoOL_OTA_Info")
 	{
+		QString otaInfo = "新版本:\t" + tmp.split("!")[1].split("<")[1] + "\n大小:\t";
+		otaInfo += tmp.split("!")[1].split("<")[5] + "\n";
+		otaInfo += tmp.split("!")[1].split("<")[6];
+		frmabout.ui.textBrowser->setText(otaInfo);
+
 		if (tmp.split("!")[1].split("<")[2].toInt() > DINOVERNUM)
 		{
 			frmabout.setFixedSize(291, 351);
@@ -1564,22 +1642,12 @@ void DinoOL::on_action_2_triggered()
 			{
 				frmabout.ui.progressBar->setMaximum(0);
 				frmabout.ui.pushButton_2->setEnabled(true);
-				QString otaInfo = "新版本:\t" + tmp.split("!")[1].split("<")[1] + "\n大小:\t";
-				otaInfo += tmp.split("!")[1].split("<")[5] + "\n";
-				otaInfo += tmp.split("!")[1].split("<")[6];
-				//frmabout.ui.pushButton_2->setToolTip(otaInfo);
-				frmabout.ui.textBrowser->setText(otaInfo);
-				//frmabout.ui.pushButton_2->setWhatsThis(tmp.split("!")[1]);
 				frmabout.strCRC32 = tmp.split("!")[1].split("<")[4];
 			}
 			else
 			{
 				frmabout.ui.progressBar->hide();
 				frmabout.ui.pushButton_2->setText(tr("请手动更新"));
-				QString otaInfo = "新版本:\t" + tmp.split("!")[1].split("<")[1] + "\n大小:\t";
-				otaInfo += tmp.split("!")[1].split("<")[5] + "\n";
-				otaInfo += tmp.split("!")[1].split("<")[6];
-				//frmabout.ui.pushButton_2->setToolTip(otaInfo);
 				frmabout.ui.textBrowser->setText(otaInfo);
 				frmabout.setWindowTitle(tr("DinoOL -有可用更新-"));
 			}
@@ -1587,6 +1655,8 @@ void DinoOL::on_action_2_triggered()
 		else
 		{
 			frmabout.setFixedSize(291, 146);
+			frmabout.ui.pushButton_2->setText(tr("更新日志"));
+			frmabout.ui.pushButton_2->setEnabled(true);
 			frmabout.ui.progressBar->hide();
 		}
 	}
@@ -1598,6 +1668,18 @@ void DinoOL::on_action_2_triggered()
 	}
 	frmabout.show();
 	if (frmabout.exec());
+}
+
+void DinoOL::on_actionCheat_triggered()
+{
+	if (ui.actionCheat->isChecked())
+	{
+		ui.chkCheat->setCheckState(Qt::Checked);
+	}
+	else
+	{
+		ui.chkCheat->setCheckState(Qt::Unchecked);
+	}
 }
 
 void DinoOL::on_action_Z_triggered()

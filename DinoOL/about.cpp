@@ -44,6 +44,18 @@ About::~About()
 
 void About::on_pushButton_2_clicked()
 {
+	if (ui.pushButton_2->text() == "更新日志")
+	{
+		this->setFixedSize(291, 351);
+		ui.pushButton_2->setText("收起");
+		return;
+	}
+	else if (ui.pushButton_2->text() == "收起")
+	{
+		this->setFixedSize(291, 146);
+		ui.pushButton_2->setText("更新日志");
+		return;
+	}
 	url = "https://brownlzy.github.io/DinoOL.exe";
 	//测试url;
 	//url = "http://dl.360safe.com/drvmgr/guanwang__360DrvMgrInstaller_beta.exe";

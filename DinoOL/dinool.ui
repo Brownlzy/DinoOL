@@ -1087,6 +1087,25 @@
      <string/>
     </property>
    </widget>
+   <widget class="QCheckBox" name="chkCheat">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>20</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="text">
+     <string>Cheat</string>
+    </property>
+    <property name="shortcut">
+     <string>Ctrl+Alt+F12</string>
+    </property>
+   </widget>
    <zorder>lab_7</zorder>
    <zorder>labRoad</zorder>
    <zorder>label_2</zorder>
@@ -1108,6 +1127,7 @@
    <zorder>labSun</zorder>
    <zorder>labMoon</zorder>
    <zorder>labSunMoon</zorder>
+   <zorder>chkCheat</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -1142,6 +1162,7 @@
     </property>
     <addaction name="action_Z"/>
     <addaction name="separator"/>
+    <addaction name="actionCheat"/>
     <addaction name="actionDebug"/>
     <addaction name="action_2"/>
    </widget>
@@ -1395,6 +1416,14 @@
    </property>
    <property name="text">
     <string>0</string>
+   </property>
+  </action>
+  <action name="actionCheat">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>无敌状态</string>
    </property>
   </action>
  </widget>

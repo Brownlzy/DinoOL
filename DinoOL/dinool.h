@@ -30,7 +30,7 @@
 #include "about.h"
 
 #define DINOVER "v1.1.2"
-#define DINOVERNUM 1120		//最后一位可以用于区分小版本
+#define DINOVERNUM 1121		//最后一位可以用于区分小版本
 
 class DinoOL : public QMainWindow
 {
@@ -82,6 +82,7 @@ private slots:
 	void on_actionNewOne_triggered();
 	void on_actionRestart_triggered();
 	void on_action_2_triggered();
+	void on_actionCheat_triggered();
 	void on_action_Z_triggered();
 	void on_btnCon_clicked();
 	void on_btnWhatsThis_clicked();
