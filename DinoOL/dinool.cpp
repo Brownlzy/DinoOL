@@ -1142,7 +1142,7 @@ void DinoOL::printOBS()
 			if (dy[i] > 10)//star
 			{
 				OBS[i]->clear();
-				P2->shining();
+				P2->shining(0, 10);
 				dy[i] = -9;
 				goto aaa;
 			}
@@ -1163,7 +1163,7 @@ void DinoOL::printOBS()
 			if (dy[i] > 10)//star
 			{
 				OBS[i]->clear();
-				P1->shining();
+				P1->shining(0, 10);
 				dy[i] = -9;
 				ui.actionStar->setText(QString::number(ui.actionStar->text().toInt() + 1));
 				//continue;

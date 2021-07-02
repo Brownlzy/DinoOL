@@ -38,6 +38,7 @@ public:
 	bool isJump = 0;
 	int isFail = 0;
 	int isShining = 0;
+	bool wasd[4] = { false,false,false,false };
 
 	Dino(int x, int y, QObject* parent, QWidget* dinop);
 	~Dino();
@@ -50,7 +51,7 @@ public:
 	void setGeometry(int x, int y, int width, int height);
 	void setfxy(int x, int y);
 	void start();
-	void shining(int state = 0);
+	void shining(int state = 0, int time = 3);
 	void stop();
 	void Pause();
 	void adjustSize();

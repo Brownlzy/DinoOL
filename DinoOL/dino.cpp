@@ -100,7 +100,7 @@ void Dino::Pause()
 	}
 }
 
-void Dino::shining(int state)
+void Dino::shining(int state, int time)
 {
 	isShining = 1;
 	if (!state)
@@ -122,7 +122,7 @@ void Dino::shining(int state)
 	{
 		setDinoState(":/pic/gif/dino_dive");
 	}
-	QTimer::singleShot(3000, this, SLOT(CancleShine()));
+	QTimer::singleShot(time * 1000, this, SLOT(CancleShine()));
 }
 
 void Dino::changeP(QString Ptxt)
@@ -228,6 +228,7 @@ void Dino::keyPR(int key, int isPress)
 			{
 				isMove = -2;
 			}
+			wasd[1] = true;
 		}
 		if (key == Qt::Key_S || key == Qt::Key_Down)  //S
 		{
@@ -238,6 +239,7 @@ void Dino::keyPR(int key, int isPress)
 				setGeometry(labDino.x(), labDino.y() + 38, 118, 60);
 				setScaledContents(true);
 			}
+			wasd[2] = true;
 		}
 		if (key == Qt::Key_D || key == Qt::Key_Right)  //D
 		{
@@ -251,27 +253,32 @@ void Dino::keyPR(int key, int isPress)
 			{
 				isMove = 2;
 			}
+			wasd[3] = true;
 		}
 	}
 	else
 	{
 		if (key == Qt::Key_A || key == Qt::Key_Left) //A
 		{
+			wasd[1] = false;
 			if (onG)
 			{
 				vx = 0;
 				stop();
 			}
 			isMove = 0;
+			if (wasd[3] == true) keyPR(Qt::Key_D, 1);
 		}
 		if (key == Qt::Key_D || key == Qt::Key_Right) //D
 		{
-			if (onG)
+			wasd[3] = false;
+			if (onG && isMove > 0)
 			{
 				vx = 0;
 				stop();
 			}
 			isMove = 0;
+			if (wasd[1] == true) keyPR(Qt::Key_A, 1);
 		}
 		if (key == Qt::Key_S || key == Qt::Key_Down)  //S
 		{
