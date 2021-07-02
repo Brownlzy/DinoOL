@@ -49,6 +49,9 @@
     <ClCompile Include="about.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="loading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="server.h">
@@ -60,12 +63,18 @@
     <QtMoc Include="about.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="loading.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="server.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="about.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="loading.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

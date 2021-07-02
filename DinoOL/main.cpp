@@ -8,6 +8,7 @@
 
 #include "dinool.h"
 #include "server.h"
+#include "loading.h"
 #include <QtWidgets/QApplication>
 int main(int argc, char* argv[])
 {
@@ -45,6 +46,9 @@ int main(int argc, char* argv[])
 		flag = -1;
 	}
 	do {
+		Loading as;
+		as.show();
+		as.exec();
 		DinoOL d;
 		if (flag == 1)
 		{

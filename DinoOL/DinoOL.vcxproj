@@ -182,10 +182,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="about.cpp" />
+    <ClCompile Include="loading.cpp" />
     <ClCompile Include="dino.cpp" />
     <ClCompile Include="server.cpp" />
     <QtRcc Include="dinool.qrc" />
     <QtUic Include="about.ui" />
+    <QtUic Include="loading.ui" />
     <QtUic Include="dinool.ui" />
     <QtMoc Include="dinool.h" />
     <ClCompile Include="dinool.cpp" />
@@ -200,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="about.h" />
+    <QtMoc Include="loading.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

@@ -206,7 +206,7 @@ void DinoOL::resizeDinoOL()
 	}
 	else if (isStarted >= 3)
 	{
-		if (!WebGame)
+		if (!WebGame && !isPause)
 		{
 			P1->setGeometry(P1->x() > x - P1->width() ? x - P1->width() : P1->x(), horline - P1->height(), P1->width(), P1->height());
 			if (P2 != NULL) P2->setGeometry(P2->x() > x - P2->width() ? x - P2->width() : P2->x(), horline - P2->height(), P2->width(), P2->height());
@@ -1265,7 +1265,7 @@ void DinoOL::refreshScore(int t)
 		else if (dy[i] > 0 && dy[i] <= 11 && vOBS[i])
 			vOBS[i] = 0 - vx0 - 3. * 100;
 	}
-	if (!WebGame && !P2->isOn && flag4life != t && (t == 100 || t == 500 || t == 1000 || t == 2000 || t == 5000 || t == 10000))
+	if (!WebGame && !ui.chkCheat->isChecked() && !P2->isOn && flag4life != t && (t == 100 || t == 500 || t == 1000 || t == 2000 || t == 5000 || t == 10000))
 	{
 		ui.labP1P2Life->setText(QString::number(ui.labP1P2Life->text().split(':')[0].toInt() + 1) + ":" + ui.labP1P2Life->text().split(':')[1].toInt());
 		ui.lifeP1->setText("<html><head/><body><p><img src = "":/pic/png/" + ui.labP1P2Life->text().split(':')[0] + """ width = ""36"" height = ""44"" / >< / p>< / body>< / html>");
@@ -1423,7 +1423,12 @@ void DinoOL::ProduceOBS(int kind, int dy)
 	if (!WebGame)
 	{
 		ui.frmLlife->show();
-		if (!P2->isOn) ui.frmLlife->setGeometry(0, 0, 71, 61);
+		if (!P2->isOn)
+		{
+			ui.frmLlife->setGeometry(0, 0, 71, 61);
+			if (ui.chkCheat->isChecked())
+				ui.lifeP1->setText("<html><head/><body><p><img src = "":/pic/png/infinity"" width = ""36"" height = ""44"" / >< / p>< / body>< / html>");
+		}
 	}
 	else if (WebGame && isAllReady())
 	{
@@ -1894,6 +1899,14 @@ void DinoOL::on_btnHD_clicked()
 {
 	ui.frame_4->hide();
 	this->setFocus();
+}
+
+void DinoOL::on_chkCheat_clicked()
+{
+	if (ui.chkCheat->isChecked())
+		ui.lifeP1->setText("<html><head/><body><p><img src = "":/pic/png/infinity"" width = ""36"" height = ""44"" / >< / p>< / body>< / html>");
+	else
+		ui.lifeP1->setText("<html><head/><body><p><img src = "":/pic/png/" + ui.labP1P2Life->text().split(':')[0] + """ width = ""36"" height = ""44"" / >< / p>< / body>< / html>");
 }
 
 void DinoOL::ClientRecvData()
