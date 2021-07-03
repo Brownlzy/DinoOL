@@ -4,7 +4,7 @@
 #include <QMovie>
 #include <QIcon>
 #include <QTimer>
-#include "ui_appstart.h"
+#include "ui_Loading.h"
 
 class Loading : public QDialog
 {

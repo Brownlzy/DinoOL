@@ -25,6 +25,7 @@
 #include <QtCore/QString>
 #include <QInputDialog>
 #include <QDesktopServices>
+#include <QPainter>
 #include <fstream>
 
 #include "ui_dinool.h"
@@ -76,6 +77,7 @@ public slots:
 	void resizeDinoOL();
 	void ChangeColor(QString);
 	void SunMoon(int istoMoon = -1);
+	void paintEvent(QPaintEvent*);
 
 private slots:
 	void on_actionRun_as_a_server_triggered();
@@ -89,6 +91,7 @@ private slots:
 	void on_actionOffline_triggered();
 	void on_action_Z_triggered();
 	void on_actionHelp_triggered();
+	void on_actionTransparent_triggered();
 	void on_btnCon_clicked();
 	void on_btnWhatsThis_clicked();
 	void on_btnRandRoom_clicked();
@@ -97,6 +100,7 @@ private slots:
 	void on_btnSend_clicked();
 	void on_btnJoin_clicked();
 	void on_btnHD_clicked();
+	void on_pushButton_clicked();//待修改
 	void on_chkCheat_clicked();
 	void ClientRecvData();
 	void sDisConnection();
@@ -107,8 +111,11 @@ protected:
 	virtual void resizeEvent(QResizeEvent* event) override;
 	void closeEvent(QCloseEvent* event);
 
-private:
+public:
+
 	Ui::DinoOLClass ui;
+
+private:
 	QTcpSocket* mp_clientSocket;
 	QString buildTime;
 	int isStarted = 0;
@@ -153,6 +160,8 @@ private:
 	int isSun = 1;
 
 	int isWforP1 = 1;
+
+	QPoint m_startPoint;
 };
 
 int randNum(int Max);

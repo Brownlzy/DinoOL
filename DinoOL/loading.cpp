@@ -7,9 +7,13 @@ Loading::Loading(QWidget* parent)
 	Start();
 	this->setWindowTitle("Loading...");
 	this->setModal(true);
-	this->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint);
+	//this->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint);
+	this->setWindowFlags(Qt::WindowTitleHint);
 	this->setWindowIcon(QIcon(":pic/icon/DinoOL"));
 	this->setFixedSize(203, 79);
+	//this->setWindowFlag(Qt::FramelessWindowHint); /* 注意：如果单纯开启窗口透明层效果，在Windows系统中必须设置, 其他系统可忽略。*/
+	//this->setAttribute(Qt::WA_TranslucentBackground);
+
 }
 
 Loading::~Loading()

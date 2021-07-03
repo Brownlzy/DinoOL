@@ -48,8 +48,8 @@ int main(int argc, char* argv[])
 	{
 		flag = -1;
 	}
+	as.close();
 	do {
-		as.close();
 		DinoOL d;
 		if (flag == 1)
 		{
@@ -69,6 +69,21 @@ int main(int argc, char* argv[])
 			s.setFixedSize(751, 500);
 			s.show();
 			return a.exec();
+		}
+		if (tmp == -3)
+		{
+			d.close();
+			DinoOL d;
+			d.setWindowFlag(Qt::FramelessWindowHint); /* 注意：如果单纯开启窗口透明层效果，在Windows系统中必须设置, 其他系统可忽略。*/
+			d.setAttribute(Qt::WA_TranslucentBackground);
+			//d.setWindowState(Qt::WindowMaximized);
+			d.ui.actionTransparent->setChecked(Qt::Checked);
+			d.ui.line_7->hide();
+			d.ui.labMoon->hide();
+			d.ui.labSun->hide();
+			d.ui.labSunMoon->hide();
+			d.show();
+			tmp = a.exec();
 		}
 	} while (tmp == -2);
 	return tmp;

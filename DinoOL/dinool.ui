@@ -1106,6 +1106,19 @@
      <string>Ctrl+Alt+F12</string>
     </property>
    </widget>
+   <widget class="QLabel" name="labMenu">
+    <property name="geometry">
+     <rect>
+      <x>863</x>
+      <y>140</y>
+      <width>41</width>
+      <height>231</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
    <zorder>lab_7</zorder>
    <zorder>labRoad</zorder>
    <zorder>label_2</zorder>
@@ -1128,6 +1141,7 @@
    <zorder>labMoon</zorder>
    <zorder>labSunMoon</zorder>
    <zorder>chkCheat</zorder>
+   <zorder>labMenu</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -1189,6 +1203,7 @@
     <addaction name="actionConnect_a_server"/>
     <addaction name="separator"/>
     <addaction name="menuSettings"/>
+    <addaction name="actionTransparent"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -1538,6 +1553,14 @@
   <action name="actionMaxTime">
    <property name="text">
     <string>MaxTime:</string>
+   </property>
+  </action>
+  <action name="actionTransparent">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>桌游模式</string>
    </property>
   </action>
  </widget>

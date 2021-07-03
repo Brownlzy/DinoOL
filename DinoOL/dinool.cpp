@@ -19,10 +19,10 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.frame_4->setGeometry(0, 0, ui.frame_4->width(), 341);
 #else
 	ui.chkCheat->move(-80, 0);
-	ui.actionCheat->setVisible(false);
 	tmp += QString::fromStdString(DINOVER) + " By:Brownlzy";
 	ui.actionDebug->setVisible(false);
 #endif // _DEBUG
+	ui.actionCheat->setVisible(false);
 	this->setWindowTitle(tmp);
 	this->setWindowIcon(QIcon(":/pic/icon/DinoOL"));
 	int x = this->frameGeometry().width();
@@ -302,6 +302,13 @@ void DinoOL::SunMoon(int istoMoon)
 		S2M.start();
 		QTimer::singleShot(500, this, SLOT(SunMoon()));
 	}
+}
+
+void DinoOL::paintEvent(QPaintEvent*)
+{
+	//QPainter painter(this);
+	/* 0x20为透明层颜色，可自定义设置为0x0到0xff */
+	//painter.fillRect(this->rect(), QColor(0, 0, 0, 0x20));
 }
 
 void DinoOL::NetworkChk(QString str)
@@ -830,7 +837,7 @@ void DinoOL::SendPOS(int dx, int dy, int key, bool isPress)
 	t.start();
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
+		ui.labelLog->setText(tr("向服务端发送数据失败！"));
 		return;
 	}
 
@@ -846,7 +853,7 @@ void DinoOL::SendObstacle(int kind, int dy)
 	tobs.start();
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
+		ui.labelLog->setText(tr("向服务端发送数据失败！"));
 		return;
 	}
 
@@ -861,7 +868,7 @@ void DinoOL::SendReady()
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
+		ui.labelLog->setText(tr("向服务端发送数据失败！"));
 		return;
 	}
 
@@ -875,7 +882,7 @@ void DinoOL::SendDC()
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
+		ui.labelLog->setText(tr("向服务端发送数据失败！"));
 		return;
 	}
 
@@ -890,7 +897,7 @@ void DinoOL::SendCL(int lifeNum)
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
+		ui.labelLog->setText(tr("向服务端发送数据失败！"));
 		return;
 	}
 
@@ -1770,6 +1777,22 @@ void DinoOL::on_actionHelp_triggered()
 	QDesktopServices::openUrl(QUrl(QLatin1String("https://brownlzy.github.io/2021/07/02/DinoOL/")));
 }
 
+void DinoOL::on_actionTransparent_triggered()
+{
+	if (ui.actionTransparent->isChecked())
+	{
+		//this->setWindowFlag(Qt::FramelessWindowHint); /* 注意：如果单纯开启窗口透明层效果，在Windows系统中必须设置, 其他系统可忽略。*/
+		//this->setAttribute(Qt::WA_TranslucentBackground);
+		qApp->exit(-3);
+	}
+	else
+	{
+		//this->setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMinMaxButtonsHint);
+		//qApp->exit(-4);
+		reStart("");
+	}
+}
+
 void DinoOL::on_btnCon_clicked()
 {
 	if (ui.menuSPID->title() != "SPID") return;
@@ -1781,7 +1804,7 @@ void DinoOL::on_btnCon_clicked()
 	mp_clientSocket->connectToHost(ip, port);
 	if (!mp_clientSocket->waitForConnected(30000))
 	{
-		ui.labelLog->setText(tr("QT网络通信连接服务端失败！"));
+		ui.labelLog->setText(tr("连接服务端失败！"));
 		return;
 	}
 	connect(mp_clientSocket, SIGNAL(readyRead()), this, SLOT(ClientRecvData()));
@@ -1811,7 +1834,7 @@ void DinoOL::on_btnRandRoom_clicked()
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
+		ui.labelLog->setText(tr("向服务端发送数据失败！"));
 		return;
 	}
 
@@ -1835,7 +1858,7 @@ void DinoOL::on_btnCreRoom_clicked()
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
+		ui.labelLog->setText(tr("向服务端发送数据失败！"));
 		return;
 	}
 }
@@ -1855,7 +1878,7 @@ void DinoOL::on_btnExitRoom_clicked()
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
+		ui.labelLog->setText(tr("向服务端发送数据失败！"));
 		return;
 	}
 	for (int i = 0; i < 3; i++)
@@ -1876,7 +1899,7 @@ void DinoOL::on_btnSend_clicked()
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
+		ui.labelLog->setText(tr("向服务端发送数据失败！"));
 		return;
 	}
 }
@@ -1894,7 +1917,7 @@ void DinoOL::on_btnJoin_clicked()
 	int sendRe = mp_clientSocket->write(sendMsgChar, strlen(sendMsgChar));
 	if (sendRe == -1)
 	{
-		ui.labelLog->setText(tr("QT网络通信向服务端发送数据失败！"));
+		ui.labelLog->setText(tr("向服务端发送数据失败！"));
 		return;
 	}
 
@@ -1904,6 +1927,15 @@ void DinoOL::on_btnHD_clicked()
 {
 	ui.frame_4->hide();
 	this->setFocus();
+}
+
+void DinoOL::on_pushButton_clicked()
+{
+	QMenu* popMenu = new QMenu(this);//定义一个右键弹出菜单
+	//ui.menuBar->hide();
+	popMenu->addMenu(ui.menuFile);
+	popMenu->exec(QCursor::pos());//弹出右键菜单，菜单位置为光标位置
+
 }
 
 void DinoOL::on_chkCheat_clicked()
@@ -1920,7 +1952,7 @@ void DinoOL::ClientRecvData()
 	int recvRe = mp_clientSocket->read(recvMsg, 1024);
 	if (recvRe == -1)
 	{
-		ui.labelLog->setText(tr("QT网络通信接收服务端数据失败！"));
+		ui.labelLog->setText(tr("接收服务端数据失败！"));
 		return;
 	}
 	QString showQstr = recvMsg;
