@@ -3,6 +3,7 @@
 #include <QDialog>
 #include <QMovie>
 #include <QIcon>
+#include <QTimer>
 #include "ui_appstart.h"
 
 class Loading : public QDialog

@@ -24,14 +24,16 @@
 #include <QtWidgets/QWhatsThis>
 #include <QtCore/QString>
 #include <QInputDialog>
+#include <QDesktopServices>
 #include <fstream>
 
 #include "ui_dinool.h"
 #include "dino.h"
+#include "loading.h"
 #include "about.h"
 
 #define DINOVER "v1.1.5"
-#define DINOVERNUM 1150		//最后一位可以用于区分小版本
+#define DINOVERNUM 1152		//最后一位可以用于区分小版本
 
 class DinoOL : public QMainWindow
 {
@@ -86,6 +88,7 @@ private slots:
 	void on_actionCheat_triggered();
 	void on_actionOffline_triggered();
 	void on_action_Z_triggered();
+	void on_actionHelp_triggered();
 	void on_btnCon_clicked();
 	void on_btnWhatsThis_clicked();
 	void on_btnRandRoom_clicked();
@@ -126,7 +129,7 @@ private:
 	int cloudid = 0;
 	int height = 98;
 	double vy0 = 542.2;
-	double vx0 = 305.6;
+	double vx0 = 705.6;
 	double G = 980.0;
 	double horline = 0;
 	double x, y;

@@ -1151,16 +1151,50 @@
     <property name="title">
      <string>游戏(&amp;G)</string>
     </property>
+    <widget class="QMenu" name="menuSettings">
+     <property name="title">
+      <string>设置(Undone)</string>
+     </property>
+     <widget class="QMenu" name="menuDifficulty">
+      <property name="title">
+       <string>游戏难度</string>
+      </property>
+      <addaction name="actionSimple"/>
+      <addaction name="actionDifficult"/>
+     </widget>
+     <widget class="QMenu" name="menu_9">
+      <property name="title">
+       <string>游戏参数</string>
+      </property>
+      <addaction name="actionDinoDefault"/>
+      <addaction name="separator"/>
+      <addaction name="actionG"/>
+      <addaction name="separator"/>
+      <addaction name="actionDinovx"/>
+      <addaction name="actionDinovy"/>
+      <addaction name="separator"/>
+      <addaction name="actionOvx"/>
+      <addaction name="actionOvy"/>
+      <addaction name="separator"/>
+      <addaction name="actionMinTime"/>
+      <addaction name="actionMaxTime"/>
+     </widget>
+     <addaction name="menuDifficulty"/>
+     <addaction name="menu_9"/>
+    </widget>
     <addaction name="actionRestart"/>
     <addaction name="actionOffline"/>
     <addaction name="separator"/>
     <addaction name="actionRun_as_a_server"/>
     <addaction name="actionConnect_a_server"/>
+    <addaction name="separator"/>
+    <addaction name="menuSettings"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>帮助(&amp;H)</string>
     </property>
+    <addaction name="actionHelp"/>
     <addaction name="action_Z"/>
     <addaction name="separator"/>
     <addaction name="actionCheat"/>
@@ -1302,7 +1336,7 @@
     <string>调试信息(&amp;B)</string>
    </property>
    <property name="shortcut">
-    <string>F1</string>
+    <string>Ctrl+F1</string>
    </property>
   </action>
   <action name="actionRestart">
@@ -1436,6 +1470,74 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="icon">
+    <iconset resource="dinool.qrc">
+     <normaloff>:/pic/png/H</normaloff>:/pic/png/H</iconset>
+   </property>
+   <property name="text">
+    <string>帮助(&amp;H)</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="actionSimple">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>简单</string>
+   </property>
+  </action>
+  <action name="actionDifficult">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>困难</string>
+   </property>
+  </action>
+  <action name="actionG">
+   <property name="text">
+    <string>G:</string>
+   </property>
+  </action>
+  <action name="actionDinovx">
+   <property name="text">
+    <string>Dvx:</string>
+   </property>
+  </action>
+  <action name="actionDinovy">
+   <property name="text">
+    <string>Dvy:</string>
+   </property>
+  </action>
+  <action name="actionDinoDefault">
+   <property name="text">
+    <string>恢复默认值</string>
+   </property>
+  </action>
+  <action name="actionOvx">
+   <property name="text">
+    <string>Ovx:</string>
+   </property>
+  </action>
+  <action name="actionOvy">
+   <property name="text">
+    <string>Ovy:</string>
+   </property>
+  </action>
+  <action name="actionMinTime">
+   <property name="text">
+    <string>MinTime:</string>
+   </property>
+  </action>
+  <action name="actionMaxTime">
+   <property name="text">
+    <string>MaxTime:</string>
    </property>
   </action>
  </widget>

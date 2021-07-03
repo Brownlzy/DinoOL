@@ -1222,11 +1222,11 @@ int DinoOL::isTouched(QLabel* lab1, QLabel* lab2)
 	int y1 = lab1->y() + 6 + lab1->height() / 2;
 	int x2 = lab2->x() + lab2->width() / 2;
 	int y2 = lab2->y() + lab2->height() / 2;
-	int dx = x1 - x2;
-	int dy = y1 - y2;
+	int dx = fabs(x1 - x2);
+	int dy = fabs(y1 - y2);
 	int r1 = qMin(lab1->width(), lab1->height()) / 2;
 	int r2 = qMin(lab2->width(), lab2->height()) / 2;
-
+	if (dx > lab1->width() && dx > lab2->width() || dy > lab1->height() + 6 && dy > lab2->height())return 0;
 	double ds = sqrt(dx * dx + dy * dy);
 	//lab1->setFrameShape(QFrame::Box);
 	//lab1->setText(QString::number(ds - r1 - r2));
@@ -1292,7 +1292,7 @@ void DinoOL::refreshScore(int t)
 void DinoOL::ProduceOBS()
 {
 	int kind;
-	kind = randNum(1000) + 1000;		//计算下一次创建障碍物时间ms
+	kind = randNum(500) + 1000;		//计算下一次创建障碍物时间ms
 	if (!isPause && (ui.labReady->text().split("/")[4].left(1) == "-"))
 	{
 		if (ui.tableRoomer->item(0, 1)->text().toInt() == SPID || !WebGame)
@@ -1765,6 +1765,11 @@ void DinoOL::on_action_Z_triggered()
 	plab->show();
 }
 
+void DinoOL::on_actionHelp_triggered()
+{
+	QDesktopServices::openUrl(QUrl(QLatin1String("https://brownlzy.github.io/2021/07/02/DinoOL/")));
+}
+
 void DinoOL::on_btnCon_clicked()
 {
 	if (ui.menuSPID->title() != "SPID") return;
@@ -1939,6 +1944,8 @@ int randNum(int Max)
 
 QString getWebSource(QUrl url)
 {
+	Loading lo;
+	lo.show();
 	QNetworkAccessManager manager;
 	QEventLoop loop;
 	QNetworkReply* reply;
@@ -1957,7 +1964,7 @@ QString getWebSource(QUrl url)
 	loop.exec();
 
 	QByteArray codeContent = reply->readAll();
-
+	lo.close();
 	//return QTextCodec::codecForHtml(codeContent)->toUnicode(codeContent);
 	return codeContent;
 }

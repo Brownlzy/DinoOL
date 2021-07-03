@@ -14,6 +14,9 @@ int main(int argc, char* argv[])
 {
 	int tmp = 0;
 	QApplication a(argc, argv);
+	Loading as;
+	as.show();
+	//as.exec();
 	if (QFileInfo("update.bat").exists())
 	{
 		QProcess::startDetached("update.bat");
@@ -46,9 +49,7 @@ int main(int argc, char* argv[])
 		flag = -1;
 	}
 	do {
-		Loading as;
-		as.show();
-		as.exec();
+		as.close();
 		DinoOL d;
 		if (flag == 1)
 		{

@@ -5,7 +5,7 @@ Loading::Loading(QWidget* parent)
 {
 	ui.setupUi(this);
 	Start();
-	this->setWindowTitle("chrome://dino");
+	this->setWindowTitle("Loading...");
 	this->setModal(true);
 	this->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint);
 	this->setWindowIcon(QIcon(":pic/icon/DinoOL"));
@@ -28,4 +28,5 @@ void Loading::Start()
 	Mdino.start();
 	Mroad.start();
 	Mbird.start();
+	//QTimer::singleShot(600, this, SLOT(close()));
 }
