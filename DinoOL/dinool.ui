@@ -1109,14 +1109,20 @@
    <widget class="QLabel" name="labMenu">
     <property name="geometry">
      <rect>
-      <x>863</x>
-      <y>140</y>
-      <width>41</width>
-      <height>231</height>
+      <x>690</x>
+      <y>500</y>
+      <width>241</width>
+      <height>41</height>
      </rect>
     </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;close&quot;&gt;&lt;img src=&quot;:/pic/png/close&quot;/&gt;&lt;/a&gt;&lt;a href=&quot;toside&quot;&gt;&lt;img src=&quot;:/pic/png/toSide&quot;/&gt;&lt;/a&gt;&lt;a href=&quot;min&quot;&gt;&lt;img src=&quot;:/pic/png/Min&quot;/&gt;&lt;/a&gt;&lt;a href=&quot;max&quot;&gt;&lt;img src=&quot;:/pic/png/Max&quot;/&gt;&lt;/a&gt;&lt;a href=&quot;menu&quot;&gt;&lt;img src=&quot;:/pic/png/Menu&quot;/&gt;&lt;/a&gt;&lt;a href=&quot;hide&quot;&gt;&lt;img src=&quot;:/pic/png/hide&quot;/&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
    <zorder>lab_7</zorder>
@@ -1308,7 +1314,6 @@
    <addaction name="menuROOM"/>
    <addaction name="menuDelay"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionExit">
    <property name="icon">
     <iconset resource="dinool.qrc">

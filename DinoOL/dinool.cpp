@@ -18,11 +18,11 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.txtRoom->setText("debug");
 	ui.frame_4->setGeometry(0, 0, ui.frame_4->width(), 341);
 #else
-	ui.chkCheat->move(-80, 0);
 	tmp += QString::fromStdString(DINOVER) + " By:Brownlzy";
 	ui.actionDebug->setVisible(false);
-#endif // _DEBUG
 	ui.actionCheat->setVisible(false);
+#endif // _DEBUG
+	ui.chkCheat->move(-80, 0);
 	this->setWindowTitle(tmp);
 	this->setWindowIcon(QIcon(":/pic/icon/DinoOL"));
 	int x = this->frameGeometry().width();
@@ -33,6 +33,7 @@ DinoOL::DinoOL(QWidget* parent)
 	ui.frmRlife->hide();
 	ui.labMoon->hide();
 	ui.labSunMoon->hide();
+	ui.labMenu->setText("<html><head/><body><p><a href=""show""><img src="":/pic/png/show""/></a></p></body></html>");
 	P1 = new Dino(x, y, this, this->centralWidget());
 	P1->isOn = 1;
 	P2 = new Dino(x, y, this, this->centralWidget());
@@ -63,6 +64,7 @@ DinoOL::DinoOL(QWidget* parent)
 	pdtime->setInterval(100);
 	connect(ui.label_2, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
 	connect(ui.label_3, SIGNAL(linkActivated(QString)), this, SLOT(NetworkChk(QString)));
+	connect(ui.labMenu, SIGNAL(linkActivated(QString)), this, SLOT(Menu(QString)));
 	connect(ui.labSun, SIGNAL(linkActivated(QString)), this, SLOT(ChangeColor(QString)));
 	connect(ui.labMoon, SIGNAL(linkActivated(QString)), this, SLOT(ChangeColor(QString)));
 	connect(ui.labelFail, SIGNAL(linkActivated(QString)), this, SLOT(reStart(QString)));
@@ -78,6 +80,14 @@ DinoOL::DinoOL(QWidget* parent)
 	}
 	readDataFile();
 	//pdtime->start();
+	cursorCurrentPointF = QPoint(0, 0);
+	cursouPresss = actionActive = false;
+	lab = new MoveLabel(this->centralWidget());
+	lab->setText("<html><head/><body><p><img src="":/pic/png/Drag"" width=""40"" height=""40""/></p></body></html>");
+	lab->show();
+	connect(lab, SIGNAL(ActionCurrentPos(const bool&, const QPoint&)),
+		this, SLOT(ActionCurrentPos(const bool&, const QPoint&)));
+
 }
 DinoOL::~DinoOL()
 {
@@ -178,7 +188,12 @@ void DinoOL::resizeDinoOL()
 	int x = this->frameGeometry().width();
 	int y = this->frameGeometry().height();
 	horline = 0.6 * y;
+	if (ui.actionTransparent->isChecked())
+	{
+	}
 	P1->setfxy(x, y);
+	lab->move(x - 60, y - 110);
+	ui.labMenu->move(x - 302, y - 110);
 	ui.line_7->move(x - 43, 0);
 	ui.labMoon->move(x - 58, 50);
 	ui.labSunMoon->move(x - 58, 50);
@@ -311,6 +326,20 @@ void DinoOL::paintEvent(QPaintEvent*)
 	//painter.fillRect(this->rect(), QColor(0, 0, 0, 0x20));
 }
 
+void DinoOL::ActionCurrentPos(const bool& b, const QPoint& point)
+{
+	if (b)
+	{
+		this->move(this->pos() + (this->cursor().pos() - cursorCurrentPointF));
+		cursorCurrentPointF = this->cursor().pos();
+	}
+	else
+	{
+		cursorCurrentPointF = point;
+	}
+	update();
+}
+
 void DinoOL::NetworkChk(QString str)
 {
 	QProcess process(this);
@@ -319,6 +348,53 @@ void DinoOL::NetworkChk(QString str)
 	argu << "-skip" << "TRUE" << "-path" << "C:\\Windows\\diagnostics\\system\\networking" << "-ep" << "NetworkDiagnosticsPNI";
 	process.setArguments(argu);
 	process.startDetached();
+}
+
+void DinoOL::Menu(QString s)
+{
+	if (s == "menu")
+	{
+		QMenu* popMenu = new QMenu(this);//定义一个右键弹出菜单
+		popMenu->addMenu(ui.menuFile);
+		popMenu->addMenu(ui.menuGame);
+		popMenu->addMenu(ui.menu_S);
+		popMenu->addMenu(ui.menuHelp);
+		popMenu->exec(QCursor::pos());//弹出右键菜单，菜单位置为光标位置
+	}
+	else if (s == "close")
+	{
+		this->close();
+	}
+	else if (s == "min")
+	{
+		this->setWindowState(Qt::WindowMinimized);
+	}
+	else if (s == "max")
+	{
+		this->setWindowState(Qt::WindowMaximized);
+		ui.labMenu->setText("<html><head/><body><p><a href=""close""><img src="":/pic/png/close""/></a><a href=""toside""><img src="":/pic/png/toSide""/></a><a href=""min""><img src="":/pic/png/Min""/></a><a href=""normal""><img src="":/pic/png/Normal""/></a><a href=""menu""><img src="":/pic/png/Menu""/></a><a href=""hide""><img src="":/pic/png/hide""/></a></p></body></html>");
+	}
+	else if (s == "normal")
+	{
+		this->setWindowState(Qt::WindowNoState);
+		ui.labMenu->setText("<html><head/><body><p><a href=""close""><img src="":/pic/png/close""/></a><a href=""toside""><img src="":/pic/png/toSide""/></a><a href=""min""><img src="":/pic/png/Min""/></a><a href=""max""><img src="":/pic/png/Max""/></a><a href=""menu""><img src="":/pic/png/Menu""/></a><a href=""hide""><img src="":/pic/png/hide""/></a></p></body></html>");
+	}
+	else if (s == "hide")
+	{
+		ui.labMenu->setText("<html><head/><body><p><a href=""show""><img src="":/pic/png/show""/></a></p></body></html>");
+	}
+	else if (s == "show")
+	{
+		if (this->windowState() == Qt::MaximumSize)
+			ui.labMenu->setText("<html><head/><body><p><a href=""close""><img src="":/pic/png/close""/></a><a href=""toside""><img src="":/pic/png/toSide""/></a><a href=""min""><img src="":/pic/png/Min""/></a><a href=""normal""><img src="":/pic/png/Normal""/></a><a href=""menu""><img src="":/pic/png/Menu""/></a><a href=""hide""><img src="":/pic/png/hide""/></a></p></body></html>");
+		else
+			ui.labMenu->setText("<html><head/><body><p><a href=""close""><img src="":/pic/png/close""/></a><a href=""toside""><img src="":/pic/png/toSide""/></a><a href=""min""><img src="":/pic/png/Min""/></a><a href=""max""><img src="":/pic/png/Max""/></a><a href=""menu""><img src="":/pic/png/Menu""/></a><a href=""hide""><img src="":/pic/png/hide""/></a></p></body></html>");
+	}
+	else if (s == "toside")
+	{
+
+	}
+
 }
 
 void DinoOL::keyPressEvent(QKeyEvent* e)
@@ -419,7 +495,7 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 #endif // !_DEBUG
 		ui.labelchklcs->hide();
 		return;
-	}
+		}
 	ui.labelchklcs->hide();
 	if (isStarted < 4) return;
 	if (((e->key() == Qt::Key_Up && isWforP1) || (e->key() == Qt::Key_W && !isWforP1)) && !WebGame)
@@ -475,7 +551,7 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 		}
 		if (P2->isOn && (!isWforP1 && (e->key() == Qt::Key_A || e->key() == Qt::Key_D || e->key() == Qt::Key_S) || isWforP1 && (e->key() == Qt::Key_Left || e->key() == Qt::Key_Right || e->key() == Qt::Key_Down))) P2->keyPR(e->key(), 1);
 	}
-}
+	}
 
 void DinoOL::keyReleaseEvent(QKeyEvent* e)
 {
@@ -1126,6 +1202,27 @@ void DinoOL::CfgSet(int isRember, int x, int y, int w, int h, int isMax, int isM
 			//ChangeColor("TurnBlack");
 		}
 	}
+}
+
+void DinoOL::Transparent()
+{
+	cursorCurrentPointF = QPoint(0, 0);
+	cursouPresss = actionActive = false;
+	this->setWindowFlag(Qt::FramelessWindowHint); /* 注意：如果单纯开启窗口透明层效果，在Windows系统中必须设置, 其他系统可忽略。*/
+	this->setAttribute(Qt::WA_TranslucentBackground);
+	//d.setWindowState(Qt::WindowMaximized);
+	ui.actionTransparent->setChecked(Qt::Checked);
+	ui.line_7->hide();
+	ui.labMoon->hide();
+	ui.labSun->hide();
+	ui.labSunMoon->hide();
+	ui.menuBar->hide();
+	//lab = new MoveLabel(this->centralWidget());
+	//lab->setText("<html><head/><body><p><img src="":/pic/png/Drag""/></p></body></html>");
+	//lab->move(100, 100);
+	//lab->show();
+	//connect(lab, SIGNAL(ActionCurrentPos(const bool&, const QPoint&)),
+	//	this, SLOT(ActionCurrentPos(const bool&, const QPoint&)));
 }
 
 void DinoOL::printOBS()
@@ -1929,14 +2026,6 @@ void DinoOL::on_btnHD_clicked()
 	this->setFocus();
 }
 
-void DinoOL::on_pushButton_clicked()
-{
-	QMenu* popMenu = new QMenu(this);//定义一个右键弹出菜单
-	//ui.menuBar->hide();
-	popMenu->addMenu(ui.menuFile);
-	popMenu->exec(QCursor::pos());//弹出右键菜单，菜单位置为光标位置
-
-}
 
 void DinoOL::on_chkCheat_clicked()
 {
@@ -1999,4 +2088,31 @@ QString getWebSource(QUrl url)
 	lo.close();
 	//return QTextCodec::codecForHtml(codeContent)->toUnicode(codeContent);
 	return codeContent;
+}
+
+MoveLabel::MoveLabel(QWidget* aa) :QLabel(aa)
+{
+}
+
+void MoveLabel::mousePressEvent(QMouseEvent* e)
+{
+	if (e->button() == Qt::LeftButton)
+	{
+		isPressed = true;
+		emit ActionCurrentPos(false, this->cursor().pos());
+	}
+}
+
+void MoveLabel::mouseReleaseEvent(QMouseEvent* e)
+{
+	if (e->button() == Qt::LeftButton)
+	{
+		isPressed = false;
+		emit ActionCurrentPos(false, QPoint(0, 0));
+	}
+}
+
+void MoveLabel::mouseMoveEvent(QMouseEvent* e)
+{
+	if (isPressed)emit ActionCurrentPos(true, this->cursor().pos());
 }

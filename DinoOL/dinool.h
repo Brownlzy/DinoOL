@@ -33,8 +33,27 @@
 #include "loading.h"
 #include "about.h"
 
-#define DINOVER "v1.1.5"
-#define DINOVERNUM 1152		//最后一位可以用于区分小版本
+#define DINOVER "v1.1.6"
+#define DINOVERNUM 1160		//最后一位可以用于区分小版本
+
+class MoveLabel :public QLabel
+{
+	Q_OBJECT
+private:
+	bool isPressed = false;
+public:
+	MoveLabel(QWidget* aa = 0);
+
+	void mousePressEvent(QMouseEvent*);
+	void mouseReleaseEvent(QMouseEvent*);
+	void mouseMoveEvent(QMouseEvent*);
+
+signals:
+	void ActionCurrentPos(const bool&, const QPoint& point = QPoint(0, 0));
+	//————————————————
+	//	版权声明：本文为CSDN博主「automoblie0」的原创文章，遵循CC 4.0 BY - SA版权协议，转载请附上原文出处链接及本声明。
+	//	原文链接：https ://blog.csdn.net/automoblie0/article/details/100014812
+};
 
 class DinoOL : public QMainWindow
 {
@@ -57,9 +76,11 @@ public:
 	int writeDataFile();
 	int Initialize();
 	void CfgSet(int isRember, int x = -1, int y = -1, int w = -1, int h = -1, int isMax = 0, int isMoon = 0);
+	void Transparent();
 
 public slots:
 	void NetworkChk(QString);
+	void Menu(QString);
 	void keyPressEvent(QKeyEvent* e);
 	void keyReleaseEvent(QKeyEvent* e);
 	void StartStep1();
@@ -78,6 +99,7 @@ public slots:
 	void ChangeColor(QString);
 	void SunMoon(int istoMoon = -1);
 	void paintEvent(QPaintEvent*);
+	void ActionCurrentPos(const bool& b, const QPoint& point);
 
 private slots:
 	void on_actionRun_as_a_server_triggered();
@@ -100,7 +122,6 @@ private slots:
 	void on_btnSend_clicked();
 	void on_btnJoin_clicked();
 	void on_btnHD_clicked();
-	void on_pushButton_clicked();//待修改
 	void on_chkCheat_clicked();
 	void ClientRecvData();
 	void sDisConnection();
@@ -161,8 +182,11 @@ private:
 
 	int isWforP1 = 1;
 
-	QPoint m_startPoint;
+	QPoint cursorCurrentPointF;
+	bool cursouPresss, actionActive;
+	MoveLabel* lab;
 };
+
 
 int randNum(int Max);
 QString getWebSource(QUrl url);

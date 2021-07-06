@@ -45,6 +45,15 @@
         <file alias="Sun">RES/Sun.png</file>
         <file alias="infinity">RES/num_infinity.png</file>
         <file alias="dino">RES/dino.png</file>
+        <file alias="Drag">RES/Drag.png</file>
+        <file alias="hide">RES/hide.png</file>
+        <file alias="Max">RES/max.png</file>
+        <file alias="Menu">RES/menu.png</file>
+        <file alias="Min">RES/min.png</file>
+        <file alias="Normal">RES/normal.png</file>
+        <file alias="show">RES/show.png</file>
+        <file alias="toSide">RES/toSide.png</file>
+        <file alias="close">RES/close.png</file>
     </qresource>
     <qresource prefix="/pic/icon">
         <file alias="DinoOL">RES/DinoOL.ico</file>
