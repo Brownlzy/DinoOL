@@ -188,12 +188,17 @@ void DinoOL::resizeDinoOL()
 	int x = this->frameGeometry().width();
 	int y = this->frameGeometry().height();
 	horline = 0.6 * y;
-	if (ui.actionTransparent->isChecked())
-	{
-	}
 	P1->setfxy(x, y);
-	lab->move(x - 60, y - 110);
-	ui.labMenu->move(x - 302, y - 110);
+	if (ui.actionTransparent->isChecked())		//透明模式开启
+	{
+		lab->move(x - 60, y - 70);
+		ui.labMenu->move(x - 302, y - 70);
+	}
+	else                                         //透明模式未开启
+	{
+		lab->move(x - 60, y - 120);
+		ui.labMenu->move(x - 302, y - 120);
+	}
 	ui.line_7->move(x - 43, 0);
 	ui.labMoon->move(x - 58, 50);
 	ui.labSunMoon->move(x - 58, 50);
@@ -422,6 +427,18 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 					//QMessageBox::critical(this, tr("版本已过期！"), tr("请在菜单-帮助(H)-关于处升级最新版！\n当前版本:") + QString::fromUtf8(DINOVER) + tr("\n当前最新版:") + tmp.split("!")[1].split("<")[1]);
 					isStarted = 0;
 					About frmabout;
+					frmabout.setWindowIcon(QIcon(":/pic/icon/DinoOL"));
+					QString tmp1 = "DinoOL ";
+					tmp1 += DINOVER;
+#if _DEBUG
+					tmp1 += ".debug";
+#endif // _DEBUG
+					frmabout.ui.label_2->setText(tmp1);
+					tmp1 = "Build Time: ";
+					tmp1 += __TIMESTAMP__;
+					frmabout.ui.label_3->setText(tmp1);
+					frmabout.setModal(true);
+					frmabout.setWindowFlags(Qt::WindowCloseButtonHint);
 					frmabout.setFixedSize(291, 351);
 					if (tmp.split("!")[1].split("<")[3].toInt() == 1)
 					{
@@ -495,7 +512,7 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 #endif // !_DEBUG
 		ui.labelchklcs->hide();
 		return;
-		}
+	}
 	ui.labelchklcs->hide();
 	if (isStarted < 4) return;
 	if (((e->key() == Qt::Key_Up && isWforP1) || (e->key() == Qt::Key_W && !isWforP1)) && !WebGame)
@@ -551,7 +568,7 @@ void DinoOL::keyPressEvent(QKeyEvent* e)
 		}
 		if (P2->isOn && (!isWforP1 && (e->key() == Qt::Key_A || e->key() == Qt::Key_D || e->key() == Qt::Key_S) || isWforP1 && (e->key() == Qt::Key_Left || e->key() == Qt::Key_Right || e->key() == Qt::Key_Down))) P2->keyPR(e->key(), 1);
 	}
-	}
+}
 
 void DinoOL::keyReleaseEvent(QKeyEvent* e)
 {
@@ -1654,6 +1671,18 @@ void DinoOL::on_actionRun_as_a_server_triggered()
 				//QMessageBox::critical(this, tr("版本已过期！"), tr("请在菜单-帮助(H)-关于处升级最新版！\n当前版本:") + QString::fromUtf8(DINOVER) + tr("\n当前最新版:") + tmp.split("!")[1].split("<")[1]);
 				isStarted = 0;
 				About frmabout;
+				frmabout.setWindowIcon(QIcon(":/pic/icon/DinoOL"));
+				QString tmp1 = "DinoOL ";
+				tmp1 += DINOVER;
+#if _DEBUG
+				tmp1 += ".debug";
+#endif // _DEBUG
+				frmabout.ui.label_2->setText(tmp1);
+				tmp1 = "Build Time: ";
+				tmp1 += __TIMESTAMP__;
+				frmabout.ui.label_3->setText(tmp1);
+				frmabout.setModal(true);
+				frmabout.setWindowFlags(Qt::WindowCloseButtonHint);
 				frmabout.setFixedSize(291, 351);
 				if (tmp.split("!")[1].split("<")[3].toInt() == 1)
 				{

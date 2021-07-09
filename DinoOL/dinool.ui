@@ -1110,7 +1110,7 @@
     <property name="geometry">
      <rect>
       <x>690</x>
-      <y>500</y>
+      <y>490</y>
       <width>241</width>
       <height>41</height>
      </rect>
@@ -1314,6 +1314,7 @@
    <addaction name="menuROOM"/>
    <addaction name="menuDelay"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionExit">
    <property name="icon">
     <iconset resource="dinool.qrc">
