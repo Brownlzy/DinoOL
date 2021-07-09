@@ -26,7 +26,7 @@ void About::Update()
 	fbat << "del update.bat\n";
 	fbat.close();
 	QProcess::startDetached("update.bat");
-	qApp->exit(-3);
+	qApp->exit(0);
 }
 
 About::About(QWidget* parent)

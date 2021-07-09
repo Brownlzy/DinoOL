@@ -33,8 +33,8 @@
 #include "loading.h"
 #include "about.h"
 
-#define DINOVER "v1.1.6"
-#define DINOVERNUM 1162		//最后一位可以用于区分小版本
+#define DINOVER "v1.1.7"
+#define DINOVERNUM 1170		//最后一位可以用于区分小版本
 
 class MoveLabel :public QLabel
 {
