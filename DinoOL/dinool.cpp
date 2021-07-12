@@ -1043,6 +1043,8 @@ int DinoOL::readDataFile()
 			ui.actionDive->setText(QString::number(d));
 			ui.actionStar->setText(QString::number(star));
 			ui.actionRunJump->setText(QString::number(rj));
+			if (s >= 10000)//分数记录大于10000时默认勾选离线模式
+				ui.actionOffline->setChecked(Qt::Checked);
 			return 0;
 		}
 		else
