@@ -1205,8 +1205,8 @@
     <addaction name="actionRestart"/>
     <addaction name="actionOffline"/>
     <addaction name="separator"/>
-    <addaction name="actionRun_as_a_server"/>
-    <addaction name="actionConnect_a_server"/>
+    <addaction name="actionServer"/>
+    <addaction name="actionConnect"/>
     <addaction name="separator"/>
     <addaction name="menuSettings"/>
     <addaction name="actionTransparent"/>
@@ -1216,11 +1216,11 @@
      <string>帮助(&amp;H)</string>
     </property>
     <addaction name="actionHelp"/>
-    <addaction name="action_Z"/>
+    <addaction name="actionPay"/>
     <addaction name="separator"/>
     <addaction name="actionCheat"/>
     <addaction name="actionDebug"/>
-    <addaction name="action_2"/>
+    <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuSPID">
     <property name="enabled">
@@ -1324,7 +1324,7 @@
     <string>退出(&amp;X)</string>
    </property>
   </action>
-  <action name="actionRun_as_a_server">
+  <action name="actionServer">
    <property name="icon">
     <iconset resource="dinool.qrc">
      <normaloff>:/pic/icon/Server</normaloff>:/pic/icon/Server</iconset>
@@ -1336,7 +1336,7 @@
     <string>Ctrl+F3</string>
    </property>
   </action>
-  <action name="actionConnect_a_server">
+  <action name="actionConnect">
    <property name="icon">
     <iconset resource="dinool.qrc">
      <normaloff>:/pic/obs/14</normaloff>:/pic/obs/14</iconset>
@@ -1372,7 +1372,7 @@
     <string>Ctrl+R</string>
    </property>
   </action>
-  <action name="action_2">
+  <action name="actionAbout">
    <property name="icon">
     <iconset resource="dinool.qrc">
      <normaloff>:/pic/icon/DinoOL</normaloff>:/pic/icon/DinoOL</iconset>
@@ -1445,7 +1445,7 @@
     <string>F2</string>
    </property>
   </action>
-  <action name="action_Z">
+  <action name="actionPay">
    <property name="icon">
     <iconset resource="dinool.qrc">
      <normaloff>:/pic/png/I</normaloff>:/pic/png/I</iconset>

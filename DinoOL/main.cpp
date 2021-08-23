@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 		if (fin)
 		{
 			fin >> version >> isRcCfg >> isMax >> x >> y >> w >> h >> isMoon;
-			if (version <= DINOVERNUM && version >= 1111)
+			if (version <= VERSIONID && version >= 1111)
 				flag = 1;
 			fin.close();
 		}

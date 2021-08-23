@@ -185,6 +185,7 @@
     <ClCompile Include="loading.cpp" />
     <ClCompile Include="dino.cpp" />
     <ClCompile Include="server.cpp" />
+    <ClCompile Include="update.cpp" />
     <QtRcc Include="dinool.qrc" />
     <QtUic Include="about.ui" />
     <QtUic Include="loading.ui" />
@@ -201,8 +202,10 @@
     <QtMoc Include="dino.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="update.h" />
     <QtMoc Include="about.h" />
     <QtMoc Include="loading.h" />
+    <ClInclude Include="appinfo.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +218,9 @@
   <ItemGroup>
     <QtTranslation Include="dinool_en.ts" />
     <QtTranslation Include="dinool_zh.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="docs\OTAinfo.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

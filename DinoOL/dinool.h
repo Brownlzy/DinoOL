@@ -33,9 +33,6 @@
 #include "loading.h"
 #include "about.h"
 
-#define DINOVER "v1.2.0"
-#define DINOVERNUM 1200		//最后一位可以用于区分小版本
-
 class MoveLabel :public QLabel
 {
 	Q_OBJECT
@@ -77,6 +74,7 @@ public:
 	int Initialize();
 	void CfgSet(int isRember, int x = -1, int y = -1, int w = -1, int h = -1, int isMax = 0, int isMoon = 0);
 	void Transparent();
+	void Focus();
 
 public slots:
 	void NetworkChk(QString);
@@ -102,27 +100,27 @@ public slots:
 	void ActionCurrentPos(const bool& b, const QPoint& point);
 
 private slots:
-	void on_actionRun_as_a_server_triggered();
-	void on_actionExit_triggered();
-	void on_actionConnect_a_server_triggered();
-	void on_actionDebug_triggered();
-	void on_actionNewOne_triggered();
-	void on_actionRestart_triggered();
-	void on_action_2_triggered();
-	void on_actionCheat_triggered();
-	void on_actionOffline_triggered();
-	void on_action_Z_triggered();
-	void on_actionHelp_triggered();
-	void on_actionTransparent_triggered();
-	void on_btnCon_clicked();
-	void on_btnWhatsThis_clicked();
-	void on_btnRandRoom_clicked();
-	void on_btnCreRoom_clicked();
-	void on_btnExitRoom_clicked();
-	void on_btnSend_clicked();
-	void on_btnJoin_clicked();
-	void on_btnHD_clicked();
-	void on_chkCheat_clicked();
+	void toServer();
+	void ExitApp();
+	void ConnectServer();
+	void DebugInfo();
+	void NewOne();
+	void RestartApp();
+	void ShowAbout();
+	void Cheat();
+	void Offline();
+	void PayQR();
+	void Help();
+	void aTransparent();
+	void btnCon();
+	void btnWhatsThis();
+	void btnRandRoom();
+	void btnCreRoom();
+	void btnExitRoom();
+	void btnSend();
+	void btnJoin();
+	void btnHD();
+	void chkCheat();
 	void ClientRecvData();
 	void sDisConnection();
 	void ProduceOBS();
@@ -137,6 +135,9 @@ public:
 	Ui::DinoOLClass ui;
 
 private:
+	About* pAbout;
+	Update* pUpdate;
+
 	QTcpSocket* mp_clientSocket;
 	QString buildTime;
 	int isStarted = 0;
@@ -187,6 +188,4 @@ private:
 	MoveLabel* lab;
 };
 
-
 int randNum(int Max);
-QString getWebSource(QUrl url);
