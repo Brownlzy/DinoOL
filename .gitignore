@@ -362,10 +362,10 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /install
-/DinoOL/update.bat
-/DinoOL/DinoOLNew.exe
-/DinoOL/DinoOLNew
-/DinoOL/DinoOL.exe
-/DinoOL/gamedata.dat
-/DinoOL/DinoOL.cfg
-/DinoOL/RES.zip
+/update.bat
+/DinoOLNew.exe
+/DinoOL.bin
+/DinoOL.exe
+/gamedata.dat
+/DinoOL.cfg
+/RES.zip

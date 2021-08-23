@@ -17,10 +17,12 @@ int main(int argc, char* argv[])
 	Loading as;
 	as.show();
 	//as.exec();
-	if (QFileInfo("update.bat").exists())
+	if (QFileInfo(qApp->applicationDirPath() + "/update.bat").exists())
 	{
-		QProcess::startDetached("update.bat");
-		qApp->exit(-3);
+		as.close();
+		QProcess::startDetached(qApp->applicationDirPath() + "/update.bat");
+		qApp->exit(0);
+		return 0;
 	}
 	if (argc == 2 && !strcmp(argv[1], "/DinoOLServer"))
 	{
@@ -32,9 +34,9 @@ int main(int argc, char* argv[])
 		return a.exec();
 	}
 	int flag = 0, isRcCfg, isMax, x, y, w, h, isMoon, version;
-	if (QFileInfo("DinoOL.cfg").exists())
+	if (QFileInfo(qApp->applicationDirPath() + "DinoOL.cfg").exists())
 	{
-		std::ifstream fin("DinoOL.cfg");
+		std::ifstream fin(qApp->applicationDirPath().toStdString() + "DinoOL.cfg");
 		if (fin)
 		{
 			fin >> version >> isRcCfg >> isMax >> x >> y >> w >> h >> isMoon;

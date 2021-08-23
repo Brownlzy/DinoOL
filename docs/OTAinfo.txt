@@ -1,9 +1,12 @@
-DINO_OTA_INFO!2010<2.0.1<2010<1<2EA78AFF<476KB<https://Brownlzy.github.io/DinoOL/DinoOLv[VERSION]_exe!========最新更新========
+DINO_OTA_INFO!2020<2.0.2<2020<1<7BF01305<479KB<https://Brownlzy.github.io/DinoOL/DinoOLv[VERSION]_exe!========最新更新========
+v2.0.2
+修复更新问题.
+
+========历史更新========
 v2.0.1
 优化项目结构;
 重制更新模块.
 
-========历史更新========
 v1.2.0
 即日起，联网状态下在v1.1.2及以上版本中单人单机模式游戏最高分达10000分的玩家在升级至v1.2.0后将享有DinoOLv1.2.0完整功能的离线使用权。
 

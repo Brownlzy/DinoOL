@@ -200,7 +200,7 @@ void DinoOL::closeEvent(QCloseEvent* event)
 		ui.actionRunJump->setText("0");
 		writeDataFile();
 	}
-	std::ofstream fout("DinoOL.cfg");
+	std::ofstream fout(qApp->applicationDirPath().toStdString() + "DinoOL.cfg");
 	if (!fout) return;
 	fout << VERSIONID << " " << ui.action_3->isChecked() << " " << this->windowState() << " ";
 	fout << this->geometry().x() << " " << this->geometry().y() << " " << this->geometry().width() << " " << this->geometry().height() << " ";
@@ -973,10 +973,10 @@ void DinoOL::RKey(int id, int key, int isPress)
 
 int DinoOL::readDataFile()
 {
-	if (QFileInfo("gamedata.dat").exists())
+	if (QFileInfo(qApp->applicationDirPath() + "gamedata.dat").exists())
 	{
 		std::ifstream fin;
-		fin.open("gamedata.dat");
+		fin.open(qApp->applicationDirPath().toStdString() + "gamedata.dat");
 		if (!fin)
 		{
 			return 1;
@@ -1016,7 +1016,7 @@ int DinoOL::writeDataFile()
 	QByteArray raw = QByteArray::fromStdString(QString::number(a).toStdString());
 	//QString::number(calcCRC32(raw), 16).toUpper();
 	std::ofstream fout;
-	fout.open("gamedata.dat", std::ios::trunc);
+	fout.open(qApp->applicationDirPath().toStdString() + "gamedata.dat", std::ios::trunc);
 	if (!fout)
 	{
 		return 1;

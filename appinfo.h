@@ -6,8 +6,8 @@
 #pragma once
 
 #define APPNAME "DinoOL"
-#define VERSION "2.0.1"
-#define VERSIONID 2010
+#define VERSION "2.0.2"
+#define VERSIONID 2020
 #define BIRTHDAY "2021/5/19"
 #define UPDATEINFOURL "https://Brownlzy.github.io/DinoOL/OTAinfo.txt"
 //#define UPDATEINFOURL "http://192.168.3.5/OTAinfo.txt"

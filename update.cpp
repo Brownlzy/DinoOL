@@ -181,18 +181,21 @@ void Update::Updatefile()
 		return;
 	}
 	fbat.open(qApp->applicationDirPath().toStdString() + "/update.bat");
-	fbat << "@echo off\n";
+	//	fbat << "@echo off\n";
 	fbat << "TIMEOUT /T 3\n";
 	fbat << "taskkill /pid " << qApp->applicationPid() << " -t -f\n";
-	fbat << "del " << qApp->applicationName().toStdString() << ".exe\n";
+	fbat << "TIMEOUT /T 1\n";
+	fbat << "del \"" << qApp->applicationName().toStdString() << ".exe\"\n";
 	fbat << "ren DinoOL.bin DinoOL.exe\n";
 	fbat << "start DinoOL.exe\n";
 	fbat << "del update.bat\n";
 	fbat.close();
-	pLab->setText(tr("Please Restart to Update."));
+	pLab->setText(tr("Restarting to Update..."));
 	isUpdated = true;
 	pBar->setMaximum(100);
 	pBar->setValue(100);
+	QProcess::startDetached(qApp->applicationDirPath() + "/update.bat");
+	qApp->exit(0);
 }
 
 QString getWebSource(QUrl url)
