@@ -116,4 +116,7 @@
   <ItemGroup>
     <Text Include="docs\OTAinfo.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+  </ItemGroup>
 </Project>
